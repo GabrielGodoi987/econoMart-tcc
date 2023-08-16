@@ -1,6 +1,13 @@
 <template>
   <q-layout view="lHh lpR lFf">
-    <MenuCompt></MenuCompt>
+    <MenuCompt>
+      <slot>Dashboard</slot>
+    </MenuCompt>
+
+
+    <q-page-container class="q-pa-md">
+      
+    </q-page-container>
   </q-layout>
 </template>
 
@@ -11,6 +18,6 @@ import MenuCompt from '@/components/MenuCompt.vue';
 // @ is an alias to /src
 
 export default {
-    components: { MenuCompt }
+  components: { MenuCompt }
 }
 </script>
