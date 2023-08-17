@@ -7,6 +7,9 @@
                 <q-avatar>
                 </q-avatar>
             </q-toolbar-title>
+            <q-avatar>
+                <q-img :src="user.src" />
+            </q-avatar>
         </q-toolbar>
     </q-header>
 
@@ -45,14 +48,28 @@
 import { ref } from 'vue'
 
 export default {
+    // props: {
+    //     user: {
+    //         type: Object,
+    //         required: true
+    //     }
+    // },
     setup() {
-        const leftDrawerOpen = ref(false)
+        const leftDrawerOpen = ref(false);
+
+        const user = {
+            src: "https://scontent-gru1-2.xx.fbcdn.net/v/t39.30808-6/215435856_280213210565546_8786231922568570652_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=8631f5&_nc_ohc=7g6B0dAINJsAX9eQKXz&_nc_ht=scontent-gru1-2.xx&oh=00_AfBSS1ToCVpVSWJOncLbVRcy7NRa_9uw67NtWLnX4Axt4w&oe=64E3F427",
+            name: "bluezão"
+        };
+
 
         return {
             leftDrawerOpen,
             toggleLeftDrawer() {
                 leftDrawerOpen.value = !leftDrawerOpen.value
-            }
+            },
+            // props
+            user
         }
     }
 }
