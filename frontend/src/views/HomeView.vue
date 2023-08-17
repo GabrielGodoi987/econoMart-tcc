@@ -1,8 +1,6 @@
 <template>
   <q-layout view="lHh lpR lFf">
-    <MenuCompt>
-      <slot>Dashboard</slot>
-    </MenuCompt>
+    <MenuCompt></MenuCompt>
 
 
     <q-page-container class="q-pa-md">

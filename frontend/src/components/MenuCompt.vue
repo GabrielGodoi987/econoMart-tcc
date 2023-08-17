@@ -22,7 +22,6 @@
             <q-route-tab>Funcionários</q-route-tab>
             <q-route-tab>Cadastro de Produtos</q-route-tab>
             <q-route-tab>Todos os Produtos</q-route-tab>
-            <slot name="bacTohome"></slot>
         </q-tabs>
     </q-drawer>
 
