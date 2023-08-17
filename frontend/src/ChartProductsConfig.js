@@ -1,9 +1,9 @@
 export const data = {
-    labels: ['VueJs'],
+    labels: ['Laticinios', 'Mercearia', 'Bebidas'],
     datasets: [
       {
-        backgroundColor: ['#41B883'],
-        data: [100],
+        backgroundColor: ['#6C6FEF', "#C3F0B7", "blue"],
+        data: [150, 200, 135],
       },
     ],
   };

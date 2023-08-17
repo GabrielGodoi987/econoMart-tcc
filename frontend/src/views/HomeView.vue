@@ -1,9 +1,9 @@
 <template>
   <q-layout view="lHh lpR lFf">
     <MenuCompt />
-    <q-page-container class="q-pa-md row q-gutter-x-md">
+    <q-page-container class="q-pa-md row q-ml-xl">
 
-      <q-card class="q-pa-md col-md-6 q-ml-xl">
+      <q-card class="col-md-6">
         <q-card-section>
           <div class="text-h6">Bem vindo de volta Gabriel</div>
         </q-card-section>
@@ -13,12 +13,23 @@
             necessárias
           </div>
         </q-card-section>
-        <q-btn squared outline color="secondary" label="ver tarefas" />
+        <q-card-section>
+          <q-btn squared outline color="secondary" label="ver tarefas" />
+        </q-card-section>
       </q-card>
 
-      <div class="col-md-4 justify-center">
-        <Pie :data="ChartProductsConfig.data" :options="ChartProductsConfig.options" />
-      </div>
+    </q-page-container>
+
+
+    <q-page-container class="row q-pa-md q-ml-xl">
+      <q-card class="q-pa-md col-md-5">
+        <q-card-section>
+          <div class="text-h6">Estoque De Produtos por categoria</div>
+        </q-card-section>
+        <q-card-section>
+          <Pie :data="ChartProductsConfig.data" :options="ChartProductsConfig.options" />
+        </q-card-section>
+      </q-card>
     </q-page-container>
 
 
