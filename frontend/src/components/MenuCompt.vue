@@ -8,7 +8,7 @@
                 </q-avatar>
             </q-toolbar-title>
             <q-avatar>
-                <q-img :src="user.src" />
+                <q-img :src="user.src"/>
             </q-avatar>
         </q-toolbar>
     </q-header>
@@ -22,9 +22,10 @@
         </q-card>
 
         <q-tabs vertical class="text-subtitle1 q-mt-xl text-white text-bold q-pa-md">
-            <q-route-tab>Funcionários</q-route-tab>
-            <q-route-tab>Cadastro de Produtos</q-route-tab>
-            <q-route-tab>Todos os Produtos</q-route-tab>
+            <q-route-tab to="/">Dashboard</q-route-tab>
+            <q-route-tab to="/employes">Funcionários</q-route-tab>
+            <q-route-tab to="/productsRegister">Cadastro de Produtos</q-route-tab>
+            <q-route-tab to="/allProducts">Todos os Produtos</q-route-tab>
         </q-tabs>
     </q-drawer>
 

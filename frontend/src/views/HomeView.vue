@@ -1,9 +1,9 @@
 <template>
   <q-layout view="lHh lpR lFf">
     <MenuCompt />
-    <q-page-container class="q-pa-md row q-ml-xl">
+    <q-page-container class="row q-ml-xl justify-evenly">
 
-      <q-card class="col-md-6">
+      <q-card class="col-sm-5 q-pa-md">
         <q-card-section>
           <div class="text-h6">Bem vindo de volta Gabriel</div>
         </q-card-section>
@@ -18,11 +18,7 @@
         </q-card-section>
       </q-card>
 
-    </q-page-container>
-
-
-    <q-page-container class="row q-pa-md q-ml-xl">
-      <q-card class="q-pa-md col-md-5">
+      <q-card class="col-sm-5">
         <q-card-section>
           <div class="text-h6">Estoque De Produtos por categoria</div>
         </q-card-section>
@@ -30,7 +26,10 @@
           <Pie :data="ChartProductsConfig.data" :options="ChartProductsConfig.options" />
         </q-card-section>
       </q-card>
+
     </q-page-container>
+
+
 
 
   </q-layout>
@@ -48,7 +47,6 @@ export default {
   components: { MenuCompt, Pie },
 
   setup() {
-
     return {
       ChartProductsConfig
     }
