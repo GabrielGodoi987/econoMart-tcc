@@ -2,7 +2,7 @@
     <q-layout view="lHh lpR lFf">
         <MenuCompt />
        
-       <!-- <q-page-container class="q-pa-md row justify-around text-white text-weight-bold">
+       <q-page-container class="q-pa-md row justify-around text-white text-weight-bold">
         <q-card class="col-md-3 text-center bg-primary">
             <q-card-section>
                 <div class="text-h5">Mais Vendidos</div>
@@ -21,7 +21,7 @@
                 <div class="text-h5"></div>
             </q-card-section>
         </q-card>
-       </q-page-container> -->
+       </q-page-container>
 
 
         <q-page-container class="q-pa-md row justify-center q-mt-xl">

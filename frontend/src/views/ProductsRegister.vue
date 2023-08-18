@@ -10,14 +10,11 @@
                     </q-card-section>
                     <q-card-section>
                         <q-form class="q-pa-lg">
-
-                            <div class="file-input-container">
-                                <label class="file-label" for="file-input">
-                                    <i class="fas fa-upload"></i> <!-- Ícone de upload da Font Awesome -->
-                                    Selecionar Arquivo
-                                </label>
-                                <input id="file-input" class="file-input" type="file">
-                            </div>
+                            <q-file dense standout="bg-secondary" label="Upload de Imagens" style="max-width: 200px; margin: 0 auto;">
+                                <template v-slot:prepend>
+                                    <q-icon name="attach_file" />
+                                </template>
+                            </q-file>
 
                             <q-input dense standout="bg-primary" hint="Nome do Produto" class="q-mt-lg" />
 
@@ -41,38 +38,7 @@
     </q-layout>
 </template>
 
-<style lang="scss">
-.file-input-container {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-}
 
-.file-input {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-}
-
-.file-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    height: 50px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.file-label i {
-    margin-right: 5px;
-}
-</style>
 
 <script>
 import MenuCompt from '@/components/MenuCompt.vue';
