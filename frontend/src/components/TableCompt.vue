@@ -1,6 +1,8 @@
 <template>
     <q-table class="my-sticky-virtscroll-table">
+      <!-- template com slots para estilização no lado superior direito da tabela, podendo ser o que o programador quiser -->
         <template v-slot:top-right>
+          <!-- todo slot deve ter um nome para ser chamado na página principal -->
             <slot name="top-right"></slot>
         </template>
     </q-table>
