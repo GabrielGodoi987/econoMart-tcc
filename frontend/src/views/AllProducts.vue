@@ -6,7 +6,7 @@
        <q-page-container class="q-pa-md row justify-around text-white text-weight-bold">
         <q-card class="col-md-3 text-center bg-primary">
             <q-card-section>
-                <div class="text-h5">Mais Vendidos</div>
+                <div class="text-h5">Vendas</div>
             </q-card-section>
             <q-card-section>
                 <div class="text-subtitle">Laticinios R$ 500,00</div>
