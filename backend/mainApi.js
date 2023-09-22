@@ -13,6 +13,8 @@ const bd = require('./db/models/index');
 
 //chamando controllers que vão fazer as ações para cada tabela
 const Products = require('./Controllers/ProductsController');
+const Clientes = require('./Controllers/ClientesController');
+const Vendedores = require('./Controllers/SellersController');
 
 const api = express()
 
@@ -41,14 +43,22 @@ api.post('/imagensUpload', upload.save.single('Image'), (req, res) => {
         }
     }
 })
+/*======================= rota para tratar chamadas a api de clientes ============================================ */
 
 //rota para criar clientes
-api.post('/CreateProducts', )
+api.post('/CreateProducts', Clientes.CreateUser);
 
-//Rota para listar todos os produtos
-api.get('/AllProducts', (req, res) => {
+//Rota para listar todos os Clientes
+api.get('/AllCostumers', Clientes.ListUser)
 
-})
+/*=========================  fim da rota clientes ==================================================================*/
+
+
+/*Rota para a criação de vendedores e suas operações */
+
+api.get('/ListSeller', )
+
+
 
 
 // porta do servidor
