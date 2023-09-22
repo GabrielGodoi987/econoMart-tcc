@@ -8,7 +8,11 @@ const chalk = require('chalk');
 const upload = require('./uploadImages');
 
 // chamar o banco de dados
-const bd = require('./bd/models/index')
+const bd = require('./db/models/index');
+
+
+//chamando controllers que vão fazer as ações para cada tabela
+const Products = require('./Controllers/ProductsController');
 
 const api = express()
 
@@ -38,39 +42,12 @@ api.post('/imagensUpload', upload.save.single('Image'), (req, res) => {
     }
 })
 
+//rota para criar clientes
+api.post('/CreateProducts', )
 
-// rota para criar clientes
-api.post('/ClienteRegistes', (req, res) => {
-    const createUser = bd.Clientes.create({
+//Rota para listar todos os produtos
+api.get('/AllProducts', (req, res) => {
 
-    })
-})
-
-// rota que listará todos os clientes existentes no banco e renderiza no front end
-api.get('/AllClientes', (req, res) => {
-    const findClientes = bd.Clientes.findAll({
-        attributes: ['nome_cliente', 'endereco', 'telefone', 'email']
-    });
-
-    try{
-        res.status(200).json({
-            error: false,
-            message: 'usuários existentes e econtrados com sucesso',
-            clientes: findClientes
-        })
-    }catch(error){
-        if(res.statusCode == 400){
-            res.json({
-                error: true,
-                message: 'erro de usuário, provavelmente você cometeu um erro'
-            })
-        }else if(res.statusCode == 500){
-            res.json({
-                error: true,
-                message: 'estamos enfrentando por favor tente novamente'
-            })
-        }
-    }
 })
 
 

@@ -1,5 +1,5 @@
 'use strict';
-
+const chalk = require('chalk')
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -15,6 +15,15 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
+
+try {
+  sequelize.authenticate(),
+  console.log(chalk.white.bgBlue('o banco de dados foi conectado com sucesso'));
+} catch (error) {
+  console.log(chalk.black.bgWhite('não consegui conectar com a base de dados tente novamente'), error)
+}
+
+
 
 fs
   .readdirSync(__dirname)

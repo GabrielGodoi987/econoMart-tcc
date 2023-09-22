@@ -9,32 +9,27 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_produto: {
-        type: Sequelize.NUMBER
-      },
-      nome_Produto: {
-        type: Sequelize.STRING
+      nome: {
+        type: Sequelize.STRING(30)
       },
       descricao: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(200)
       },
       preco: {
         type: Sequelize.FLOAT
       },
-      Qtd_estoque: {
-        type: Sequelize.NUMBER
+      barCode: {
+        type: Sequelize.STRING(256)
       },
-      barcode: {
-        type: Sequelize.STRING
+      Qtd_estoque: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   async down(queryInterface, Sequelize) {
