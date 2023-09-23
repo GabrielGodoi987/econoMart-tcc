@@ -15,6 +15,7 @@ const bd = require('./db/models/index');
 const Products = require('./Controllers/ProductsController');
 const Clientes = require('./Controllers/ClientesController');
 const Vendedores = require('./Controllers/SellersController');
+const categoria = require('./Controllers/CategoriaController')
 
 const api = express()
 
@@ -28,54 +29,47 @@ api.post('/imagensUpload', upload.save.single('Image'), (req, res) => {
             message: 'Imagem baixada com sucesso',
             error: 'false',
             file: req.file.filename
-        })
+        });
     } catch (error) {
         if (res.statusCode == 400) {
             res.json({
                 message: 'insira um tipo de imagem correto, erro de usuário',
                 error: true
-            })
+            });
         } else if (res.statusCode == 500) {
             res.json({
                 message: 'erro do servidor, por favor tente novamente mais tarde',
                 error: true
-            })
+            });
         }
     }
-})
+});
 /*======================= rota para tratar chamadas a api de clientes ============================================ */
 
 //rota para criar clientes
 api.post('/CreateCustomers', Clientes.CreateUser);
 
 //Rota para listar todos os Clientes
-api.get('/AllCustomers', Clientes.ListUser)
+api.get('/AllCustomers', Clientes.ListUser);
 
-/*=========================  fim da rota clientes ==================================================================*/
+/*========================= fim da rota clientes ==================================================================*/
+
+/* ============================= rotas para a tabela produtos e categoria ======================================== */
+
+//criar categoria de alimentos e bebidas
+api.post('/CreateCategoria', categoria.createCategory);
+
+
+
+
+
+
+
 
 
 /*Rota para a criação de vendedores e suas operações */
 
 
-api.post('/teste', (req, res) => {
-    const teste = bd.teste.create({
-        testeName: 'gabriel',
-        createdAt: Date.now(),
-        updatedAt: Date.now()
-    })
-
-    try {
-        res.status(200).json({
-            message: 'insira um tipo de imagem correto, erro de usuário',
-            teste
-        })
-    } catch (error) {
-        res.status(400).json({
-            message: 'insira um tipo de imagem correto, erro de usuário',
-            error: true
-        })
-    }
-})
 
 
 

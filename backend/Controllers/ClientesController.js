@@ -9,7 +9,6 @@ module.exports = {
             telefone: cliente.telefone,
             email: cliente.email,
             createdAt: Date.now(),
-            updatedAt: Date.now()
         })
         try {
             res.status(200).json({
@@ -33,7 +32,7 @@ module.exports = {
 
     ListUser(req, res) {
         const AllClientes = db.Clientes.findAll({
-            attributres: ['name', 'email', 'endereco']
+            attributes: ['nome', 'email', 'endereco']
         });
 
         try {
@@ -42,10 +41,17 @@ module.exports = {
                 AllClientes
             })
         } catch (error) {
-            res.status(400 || 500).json({
-                msg: 'algo deu errado por favor veja se você não cometeu um erro, caso contrário, perdoe nossos erros de rede, estamos dando o máximo para arrumar',
-                error: true
-            })
+            if (res.statusCode == 400) {
+                 res.json({
+                    msg: `erro de usuário olhe ${error}`,
+                    error: true
+                 })
+            } else if (res.statuscode == 500) {
+                  res.json({
+                    msg: `erro de servidor ${error}`,
+                    error: true
+                  })
+            }
         }
     }
 }

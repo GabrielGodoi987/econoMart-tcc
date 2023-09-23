@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": null,
+    "password": "445528",
     "database": "economart",
     "host": "localhost",
     "dialect": "mysql"
