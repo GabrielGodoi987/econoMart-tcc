@@ -15,10 +15,18 @@ module.exports = {
       endereco: {
         type: Sequelize.STRING
       },
+      telefone: {
+        type: Sequelize.STRING
+      },
       email: {
         type: Sequelize.STRING
       },
-      dataRegistro: {
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
         type: Sequelize.DATE
       }
     });

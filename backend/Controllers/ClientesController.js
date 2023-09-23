@@ -3,29 +3,31 @@ const db = require('../db/models/index')
 module.exports = {
     CreateUser(req, res) {
         let cliente = req.body
-        if (req.body != "") {
-            const createUser = db.Clientes.create({
-                nome: cliente.nome,
-                endereco: cliente.endereco,
-                telefone: cliente.telefone,
-                email: cliente.email,
-                dataRegistro: Date.now()
-            })
-        } else {
-            res.json({
-                msg: 'precisamos adicionar todos os atributos para que o cadastro funcione'
-            })
-        }
-
+        const createUser = db.Clientes.create({
+            nome: cliente.nome,
+            endereco: cliente.endereco,
+            telefone: cliente.telefone,
+            email: cliente.email,
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+        })
         try {
             res.status(200).json({
                 msg: 'salvo com sucesso',
-                cliente: cliente
+                cliente: createUser
             })
         } catch (error) {
-            res.status(400 || 500).json({
-                masg: 'algo deu errado'
-            })
+            if (res.statusCode == 400) {
+                res.json({
+                    message: 'error de usuário',
+                    error: true
+                })
+            } else if (res.statusCode == 500) {
+                res.json({
+                    message: 'erro de servidor',
+                    error: true
+                })
+            }
         }
     },
 

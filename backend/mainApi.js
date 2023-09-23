@@ -46,17 +46,36 @@ api.post('/imagensUpload', upload.save.single('Image'), (req, res) => {
 /*======================= rota para tratar chamadas a api de clientes ============================================ */
 
 //rota para criar clientes
-api.post('/CreateProducts', Clientes.CreateUser);
+api.post('/CreateCustomers', Clientes.CreateUser);
 
 //Rota para listar todos os Clientes
-api.get('/AllCostumers', Clientes.ListUser)
+api.get('/AllCustomers', Clientes.ListUser)
 
 /*=========================  fim da rota clientes ==================================================================*/
 
 
 /*Rota para a criação de vendedores e suas operações */
 
-api.get('/ListSeller', )
+
+api.post('/teste', (req, res) => {
+    const teste = bd.teste.create({
+        testeName: 'gabriel',
+        createdAt: Date.now(),
+        updatedAt: Date.now()
+    })
+
+    try {
+        res.status(200).json({
+            message: 'insira um tipo de imagem correto, erro de usuário',
+            teste
+        })
+    } catch (error) {
+        res.status(400).json({
+            message: 'insira um tipo de imagem correto, erro de usuário',
+            error: true
+        })
+    }
+})
 
 
 

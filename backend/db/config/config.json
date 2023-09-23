@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "445528",
+    "password": null,
     "database": "economart",
     "host": "localhost",
     "dialect": "mysql"
@@ -9,7 +9,7 @@
   "test": {
     "username": "root",
     "password": null,
-    "database": "database_test",
+    "database": "economart",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
