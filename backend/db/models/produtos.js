@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, INTEGER
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Produtos extends Model {
@@ -11,10 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Produtos.belongsTo(models.Categoria, {
-        foreignKey: 'idCategoria',
-        keyType: 'INTEGER',
-      })
+
     }
   }
   Produtos.init({
@@ -38,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     Qtd_estoque: DataTypes.INTEGER
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Produtos',
   });
   return Produtos;

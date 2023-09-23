@@ -38,4 +38,25 @@ o sistema deve ter as tabelas:
     transações
 
 
-    
+
+
+o que a tabela Categoria Precisa:
+[
+  { "nomeCategoria": "Alimentos Secos" },
+  { "nomeCategoria": "Laticínios" },
+  { "nomeCategoria": "Carnes e Aves" },
+  { "nomeCategoria": "Produtos de Padaria" },
+  { "nomeCategoria": "Frutas e Vegetais" },
+  { "nomeCategoria": "Congelados" },
+  { "nomeCategoria": "Bebidas" },
+  { "nomeCategoria": "Produtos de Higiene Pessoal" },
+  { "nomeCategoria": "Produtos de Limpeza Doméstica" },
+  { "nomeCategoria": "Produtos para Animais de Estimação" },
+  { "nomeCategoria": "Produtos de Cuidados Infantis" },
+  { "nomeCategoria": "Produtos de Higiene Feminina" },
+  { "nomeCategoria": "Cereais Matinais e Lanches" },
+  { "nomeCategoria": "Produtos de Panificação" },
+  { "nomeCategoria": "Eletrodomésticos e Utensílios de Cozinha" },
+  { "nomeCategoria": "Produtos de Beleza" }
+]
+estas são todas as categorias que precisamos

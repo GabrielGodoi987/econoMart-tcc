@@ -1,8 +1,8 @@
 const db = require('../db/models/index');
 
 module.exports = {
-     createProducts() {
-
+     createProducts(req, res) {
+          
      },
 
      listProducts() {

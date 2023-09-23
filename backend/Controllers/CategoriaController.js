@@ -5,8 +5,7 @@ module.exports = {
         try {
             const send = req.body;
             if (req.body != "") {
-                const categoriCreate = db.Categoria.create({
-                    
+                const categoriCreate = db.categoria.create({
                     nomeCategoria: send.nomeCategoria
                 });
 
