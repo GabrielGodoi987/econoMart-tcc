@@ -22,11 +22,11 @@ module.exports = {
                 })
             }
         } catch (error) {
-            if (res.statuscode == 400) {
+            if (res.statusCode == 400) {
                 res.json({
                     msg: 'Talvez você tenha feito algo errado, por favor refaça o envio e prete atenção nos campos'
                 })
-            } else if (res.statuscode == 500) {
+            } else if (res.statusCode == 500) {
                 res.json({
                     msg: 'Estamos tendo problemas no nosso servidor por favor tente novamente mais tarde!!'
                 })

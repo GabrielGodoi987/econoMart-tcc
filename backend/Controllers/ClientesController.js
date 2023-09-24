@@ -46,7 +46,7 @@ module.exports = {
                     msg: `erro de usuário olhe ${error}`,
                     error: true
                  })
-            } else if (res.statuscode == 500) {
+            } else if (res.statusCode == 500) {
                   res.json({
                     msg: `erro de servidor ${error}`,
                     error: true

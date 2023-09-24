@@ -56,11 +56,12 @@ api.get('/AllCustomers', Clientes.ListUser);
 
 /* ============================= rotas para a tabela produtos e categoria ======================================== */
 
+
 //criar categoria de alimentos e bebidas
 api.post('/CreateCategoria', categoria.createCategory);
 
 //Criar ou cadastrar produtos
-api.post('/ProductsRegister', upload.save.single('Image'), Products.createProducts);
+api.post('/ProductsRegister', Products.createProducts);
 
 //Listar todos os Produtos
 api.get('/AllProducts', Products.listProducts);

@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-
+      Produtos.belongsTo(models.categoria, {
+        foreignKey: 'IdCategoria'
+      })
     }
   }
   Produtos.init({
@@ -29,10 +31,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT
     },
     barCode: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.STRING(256)
     },
-    Qtd_estoque: DataTypes.INTEGER
+    Qtd_estoque: DataTypes.INTEGER,
+    IdCategoria: DataTypes.INTEGER
   }, {
     sequelize,
     timestamps: false,
