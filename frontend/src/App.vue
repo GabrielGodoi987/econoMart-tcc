@@ -6,10 +6,6 @@
 
 <style lang="scss">
 
-body{
-  background-color: #ECEAEA;
-}
-
 </style>
 
 <script>

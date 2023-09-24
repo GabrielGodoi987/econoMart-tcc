@@ -2,18 +2,8 @@
     <q-layout view="lHh lpR lFf">
         <MenuCompt />
 
-        <!-- aqui será alguma funcionalidade que precisa ser pensada para que possamos implementar -->
-        <q-page-container class="row justify-around">
-            <q-card class="col-md-4">
-                <Line :data="Products.data" :options="Products.options"></Line>
-            </q-card>
-            <q-card class="col-md4">
-
-            </q-card>
-        </q-page-container>
-
         <!-- tabela onde serão implementados vindos do back-end -->
-        <q-page-container class="q-pa-md row justify-center q-mt-xl">
+        <q-page-container class="q-pa-md row justify-center">
             <div class="col-sm-10">
                 <TableCompt title="Todos os Produtos" :columns="TableConfig.columns">
                     <template #top-right>
@@ -32,29 +22,13 @@
 <script>
 import MenuCompt from '@/components/MenuCompt.vue';
 import TableCompt from "@/components/TableCompt.vue";
-import * as TableConfig from './AllProductsConfig/TableConfig';
-
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
-import { Line } from 'vue-chartjs'
-import * as Products from "./AllProductsConfig/Products";
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-)
-
+import * as TableConfig from "./ProductsConfig/TableConfig.js";
 export default {
-    components: { MenuCompt, TableCompt, Line },
+    components: { MenuCompt, TableCompt },
 
     setup() {
         return {
             TableConfig,
-            Products
         }
     }
 }

@@ -16,35 +16,35 @@ export const columns = [
         require: true
     },
     {
-        name: 'Category',
-        field: 'Category',
+        name: 'categoria',
+        field: 'categoria',
         label: 'Categoria',
         align: 'center',
         width: '100px',
         require: true
     },
     {
-        name: 'amount',
-        field: 'amount',
+        name: 'Qtd_estoque',
+        field: 'Qtd_estoque',
         label: 'quantidade',
         align: 'center',
         width: '100px',
         require: true
     },
     {
-        name: 'Price',
-        field: 'Price',
+        name: 'preco',
+        field: 'preco',
         label: 'Valor',
         align: 'center',
         width: '100px',
         require: true
-    }, 
+    },
     {
-      name: 'Edit',
-      field: 'Edit',
-      label: '',
-      align: 'center',
-      width: '150px',
-      require: false
+        name: 'Edit',
+        field: 'Edit',
+        label: '',
+        align: 'center',
+        width: '150px',
+        require: false
     }
 ]
