@@ -32,25 +32,28 @@ module.exports = {
 
     ListUser(req, res) {
         const AllClientes = db.Clientes.findAll({
+            //retornará apenas os atributos abaixo quando for chamado
             attributes: ['nome', 'email', 'endereco']
         });
 
         try {
+            //resposta de sucesso caso ache ou consiga buscar a tabela corrente
             res.status(200).json({
                 error: false,
                 AllClientes
             })
         } catch (error) {
+            //tratativas de erros para erros de usuário ou de servidor á requisição
             if (res.statusCode == 400) {
-                 res.json({
+                res.json({
                     msg: `erro de usuário olhe ${error}`,
                     error: true
-                 })
+                })
             } else if (res.statusCode == 500) {
-                  res.json({
+                res.json({
                     msg: `erro de servidor ${error}`,
                     error: true
-                  })
+                })
             }
         }
     }

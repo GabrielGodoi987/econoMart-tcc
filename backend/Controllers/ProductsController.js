@@ -2,6 +2,7 @@ const db = require('../db/models/index');
 
 module.exports = {
      createProducts(req, res) {
+          //cria produtos de acordo com os campos definidos no modelo
           const produtos = req.body;
           const createProduct = db.Produtos.create({
                nome: produtos.nome,
@@ -34,9 +35,13 @@ module.exports = {
 
      listProducts(req, res) {
           db.Produtos.findAll({
+               //listar o nome dos produtos em ordem ascendente
                order: [["nome", "ASC"]],
+               //incluir o nome da categoria de acordo com o id da mesma definido na requisição
                include: [{
+                    //buscando dos modelos exportados o model categoria
                     model: db.categoria,
+                    //o atributo que desejamos retornar
                     attributes: ['nomeCategoria']
                }]
           }).then((AllProducts) => {
@@ -45,6 +50,7 @@ module.exports = {
                });
 
           }).catch((error) => {
+               //tratativa de erros para erros de usuários e de servidor
                if (res.statusCode == 400) {
                     res.json({
                          msg: 'Erro de usuário',

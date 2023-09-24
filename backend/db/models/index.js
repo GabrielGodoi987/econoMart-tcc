@@ -16,6 +16,7 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
+//teste para vermos se o banco de dados vigente está conectado
 try {
   sequelize.authenticate(),
   console.log(chalk.white.bgBlue('o banco de dados foi conectado com sucesso'));
