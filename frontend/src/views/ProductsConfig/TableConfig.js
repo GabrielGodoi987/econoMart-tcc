@@ -1,4 +1,4 @@
-export const columns = [
+const columns = [
     {
         name: 'Id',
         field: 'Id',
@@ -48,3 +48,5 @@ export const columns = [
         require: false
     }
 ]
+
+export { columns }
