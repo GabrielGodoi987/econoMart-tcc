@@ -1,24 +1,24 @@
 const columns = [
     {
-        name: 'Id',
-        field: 'Id',
+        name: 'id',
+        field: 'id',
         label: 'Id',
         align: "center",
         width: "100px",
         require: true,
     },
     {
-        name: 'Product_Name',
-        field: 'Product_Name',
+        name: 'nome',
+        field: 'nome',
         label: 'Nome do Produto',
         align: 'center',
         width: '200px',
         require: true
     },
     {
-        name: 'categoria',
-        field: 'categoria',
-        label: 'Categoria',
+        name: 'descricao',
+        field: 'descricao',
+        label: 'descrição do Produto',
         align: 'center',
         width: '100px',
         require: true
@@ -40,13 +40,14 @@ const columns = [
         require: true
     },
     {
-        name: 'Edit',
-        field: 'Edit',
-        label: '',
+        name: 'categorium',
+        field: 'categoria',
+        label: 'Categoria',
         align: 'center',
-        width: '150px',
-        require: false
+        width: '100px',
+        require: true
     }
 ]
+
 
 export { columns }

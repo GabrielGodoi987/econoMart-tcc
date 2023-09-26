@@ -1,11 +1,11 @@
 <template>
-    <q-table class="my-sticky-virtscroll-table" style="margin-top: 7rem;">
-      <!-- template com slots para estilização no lado superior direito da tabela, podendo ser o que o programador quiser -->
-        <template v-slot:top-right>
-          <!-- todo slot deve ter um nome para ser chamado na página principal -->
-            <slot name="top-right"></slot>
-        </template>
-    </q-table>
+  <q-table class="my-sticky-virtscroll-table" style="margin-top: 7rem;">
+    <!-- template com slots para estilização no lado superior direito da tabela, podendo ser o que o programador quiser -->
+    <template v-slot:top-right>
+      <!-- todo slot deve ter um nome para ser chamado na página principal -->
+      <slot name="top-right"></slot>
+    </template>
+  </q-table>
 </template>
 
 <style lang="sass">

@@ -5,7 +5,7 @@
         <!-- tabela onde serão implementados vindos do back-end -->
         <q-page-container class="q-pa-md row justify-center">
             <div class="col-sm-10">
-                <TableCompt title="Todos os Produtos" :columns="TableConfig.columns">
+                <TableCompt title="Todos os Produtos" :columns="TableConfig.columns" v-model:rows="rows" row-key="id">
                     <template #top-right>
                         <q-input dense standout="bg-secondary" icon="search">
                             <template #append>
@@ -13,8 +13,12 @@
                             </template>
                         </q-input>
                     </template>
+                    <div class="q-mt-md">
+                        Selected: {{ JSON.stringify(selected) }}
+                    </div>
                 </TableCompt>
             </div>
+
         </q-page-container>
     </q-layout>
 </template>
@@ -23,14 +27,35 @@
 import MenuCompt from '@/components/MenuCompt.vue';
 import TableCompt from "@/components/TableCompt.vue";
 import * as TableConfig from "./ProductsConfig/TableConfig.js";
+import axios from 'axios';
+import { ref, onMounted } from 'vue'
+
 export default {
     components: { MenuCompt, TableCompt },
-
     setup() {
+        const rows = ref([]);
+
+        onMounted(() => {
+            console.log(getApi());
+        })
+        async function getApi() {
+            await axios.get('http://localhost:3333/AllProducts')
+                .then(res => {
+                    let dados = res.data.AllProducts;
+                    return rows.value = dados;
+                }).catch(error => {
+                    console.error('Erro ao buscar dados:', error);
+                });
+
+        }
+
+
         return {
             TableConfig,
+            selected: ref([]),
+            rows,
         }
-    }
+    },
 }
 
 </script>
