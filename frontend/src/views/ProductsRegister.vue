@@ -12,26 +12,30 @@
                         <FormCompt Upload="Foto do Produto" input1="nome do Produto" input2="ativo" input3="ativo"
                             input4="ativo" input5="ativo">
                             <template #Input2>
-                                <q-input dense standout="bg-primary" hint="Valor do Produto" type="number"
-                                    class="q-mt-lg" v-model="valorProduto" />
+                                <q-input dense standout="bg-primary" hint="Valor do Produto" type="number" class="q-mt-lg"
+                                    v-model="valorProduto" />
+                                <q-input dense standout="bg-primary" hint="Quandidade em estoqe" class="q-mt-lg"
+                                    type="number" v-model="qtdEstoque" />
                             </template>
                             <template #Input3>
-                                <q-input dense standout="bg-primary" type="date" hint="Data de Fabricação"
-                                    class="q-mt-lg" v-model="Validade"/>
-                                <q-input dense standout="bg-primary" type="date" hint="Data de Validade" class="q-mt-lg" />
+                                <q-input dense standout="bg-primary" type="date" hint="Data de Fabricação" class="q-mt-lg"
+                                    v-model="Validade" />
+                                <!-- <q-input dense standout="bg-primary" type="date" hint="Data de Validade" class="q-mt-lg" /> -->
                             </template>
                             <template #Input4>
-                                <q-select dense standout="bg-primary text-white" v-model="categorias" :options="options"
-                                    hint="Categoria do produto" class="q-mt-lg"/>
+                                <q-select dense standout="bg-primary text-white" v-model="categoriaSelecionada" :options="options"
+                                    hint="Categoria do produto" class="q-mt-lg" />
+
+                                <!-- <q-select dense standout="bg-primary text-white" hint="Fornecedor" class="q-mt-lg" /> -->
                             </template>
 
                             <template #Input5>
                                 <q-input dense standout="bg-primary text-white" type="textarea" hint="descricao"
                                     v-model="description"
                                     :rules="[val => val.length <= 100 || 'Please use maximum 3 characters']"
-                                    class="q-mt-lg"/>
+                                    class="q-mt-lg" />
                             </template>
-                            
+
                         </FormCompt>
                     </q-card-section>
                 </q-card>
@@ -57,9 +61,11 @@ export default {
         const valorProduto = ref('');
         const Validade = ref('');
         const description = ref('');
-        const categorias = ref('');
+        const qtdEstoque = ref('');
+        const categoriaSelecionada = ref('');
         const options = ref([]);
 
+        let teste = []
 
 
         // listar categoria
@@ -68,9 +74,8 @@ export default {
                 axios.get('http://localhost:3333/ListCategoria').then((response) => {
                     const data = response.data.categoria;
                     for (let i = 0; i < data.length; i++) {
-                        options.value.push(data[i].nomeCategoria)
+                        options.value.push({ value: data[i].id, label: data[i].nomeCategoria })
                     }
-
                     console.log(data);
                 })
             } catch (error) {
@@ -84,13 +89,19 @@ export default {
         async function PostApi() {
 
             if (nome_Produto.value != "" && valorProduto.value != "" && Validade.value != "" && description.value != "") {
+                   
+                teste.push({
+                    nome: nome_Produto.value,
+                    idProduto: categoriaSelecionada
+                })
+
                 Notify.create({
                     message: 'Cadastro feito com sucesso',
                     color: 'green',
                     position: 'top'
                 })
 
-            } else if(nome_Produto.value == "" && valorProduto.value == "" && Validade.value == "" && description.value == ""){
+            } else if (nome_Produto.value == "" && valorProduto.value == "" && Validade.value == "" && description.value == "") {
 
                 Notify.create({
                     message: 'Cadastro não realizado, por favor insira algo dentro dos inputs',
@@ -138,7 +149,8 @@ export default {
             PostApi,
             Abort,
             options,
-            categorias
+            categoriaSelecionada,
+            qtdEstoque
         }
     }
 }

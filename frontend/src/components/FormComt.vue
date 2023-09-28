@@ -35,8 +35,8 @@
                     </slot>
 
                     <div class="row justify-around q-mt-xl">
-                        <q-btn rounded label="Cadastrar" color="primary" />
-                        <q-btn rounded label="Cancelar" color="secondary" />
+                        <slot name="buttons">
+                        </slot>
                     </div>
                 </q-form>
             </q-card-section>
