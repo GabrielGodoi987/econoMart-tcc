@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(256)
     },
     Qtd_estoque: DataTypes.INTEGER,
-    //tipo adicionado por queryInterface
+    //coluna adicionado por queryInterface
     IdCategoria: DataTypes.INTEGER
   }, {
     sequelize,

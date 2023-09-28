@@ -5,6 +5,8 @@
       <!-- todo slot deve ter um nome para ser chamado na página principal -->
       <slot name="top-right"></slot>
     </template>
+
+    <slot name="body-cell"></slot>
   </q-table>
 </template>
 

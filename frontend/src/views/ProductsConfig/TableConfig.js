@@ -40,13 +40,14 @@ const columns = [
         require: true
     },
     {
-        name: 'categorium',
-        field: 'categoria',
+        name: 'nomeCategoria',
+        field: row => row.categorium.nomeCategoria,
         label: 'Categoria',
         align: 'center',
         width: '100px',
         require: true
-    }
+    },
+  
 ]
 
 

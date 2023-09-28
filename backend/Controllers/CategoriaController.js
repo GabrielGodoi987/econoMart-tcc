@@ -37,5 +37,25 @@ module.exports = {
             }
         }
 
+    },
+
+    ListCategori(req, res) {
+        db.categoria.findAll().then((categorias) => {
+            res.status(200).json({
+                categoria: categorias
+            })
+        }).catch((error) => {
+            if (res.statusCode == 400) {
+                res.json({
+                    error,
+                    msg: 'erro de usuário'
+                })
+            } else if (res.statusCode == 500) {
+                res.json({
+                    error,
+                    msg: 'erro de servidor'
+                })
+            }
+        })
     }
 }

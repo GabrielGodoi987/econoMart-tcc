@@ -40,23 +40,41 @@ o sistema deve ter as tabelas:
 
 
 
-o que a tabela Categoria Precisa:
-[
-  { "nomeCategoria": "Alimentos Secos" },
-  { "nomeCategoria": "Laticínios" },
-  { "nomeCategoria": "Carnes e Aves" },
-  { "nomeCategoria": "Produtos de Padaria" },
-  { "nomeCategoria": "Frutas e Vegetais" },
-  { "nomeCategoria": "Congelados" },
-  { "nomeCategoria": "Bebidas" },
-  { "nomeCategoria": "Produtos de Higiene Pessoal" },
-  { "nomeCategoria": "Produtos de Limpeza Doméstica" },
-  { "nomeCategoria": "Produtos para Animais de Estimação" },
-  { "nomeCategoria": "Produtos de Cuidados Infantis" },
-  { "nomeCategoria": "Produtos de Higiene Feminina" },
-  { "nomeCategoria": "Cereais Matinais e Lanches" },
-  { "nomeCategoria": "Produtos de Panificação" },
-  { "nomeCategoria": "Eletrodomésticos e Utensílios de Cozinha" },
-  { "nomeCategoria": "Produtos de Beleza" }
-]
-estas são todas as categorias que precisamos
+insert na tabela produtos
+
+
+select * from produtos;
+
+
+
+delete from produtos where id > 0;
+
+ALTER TABLE produtos AUTO_INCREMENT = 1;
+
+
+select * from categoria;
+
+SELECT `Produtos`.`id`, `Produtos`.`nome`, `Produtos`.`descricao`, `Produtos`.`Qtd_estoque`, `Produtos`.`preco`, `categorium`.`id` AS `categorium.id`, `categorium`.`nomeCategoria` AS `categorium.nomeCategoria` FROM `Produtos` AS `Produtos` LEFT OUTER JOIN `categoria` AS `categorium` ON `Produtos`.`IdCategoria` = `categorium`.`id`;
+
+
+
+-- Inserir o primeiro produto
+INSERT INTO produtos (nome, descricao, preco, Qtd_estoque, IdCategoria)
+VALUES ('Arroz Camil', 'arroz de 10kg', 8.99, 200, 1);
+
+-- Inserir mais 5 produtos na categoria "alimentos secos" (supondo que a categoria já existe com o ID 1)
+-- Você pode alterar os valores como desejar
+INSERT INTO produtos (nome, descricao, preco, Qtd_estoque, IdCategoria)
+VALUES ('Macarrão', 'macarrão de 500g', 2.99, 150, 1);
+
+INSERT INTO produtos (nome, descricao, preco, Qtd_estoque, IdCategoria)
+VALUES ('Feijão', 'feijão carioca', 4.99, 100, 1);
+
+INSERT INTO produtos (nome, descricao, preco, Qtd_estoque, IdCategoria)
+VALUES ('Açúcar', 'açúcar refinado', 3.49, 300, 1);
+
+INSERT INTO produtos (nome, descricao, preco, Qtd_estoque, IdCategoria)
+VALUES ('Sal', 'sal refinado', 1.99, 250, 1);
+
+INSERT INTO produtos (nome, descricao, preco, Qtd_estoque, IdCategoria)
+VALUES ('Farinha de Trigo', 'farinha de trigo comum', 5.99, 80, 1);

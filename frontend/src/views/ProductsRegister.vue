@@ -9,33 +9,30 @@
                         <div class="text-h3 text-center">Cadastro de Produtos</div>
                     </q-card-section>
                     <q-card-section>
-                        <q-form class="q-pa-lg">
-                            <q-file dense standout="bg-secondary" label="Upload de Imagens"
-                                style="max-width: 200px; margin: 0 auto;">
-                                <template v-slot:prepend>
-                                    <q-icon name="attach_file" />
-                                </template>
-                            </q-file>
+                        <FormCompt Upload="Foto do Produto" input1="nome do Produto" input2="ativo" input3="ativo"
+                            input4="ativo" input5="ativo">
+                            <template #Input2>
+                                <q-input dense standout="bg-primary" hint="Valor do Produto" type="number"
+                                    class="q-mt-lg" v-model="valorProduto" />
+                            </template>
+                            <template #Input3>
+                                <q-input dense standout="bg-primary" type="date" hint="Data de Fabricação"
+                                    class="q-mt-lg" v-model="Validade"/>
+                                <q-input dense standout="bg-primary" type="date" hint="Data de Validade" class="q-mt-lg" />
+                            </template>
+                            <template #Input4>
+                                <q-select dense standout="bg-primary text-white" v-model="categorias" :options="options"
+                                    hint="Categoria do produto" class="q-mt-lg"/>
+                            </template>
 
-                            <q-input dense standout="bg-primary" v-model="nome_Produto" hint="Nome do Produto"
-                                class="q-mt-lg" />
-
-                            <q-input dense standout="bg-primary" v-model="valorProduto" hint="Valor do Produto"
-                                class="q-mt-lg" />
-
-                            <q-select :options="$$$options" v-model="$$$options" dense standout="bg-primary"
-                                hint="Categoria" class="q-mt-lg" />
-
-                            <q-input dense standout="bg-primary" v-model="Validade" type="date" hint="Validade"
-                                class="q-mt-lg" />
-
-                            <q-input standout="bg-primary" v-model="description" type="textarea" />
-
-                            <div class="q-mt-xl q-gutter-x-xl">
-                                <q-btn rounded label="Cadastrar" color="primary" @click="PostApi()" />
-                                <q-btn rounded label="Cancelar" color="secondary" @click="Abort()" />
-                            </div>
-                        </q-form>
+                            <template #Input5>
+                                <q-input dense standout="bg-primary text-white" type="textarea" hint="descricao"
+                                    v-model="description"
+                                    :rules="[val => val.length <= 100 || 'Please use maximum 3 characters']"
+                                    class="q-mt-lg"/>
+                            </template>
+                            
+                        </FormCompt>
                     </q-card-section>
                 </q-card>
             </div>
@@ -47,10 +44,12 @@
 
 <script>
 import MenuCompt from '@/components/MenuCompt.vue';
-// import axios from 'axios';
-import { ref } from 'vue'
+import FormCompt from '@/components/FormComt.vue';
+import axios from 'axios';
+import { ref, onMounted } from 'vue'
+import { Notify } from 'quasar';
 export default {
-    components: { MenuCompt },
+    components: { MenuCompt, FormCompt },
 
     setup() {
 
@@ -58,25 +57,78 @@ export default {
         const valorProduto = ref('');
         const Validade = ref('');
         const description = ref('');
+        const categorias = ref('');
+        const options = ref([]);
 
 
 
+        // listar categoria
+        async function getCategoria() {
+            try {
+                axios.get('http://localhost:3333/ListCategoria').then((response) => {
+                    const data = response.data.categoria;
+                    for (let i = 0; i < data.length; i++) {
+                        options.value.push(data[i].nomeCategoria)
+                    }
+
+                    console.log(data);
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        // ================================================================================================
+
+
+        //função para enviar dados para o banco de dados ===============================================================
         async function PostApi() {
-            alert('teste')
+
+            if (nome_Produto.value != "" && valorProduto.value != "" && Validade.value != "" && description.value != "") {
+                Notify.create({
+                    message: 'Cadastro feito com sucesso',
+                    color: 'green',
+                    position: 'top'
+                })
+
+            } else if(nome_Produto.value == "" && valorProduto.value == "" && Validade.value == "" && description.value == ""){
+
+                Notify.create({
+                    message: 'Cadastro não realizado, por favor insira algo dentro dos inputs',
+                    color: 'red',
+                    position: 'top'
+                })
+
+            }
 
             nome_Produto.value = ''
             valorProduto.value = ''
             Validade.value = ''
             description.value = ''
+
         }
 
+        // ==============================================================================================================
 
+
+        // cancelar cadastro do produto ===============================================================
         async function Abort() {
             nome_Produto.value = ''
             valorProduto.value = ''
             Validade.value = ''
             description.value = ''
+
+            Notify.create({
+                message: 'Cadastro cancelado',
+                color: 'green',
+                position: 'top'
+            })
+
         }
+
+        onMounted(() => {
+            getCategoria();
+        })
+
 
         return {
             nome_Produto,
@@ -84,9 +136,39 @@ export default {
             Validade,
             description,
             PostApi,
-            Abort
+            Abort,
+            options,
+            categorias
         }
     }
 }
+
+
+/**
+ 
+if (this.nome != '' && this.cpf != "" && this.email != "" && this.senha != "") {
+        Axios.post("http://localhost:3000/infos",{
+          nome: this.nome,
+          cpf: this.cpf,
+          email: this.email,
+          senha: this.password,
+        }).then((responsta) => {
+          console.log("Cadastro realizado com sucesso", responsta.data)
+        });
+
+        this.$router.push('/DataPage')
+
+        this.nome = '',
+          this.Sobrenome = '',
+          this.cpf = null,
+          this.email = '',
+          this.password = ''
+
+      } else {
+        alert("insira os dados para que possamos prosseguir com o seu cadastro")
+      }
+    }
+
+ */
 
 </script>

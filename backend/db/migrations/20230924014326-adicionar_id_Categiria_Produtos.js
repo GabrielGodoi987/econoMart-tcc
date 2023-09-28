@@ -17,7 +17,11 @@ module.exports = {
 
 
     //removendo createdAt da tabela Produtos
-    await queryInterface.removeColumn('Produtos', "createdAt");
+    // await queryInterface.removeColumn('Produtos', "createdAt");
+      
+    await queryInterface.addColumn('Produtos', 'Validade', {type: DataTypes.DATE});
+    await queryInterface.addColumn('Produtos', 'Fabricacao', {type: DataTypes.DATE});
+    await queryInterface.addColumn('Produtos', 'IdImagem', {type: DataTypes.INTEGER});
   },
 
   async down(queryInterface, Sequelize) {

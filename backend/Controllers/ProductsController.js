@@ -35,8 +35,7 @@ module.exports = {
 
      listProducts(req, res) {
           db.Produtos.findAll({
-               //listar o nome dos produtos em ordem ascendente
-               order: [["nome", "ASC"]],
+               // attributes: ['id', 'nome', 'descricao', 'Qtd_estoque', 'preco'],
                //incluir o nome da categoria de acordo com o id da mesma definido na requisição
                include: [{
                     //buscando dos modelos exportados o model categoria
@@ -70,3 +69,15 @@ module.exports = {
 
      }
 }
+
+/* 
+colunas que precisamos
+ id
+ nome 
+ descricao
+ categoria
+ Qtd_estoque
+ preco
+
+
+*/

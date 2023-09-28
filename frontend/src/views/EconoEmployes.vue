@@ -23,7 +23,7 @@
 
         <q-page-container class="q-pa-md row justify-center">
             <div class="col-sm-10">
-                <TableCompt :columns="TableConfig.columns">
+                <TableCompt title="Funcionário" grid :columns="TableConfig.columns">
                     <template #top-right>
                         <div class="row justify-between">
                             <div class="col-md-4">

@@ -10,6 +10,9 @@ const upload = require('./uploadImages');
 // chamar o banco de dados
 const bd = require('./db/models/index');
 
+//cors
+const cors = require('cors');
+
 
 //chamando controllers que vão fazer as ações para cada tabela
 const Products = require('./Controllers/ProductsController');
@@ -20,6 +23,7 @@ const categoria = require('./Controllers/CategoriaController')
 const api = express()
 
 api.use(express.json());
+api.use(cors());
 
 
 //rota de upload de imagens
@@ -59,6 +63,7 @@ api.get('/AllCustomers', Clientes.ListUser);
 
 //criar categoria de alimentos e bebidas
 api.post('/CreateCategoria', categoria.createCategory);
+api.get('/ListCategoria', categoria.ListCategori);
 
 //Criar ou cadastrar produtos
 api.post('/ProductsRegister', Products.createProducts);

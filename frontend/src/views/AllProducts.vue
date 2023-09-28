@@ -5,7 +5,7 @@
         <!-- tabela onde serão implementados vindos do back-end -->
         <q-page-container class="q-pa-md row justify-center">
             <div class="col-sm-10">
-                <TableCompt title="Todos os Produtos" :columns="TableConfig.columns" v-model:rows="rows" row-key="id">
+                <TableCompt title="Todos os Produtos" :columns="TableConfig.columns" v-model:rows="rows" row-key="nome" v-model:filter="filtter">
                     <template #top-right>
                         <q-input dense standout="bg-secondary" icon="search">
                             <template #append>
@@ -13,12 +13,8 @@
                             </template>
                         </q-input>
                     </template>
-                    <div class="q-mt-md">
-                        Selected: {{ JSON.stringify(selected) }}
-                    </div>
                 </TableCompt>
             </div>
-
         </q-page-container>
     </q-layout>
 </template>
@@ -34,6 +30,8 @@ export default {
     components: { MenuCompt, TableCompt },
     setup() {
         const rows = ref([]);
+
+        const filtter = ref('')
 
         onMounted(() => {
             console.log(getApi());
@@ -52,8 +50,8 @@ export default {
 
         return {
             TableConfig,
-            selected: ref([]),
             rows,
+            filtter
         }
     },
 }

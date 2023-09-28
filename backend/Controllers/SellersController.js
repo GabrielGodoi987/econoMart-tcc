@@ -3,7 +3,7 @@ module.exports = {
 
    },
 
-   updateSeller(req, res){
+   updateSeller(req, res) {
 
    },
 
@@ -11,7 +11,11 @@ module.exports = {
 
    },
 
-   ListSellers(req, res){
-    
+   ListSellers(req, res) {
+
+   },
+
+   LoginSeller(req, res) {
+
    }
 }

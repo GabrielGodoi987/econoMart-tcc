@@ -31,7 +31,7 @@
                         <q-input dense standout="bg-primary" :hint="props.input4" class="q-mt-lg" />
                     </slot>
                     <slot name="Input5" v-if="props.input5">
-                        <q-input standout="bg-primary" :type="props.typeInput" :hint="props.input5" />
+                        <q-input standout="bg-primary" :hint="props.input5" />
                     </slot>
 
                     <div class="row justify-around q-mt-xl">
@@ -55,7 +55,6 @@ export default {
         input3: String,
         input4: String,
         input5: String,
-        typeInput: String,
     },
     setup(props) {
         return {
