@@ -10,6 +10,8 @@ module.exports = {
                preco: produtos.preco,
                Qtd_estoque: produtos.Qtd_estoque,
                IdCategoria: produtos.IdCategoria,
+               Validade: new Date(req.body.Validade),
+               Fabricacao: new Date(req.body.Fabricacao)
           });
           try {
                res.status(200).json({
@@ -35,7 +37,6 @@ module.exports = {
 
      listProducts(req, res) {
           db.Produtos.findAll({
-               // attributes: ['id', 'nome', 'descricao', 'Qtd_estoque', 'preco'],
                //incluir o nome da categoria de acordo com o id da mesma definido na requisição
                include: [{
                     //buscando dos modelos exportados o model categoria

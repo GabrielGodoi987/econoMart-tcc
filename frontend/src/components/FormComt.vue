@@ -15,27 +15,24 @@
                         </q-file>
                     </slot>
 
-                    <slot name="Input1" v-if="props.input1">
-                        <q-input dense standout="bg-primary" :hint="props.input1" class="q-mt-lg" />
+                    <slot name="Input1">
                     </slot>
 
-                    <slot name="Input2" v-if="props.input2">
-                        <q-input dense standout="bg-primary" :hint="props.input2" class="q-mt-lg" />
+                    <slot name="Input2">
                     </slot>
 
-                    <slot name="Input3" v-if="props.input3">
-                        <q-input dense standout="bg-primary" :hint="props.input3" class="q-mt-lg" />
+                    <slot name="Input3">
                     </slot>
 
-                    <slot name="Input4" v-if="props.input4">
-                        <q-input dense standout="bg-primary" :hint="props.input4" class="q-mt-lg" />
+                    <slot name="Input4">
                     </slot>
-                    <slot name="Input5" v-if="props.input5">
-                        <q-input standout="bg-primary" :hint="props.input5" />
+                    <slot name="Input5">
                     </slot>
 
                     <div class="row justify-around q-mt-xl">
                         <slot name="buttons">
+                            <q-btn rounded color="secondary" label="Cadastrar" @click="$emit('cadastrar')" />
+                            <q-btn rounded color="primary" label="Cancelar" @click="$emit('abort')" />
                         </slot>
                     </div>
                 </q-form>
@@ -47,18 +44,20 @@
 <script>
 export default {
     props: {
-        classes: String,
-        title: String,
-        Upload: String,
-        input1: String,
-        input2: String,
-        input3: String,
-        input4: String,
-        input5: String,
+    },
+    methods: {
+        cadastrar() {
+            this.$event('cadastrar');
+        },
+
+        abort() {
+            this.$event('abort')
+        }
     },
     setup(props) {
+
         return {
-            props
+            props,
         }
     }
 };

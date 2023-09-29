@@ -10,7 +10,11 @@
                     </q-card-section>
                     <q-card-section>
                         <FormCompt Upload="Foto do Produto" input1="nome do Produto" input2="ativo" input3="ativo"
-                            input4="ativo" input5="ativo">
+                            input4="ativo" input5="ativo" @cadastrar="PostApi" @abort="Abort">
+                            <template #Input1>
+                                <q-input dense standout="bg-primary" v-model="nome_Produto" hint="nome do produto"
+                                    class="q-mt-lg" />
+                            </template>
                             <template #Input2>
                                 <q-input dense standout="bg-primary" hint="Valor do Produto" type="number" class="q-mt-lg"
                                     v-model="valorProduto" />
@@ -18,12 +22,13 @@
                                     type="number" v-model="qtdEstoque" />
                             </template>
                             <template #Input3>
-                                <q-input dense standout="bg-primary" type="date" hint="Data de Fabricação" class="q-mt-lg"
-                                    v-model="Validade" />
-                                <!-- <q-input dense standout="bg-primary" type="date" hint="Data de Validade" class="q-mt-lg" /> -->
+                                <q-input dense standout="bg-primary" type="date" v-model="fabricacao"
+                                    hint="Data de Fabricação" class="q-mt-lg" />
+                                <q-input dense standout="bg-primary" type="date" v-model="Validade" hint="Data de Validade"
+                                    class="q-mt-lg" />
                             </template>
                             <template #Input4>
-                                <q-select dense standout="bg-primary text-white" v-model="categoriaSelecionada" :options="options"
+                                <q-select dense standout="bg-primary text-white" v-model="categoria" :options="options"
                                     hint="Categoria do produto" class="q-mt-lg" />
 
                                 <!-- <q-select dense standout="bg-primary text-white" hint="Fornecedor" class="q-mt-lg" /> -->
@@ -59,13 +64,12 @@ export default {
 
         const nome_Produto = ref('');
         const valorProduto = ref('');
+        const fabricacao = ref('');
         const Validade = ref('');
-        const description = ref('');
         const qtdEstoque = ref('');
-        const categoriaSelecionada = ref('');
+        const categoria = ref('');
+        const description = ref('');
         const options = ref([]);
-
-        let teste = []
 
 
         // listar categoria
@@ -76,7 +80,6 @@ export default {
                     for (let i = 0; i < data.length; i++) {
                         options.value.push({ value: data[i].id, label: data[i].nomeCategoria })
                     }
-                    console.log(data);
                 })
             } catch (error) {
                 console.log(error)
@@ -87,34 +90,48 @@ export default {
 
         //função para enviar dados para o banco de dados ===============================================================
         async function PostApi() {
-
-            if (nome_Produto.value != "" && valorProduto.value != "" && Validade.value != "" && description.value != "") {
-                   
-                teste.push({
-                    nome: nome_Produto.value,
-                    idProduto: categoriaSelecionada
-                })
+            if (!nome_Produto.value || !valorProduto.value || !Validade.value || !qtdEstoque.value || !categoria.value) {
 
                 Notify.create({
-                    message: 'Cadastro feito com sucesso',
-                    color: 'green',
-                    position: 'top'
-                })
-
-            } else if (nome_Produto.value == "" && valorProduto.value == "" && Validade.value == "" && description.value == "") {
-
-                Notify.create({
-                    message: 'Cadastro não realizado, por favor insira algo dentro dos inputs',
+                    message: 'Não é possivel fazer o cadastro, pois todos os campos são obrigatórios',
                     color: 'red',
-                    position: 'top'
+                    position: 'center'
                 })
 
+            } else {
+                axios.post('http://localhost:3333/ProductsRegister', {
+                    nome: nome_Produto.value,
+                    descricao: description.value,
+                    preco: valorProduto.value,
+                    Qtd_estoque: qtdEstoque.value,
+                    IdCategoria: categoria.value.value,
+                    Validade: new Date(Validade.value),
+                    fabricacao: new Date(fabricacao.value)
+                }).then((response) => {
+                        console.log(response.data)
+                        Notify.create({
+                            message: 'Cadastro feito com sucesso',
+                            color: 'green',
+                            position: 'top',
+                        })
+                    }).catch((error) => {
+                        Notify.create({
+                            message: 'Não é possivel fazer o cadastro, pois todos os campos são obrigatórios',
+                            color: 'red',
+                            position: 'center'
+                        })
+                        console.log(`houve um erro na solicitação ao backend do tipo ${error}`);
+                    })
             }
 
-            nome_Produto.value = ''
-            valorProduto.value = ''
-            Validade.value = ''
-            description.value = ''
+            nome_Produto.value = '';
+            valorProduto.value = '';
+            description.value = '';
+            Validade.value = '';
+            fabricacao.value = '';
+            qtdEstoque.value = '';
+            categoria.value = '';
+            
 
         }
 
@@ -144,12 +161,13 @@ export default {
         return {
             nome_Produto,
             valorProduto,
+            fabricacao,
             Validade,
             description,
             PostApi,
             Abort,
             options,
-            categoriaSelecionada,
+            categoria,
             qtdEstoque
         }
     }

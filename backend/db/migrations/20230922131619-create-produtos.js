@@ -1,5 +1,6 @@
 'use strict';
 
+const { DataTypes } = require('sequelize');
 const { sequelize } = require('../models');
 
 /** @type {import('sequelize-cli').Migration} */
