@@ -30,14 +30,6 @@ const columns = [
         require: true
     },
     {
-        name: 'funcao',
-        field: 'funcao',
-        label: 'Função',
-        align: 'center',
-        width: '100px',
-        require: true
-    },
-    {
         name: 'salario',
         field: 'salario',
         label: 'Salário',

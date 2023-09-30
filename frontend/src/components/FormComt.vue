@@ -44,6 +44,7 @@
 <script>
 export default {
     props: {
+        Upload: String
     },
     methods: {
         cadastrar() {

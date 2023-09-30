@@ -67,8 +67,8 @@ export default {
         const fabricacao = ref('');
         const Validade = ref('');
         const qtdEstoque = ref('');
-        const categoria = ref('');
         const description = ref('');
+        const categoria = ref('');
         const options = ref([]);
 
 
@@ -78,7 +78,7 @@ export default {
                 axios.get('http://localhost:3333/ListCategoria').then((response) => {
                     const data = response.data.categoria;
                     for (let i = 0; i < data.length; i++) {
-                        options.value.push({ value: data[i].id, label: data[i].nomeCategoria })
+                        options.value.push({ value: data[i].id, label: data[i].nomeCategoria });
                     }
                 })
             } catch (error) {
