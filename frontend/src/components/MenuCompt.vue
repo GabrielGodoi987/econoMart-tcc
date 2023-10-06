@@ -78,7 +78,7 @@ export default {
             {
                 name: 'Dashboard',
                 icon: 'fa-solid fa-chart-simple',
-                route: '/'
+                route: '/dashboard'
             },
             {
                 name: 'Funcionários',
