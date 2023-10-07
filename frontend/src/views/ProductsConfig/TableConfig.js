@@ -47,6 +47,14 @@ const columns = [
         width: '100px',
         require: true
     },
+    {
+        name: 'edit',
+        field: 'edit',
+        label: '',
+        align: 'center',
+        width: '150px',
+        require: true
+    }
   
 ]
 

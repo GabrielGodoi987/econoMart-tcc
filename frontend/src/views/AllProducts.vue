@@ -19,6 +19,14 @@
                             </template>
                         </q-input>
                     </template>
+                    <template #buttons>
+                        <q-td>
+                            <q-tr>
+                                <q-btn rounded color="primary" icon="edit"/>
+                                <q-btn rounded color="secondary" icon="delete"/>
+                            </q-tr>
+                        </q-td>
+                    </template>
                 </TableCompt>
             </div>
         </q-page-container>

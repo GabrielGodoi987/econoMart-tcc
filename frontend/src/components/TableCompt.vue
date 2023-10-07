@@ -1,14 +1,23 @@
 <template>
-  <q-table class="my-sticky-virtscroll-table" style="margin-top: 7rem;">
+  <q-table class="my-sticky-virtscroll-table"
+    style="margin-top: 7rem;">
     <!-- template com slots para estilização no lado superior direito da tabela, podendo ser o que o programador quiser -->
     <template v-slot:top-right>
       <!-- todo slot deve ter um nome para ser chamado na página principal -->
       <slot name="top-right"></slot>
     </template>
+    <template v-slot:body-cell-edit>
+       <slot name="buttons">
 
-    <slot name="body-cell"></slot>
+       </slot>
+    </template>
   </q-table>
 </template>
+
+<script>
+
+
+</script>
 
 <style lang="sass">
 .my-sticky-virtscroll-table
