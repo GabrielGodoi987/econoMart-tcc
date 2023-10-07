@@ -5,11 +5,17 @@
         <!-- tabela onde serão implementados vindos do back-end -->
         <q-page-container class="q-pa-md row justify-center">
             <div class="col-sm-10">
-                <TableCompt title="Todos os Produtos" :columns="TableConfig.columns" v-model:rows="rows" row-key="nome" v-model:filter="filtter">
+                <TableCompt title="Todos os Produtos"
+                    :columns="TableConfig.columns"
+                    v-model:rows="rows"
+                    row-key="nome">
                     <template #top-right>
-                        <q-input dense standout="bg-secondary" icon="search">
+                        <q-input dense
+                            standout="bg-secondary"
+                            icon="search">
                             <template #append>
-                                <q-icon name="search" color="white" />
+                                <q-icon name="search"
+                                    color="white" />
                             </template>
                         </q-input>
                     </template>
@@ -31,8 +37,6 @@ export default {
     setup() {
         const rows = ref([]);
 
-        const filtter = ref('')
-
         onMounted(() => {
             console.log(getApi());
         })
@@ -51,7 +55,7 @@ export default {
         return {
             TableConfig,
             rows,
-            filtter
+            filter: ref(''),
         }
     },
 }

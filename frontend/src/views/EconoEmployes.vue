@@ -7,8 +7,8 @@
                 <!-- para usar o input desejado que esteja no component precisamos necessariamente colocarmos a propriedade dele abaixo
               mesmo que estejamos colocando dentro de template, ele precisará disso para estar ativo -->
 
-                <FormComt title="Cadastro de funcionários" Upload="Foto do funcionário"
-                    input1="Nome Completo do funcionário" input2="Email" input3="Telefone" input4="Funcao" input5="salario">
+                <FormComt title="Cadastro de Vendedores" Upload="Foto do funcionário"
+                    input1="Nome Completo do Vendedor" input2="Email" input3="Telefone" input4="Funcao" input5="salario">
                     <template #Input4>
                         <!-- Conteúdo personalizado para o slot Input4 -->
                         <q-select dense standout="bg-primary" v-model="model" :options="options" hint="Função"
