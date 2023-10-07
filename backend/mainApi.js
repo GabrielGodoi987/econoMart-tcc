@@ -72,7 +72,7 @@ api.post('/ProductsRegister', Products.createProducts);
 api.get('/AllProducts', Products.listProducts);
 
 //Deletar Produto
-api.post('/AllProducts/:id', Products.deleProducts)
+api.get('/AllProducts/:id', Products.deleProducts)
 
 
 

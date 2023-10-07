@@ -66,8 +66,21 @@ module.exports = {
 
 
      },
-     deleProducts() {
-
+     async deleProducts(req, res) {
+          let deleteProduct = req.params.id;
+          try {
+               // let result = db.AllProducts.destroy({
+               //      where: {
+               //           id: req.params.id
+               //      }
+               // })
+               res.json(`o produto existe = ${deleteProduct}`);
+          }
+          catch(error){
+               res.json({
+                    msg: 'o produto não existe'
+               })
+          }
      }
 }
 

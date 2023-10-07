@@ -23,7 +23,7 @@
                         <q-td>
                             <q-tr>
                                 <q-btn rounded color="primary" icon="edit"/>
-                                <q-btn rounded color="secondary" icon="delete"/>
+                                <q-btn rounded color="secondary" icon="delete" @click="deleteitem"/>
                             </q-tr>
                         </q-td>
                     </template>
@@ -46,23 +46,27 @@ export default {
         const rows = ref([]);
 
         onMounted(() => {
-            console.log(getApi());
+            getApi();
         })
         async function getApi() {
             await axios.get('http://localhost:3333/AllProducts')
-                .then(res => {
-                    let dados = res.data.AllProducts;
-                    return rows.value = dados;
-                }).catch(error => {
-                    console.error('Erro ao buscar dados:', error);
-                });
-
+            .then(res => {
+                let dados = res.data.AllProducts;
+                return rows.value = dados;
+            }).catch(error => {
+                console.error('Erro ao buscar dados:', error);
+            });
+            
         }
-
-
+        
+        function deleteitem(){
+        }
+        
+        
         return {
             TableConfig,
             rows,
+            deleteitem,
             filter: ref(''),
         }
     },
