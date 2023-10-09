@@ -71,8 +71,10 @@ api.post('/ProductsRegister', Products.createProducts);
 //Listar todos os Produtos
 api.get('/AllProducts', Products.listProducts);
 
-//Deletar Produto
-api.get('/AllProducts/:id', Products.deleProducts)
+api.get('/AllProducts/:id/edit', Products.selectOne);
+
+// ROTA PARA DELETAR PRODUTO -> CARREGA O PARAMETRO ID, POIS ELE SERÁ O ID PARAMETRO QUE ESTAMOS ENVIANDO
+api.get('/AllProducts/:id/delete', Products.deleProducts)
 
 
 

@@ -1,7 +1,7 @@
 const columns = [
     {
         name: 'id',
-        field: 'id',
+        field: row => row.id,
         label: 'Id',
         align: "center",
         width: "100px",

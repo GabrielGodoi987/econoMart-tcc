@@ -66,21 +66,61 @@ module.exports = {
 
 
      },
-     async deleProducts(req, res) {
-          let deleteProduct = req.params.id;
+     async selectOne(req, res) {
           try {
-               // let result = db.AllProducts.destroy({
-               //      where: {
-               //           id: req.params.id
-               //      }
-               // })
-               res.json(`o produto existe = ${deleteProduct}`);
+               const productId = req.params.id;
+               //procurar o produto por seu id
+               const product = await db.Produtos.findByPk(productId);
+               //caso o produto seja encontrado deverá ser retornado os seus valores
+               //porém após isso vamos deletar esse produto
+               if (product) {
+                    res.status(200).json({
+                         msg: `Produto ${productId} encontrado`,
+                         product
+                    });
+               } else {
+                    //caso o produto não seja encontrado e o servidor estiver no ar, então apenas retornaremos os erros de usuários
+                    res.status(404).json({
+                         msg: "Produto não encontrado",
+                         error: true
+                    });
+               }
+          } catch (error) {
+               console.error(error);
+               res.status(500).json({
+                    msg: "Problemas de servidor, por favor, tente novamente",
+                    error: true
+               });
           }
-          catch(error){
-               res.json({
-                    msg: 'o produto não existe'
-               })
+     },
+
+     async deleProducts(req, res) {
+          try {
+               let idProduct = req.params.id;
+               //procurar o produto por seu id
+               const product = await db.Produtos.findByPk(idProduct);
+               //caso o produto seja encontrado deverá ser retornado os seus valores
+               //porém após isso vamos deletar esse produto
+               if (product) {
+                    res.status(200).json({
+                         msg: `Produto ${idProduct} encontrado`,
+                         product
+                    });
+               } else {
+                    //caso o produto não seja encontrado e o servidor estiver no ar, então apenas retornaremos os erros de usuários
+                    res.status(404).json({
+                         msg: "Produto não encontrado",
+                         error: true
+                    });
+               }
+          } catch (error) {
+               console.error(error);
+               res.status(500).json({
+                    msg: "Problemas de servidor, por favor, tente novamente",
+                    error: true
+               });
           }
+
      }
 }
 

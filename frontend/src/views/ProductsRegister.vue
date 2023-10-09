@@ -108,20 +108,20 @@ export default {
                     Validade: new Date(Validade.value),
                     fabricacao: new Date(fabricacao.value)
                 }).then((response) => {
-                        console.log(response.data)
-                        Notify.create({
-                            message: 'Cadastro feito com sucesso',
-                            color: 'green',
-                            position: 'top',
-                        })
-                    }).catch((error) => {
-                        Notify.create({
-                            message: 'Não é possivel fazer o cadastro, pois todos os campos são obrigatórios',
-                            color: 'red',
-                            position: 'center'
-                        })
-                        console.log(`houve um erro na solicitação ao backend do tipo ${error}`);
+                    console.log(response.data)
+                    Notify.create({
+                        message: 'Cadastro feito com sucesso',
+                        color: 'green',
+                        position: 'top',
                     })
+                }).catch((error) => {
+                    Notify.create({
+                        message: 'Não é possivel fazer o cadastro, pois todos os campos são obrigatórios',
+                        color: 'red',
+                        position: 'center'
+                    })
+                    console.log(`houve um erro na solicitação ao backend do tipo ${error}`);
+                })
             }
 
             nome_Produto.value = '';
@@ -131,7 +131,7 @@ export default {
             fabricacao.value = '';
             qtdEstoque.value = '';
             categoria.value = '';
-            
+
 
         }
 
