@@ -105,8 +105,8 @@ export default {
                     preco: valorProduto.value,
                     Qtd_estoque: qtdEstoque.value,
                     IdCategoria: categoria.value.value,
-                    Validade: new Date(Validade.value),
-                    fabricacao: new Date(fabricacao.value)
+                    Validade: Date.mow(Validade.value),
+                    fabricacao: Date.now(fabricacao.value)
                 }).then((response) => {
                     console.log(response.data)
                     Notify.create({

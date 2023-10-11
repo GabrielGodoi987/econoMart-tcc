@@ -7,8 +7,8 @@
                 <!-- para usar o input desejado que esteja no component precisamos necessariamente colocarmos a propriedade dele abaixo
               mesmo que estejamos colocando dentro de template, ele precisará disso para estar ativo -->
 
-                <FormComt title="Cadastro de Vendedores" Upload="Foto do funcionário"
-                    input1="Nome Completo do Vendedor" input2="Email" input3="Telefone" input4="Funcao" input5="salario">
+                <FormComt title="Cadastro de Vendedores" Upload="Foto do funcionário" input1="Nome Completo do Vendedor"
+                    input2="Email" input3="Telefone" input4="Funcao" input5="salario">
                     <template #Input4>
                         <!-- Conteúdo personalizado para o slot Input4 -->
                         <q-select dense standout="bg-primary" v-model="model" :options="options" hint="Função"
@@ -24,7 +24,7 @@
 
         <q-page-container class="q-pa-md row justify-center">
             <div class="col-sm-10">
-                <TableCompt title="Funcionário" grid :columns="TableConfig.columns" :rows="rows" Upload="imagem do produto"
+                <q-table class="my-sticky-virtscroll-table" title="Funcionário" grid :columns="TableConfig.columns" :rows="rows" Upload="imagem do produto"
                     v-model:row="rows">
                     <template #top-right>
                         <div class="row justify-between">
@@ -41,10 +41,7 @@
                         </div>
                     </template>
 
-                    <template #image>
-                        teste
-                    </template>
-                </TableCompt>
+                </q-table>
             </div>
 
 
@@ -56,13 +53,12 @@
 <script>
 import MenuCompt from '@/components/MenuCompt.vue';
 import FormComt from '@/components/FormComt.vue';
-import TableCompt from '@/components/TableCompt.vue'
 // import axios from 'axios';
 import * as TableConfig from './EmployesConfig/TableConfig'
 import { ref } from 'vue'
 
 export default {
-    components: { MenuCompt, FormComt, TableCompt },
+    components: { MenuCompt, FormComt },
 
     setup() {
 
@@ -98,3 +94,7 @@ export default {
 }
 
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/Styles.scss';
+</style>

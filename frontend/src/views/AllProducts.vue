@@ -4,8 +4,9 @@
 
         <!-- tabela onde serão implementados vindos do back-end -->
         <q-page-container class="q-pa-md row justify-center">
-            <div class="col-sm-10">
-                <q-table title="Todos os Produtos" :columns="TableConfig.columns" :rows="rows">
+            <div class="col-sm-10 q-mt-xl">
+                <q-table class="my-sticky-virtscroll-table" title="Todos os Produtos" :columns="TableConfig.columns"
+                    :rows="rows">
                     <template #top-right>
                         <q-input dense standout="bg-secondary" icon="search">
                             <template #append>
@@ -16,35 +17,33 @@
 
                     <template #body-cell-edit="props">
                         <q-td>
-                            <q-btn rounded color="primary" icon="edit" @click="upDate(props.row.id)" />
+                            <q-btn rounded color="primary" icon="edit" @click="upDate(props.row)" />
                             <q-btn rounded color="secondary" icon="delete" />
                         </q-td>
                     </template>
                 </q-table>
             </div>
+        </q-page-container>
 
+        <q-page-container>
             <q-dialog v-model="openEdit">
                 <q-card>
-                    <q-card-section class="bg-primary">
-                        <div class="text-h2">{{ content }}</div>
-                    </q-card-section>
-                    <FormComt>
+                    <FormComt :title="content.nome">
                         <template #Input1>
                             <q-input dense standout="bg-primary" hint="nome do produto" v-model="content.nome"
                                 class="q-mt-lg" />
                         </template>
 
                         <template #Input2>
-                            <q-input dense standout="bg-primary" hint="nome do produto" v-model="content.descricao"
-                                class="q-mt-lg" />
+                            <q-input dense standout="bg-primary" v-model="content.preco" hint="Valor do Produto"
+                                type="number" class="q-mt-lg" />
+                            <q-input dense standout="bg-primary" hint="Quandidade em estoqe" class="q-mt-lg" type="number"
+                                v-model="content.Qtd_estoque" />
                         </template>
 
                         <template #Input3>
-                        </template>
-
-                        <template #Input4>
-                        </template>
-                        <template #Input5>
+                            <q-input dense standout="bg-primary" type="textarea" hint="descricao do produto"
+                                v-model="content.descricao" class="q-mt-lg" />
                         </template>
 
                     </FormComt>
@@ -56,7 +55,6 @@
 
 <script>
 import MenuCompt from '@/components/MenuCompt.vue';
-// import TableCompt from "@/components/TableCompt.vue";
 import FormComt from '@/components/FormComt.vue';
 import * as TableConfig from "./ProductsConfig/TableConfig.js";
 import axios from 'axios';
@@ -90,8 +88,19 @@ export default {
 
         function upDate(props) {
             content.value = props
-            console.log(content.value);
+            console.log(content.value.id)
             openEdit.value = true
+        }
+
+        function Delete(props) {
+            content.value = props
+            openEdit.value = true
+            // axios.delete(`http://localhost:3333/AllProducts/${content.value.id}/delete`).then((response) => {
+            //     let res = response.data;
+            //     console.log(res)
+            // }).catch((error) => {
+            //     console.error(error)
+            // })
         }
 
 
@@ -106,6 +115,7 @@ export default {
 
             //funções e vAriáveis de DELETE E UPDATE
             upDate,
+            Delete,
             //VARIÁVEIS
             content,
             openEdit
@@ -114,3 +124,7 @@ export default {
 }
 
 </script>
+
+<style lang="scss">
+@import '../styles/Styles.scss';
+</style>
