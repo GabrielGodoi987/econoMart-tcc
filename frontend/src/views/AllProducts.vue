@@ -17,8 +17,8 @@
 
                     <template #body-cell-edit="props">
                         <q-td>
-                            <q-btn rounded color="primary" icon="edit" @click="upDate(props.row)" />
-                            <q-btn rounded color="secondary" icon="delete" />
+                            <q-btn rounded color="primary" icon="edit" @click="OpenupDate(props.row)" />
+                            <q-btn rounded color="secondary" icon="delete" @click="Delete(props.row)" />
                         </q-td>
                     </template>
                 </q-table>
@@ -86,21 +86,28 @@ export default {
         const openEdit = ref(false);
         let content = ref()
 
-        function upDate(props) {
+        function OpenupDate(props) {
             content.value = props
             console.log(content.value.id)
             openEdit.value = true
         }
 
+        function UpdateElement(){
+
+        }
+
         function Delete(props) {
-            content.value = props
-            openEdit.value = true
-            // axios.delete(`http://localhost:3333/AllProducts/${content.value.id}/delete`).then((response) => {
-            //     let res = response.data;
-            //     console.log(res)
-            // }).catch((error) => {
-            //     console.error(error)
-            // })
+            let index = rows.value.findIndex((element) => element.id == props.id);
+            if (index >= 0) {
+                rows.value.splice(index, 1);
+            }
+
+            axios.delete(`http://localhost:3333/AllProducts/${props.id}/delete`).then((response) => {
+                let res = response.data;
+                console.log(res)
+            }).catch((error) => {
+                console.error(error)
+            })
         }
 
 
@@ -114,7 +121,8 @@ export default {
             filter: ref(''),
 
             //funções e vAriáveis de DELETE E UPDATE
-            upDate,
+            OpenupDate,
+            UpdateElement,
             Delete,
             //VARIÁVEIS
             content,

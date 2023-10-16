@@ -36,18 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     Qtd_estoque: DataTypes.INTEGER,
     //coluna adicionado por queryInterface
-    IdCategoria: {
-      allowNull: false,
-      type: DataTypes.INTEGER
-    },
-    Validade: {
-      allowNull: false,
-      type: DataTypes.DATE
-    },
-    Fabricacao: {
-      allowNull: false,
-      type: DataTypes.DATE
-    }
+  
   }, {
     sequelize,
     timestamps: false,

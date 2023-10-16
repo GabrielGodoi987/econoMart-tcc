@@ -105,7 +105,7 @@ export default {
                     preco: valorProduto.value,
                     Qtd_estoque: qtdEstoque.value,
                     IdCategoria: categoria.value.value,
-                    Validade: Date.mow(Validade.value),
+                    Validade: Date.now(Validade.value),
                     fabricacao: Date.now(fabricacao.value)
                 }).then((response) => {
                     console.log(response.data)
@@ -172,33 +172,4 @@ export default {
         }
     }
 }
-
-
-/**
- 
-if (this.nome != '' && this.cpf != "" && this.email != "" && this.senha != "") {
-        Axios.post("http://localhost:3000/infos",{
-          nome: this.nome,
-          cpf: this.cpf,
-          email: this.email,
-          senha: this.password,
-        }).then((responsta) => {
-          console.log("Cadastro realizado com sucesso", responsta.data)
-        });
-
-        this.$router.push('/DataPage')
-
-        this.nome = '',
-          this.Sobrenome = '',
-          this.cpf = null,
-          this.email = '',
-          this.password = ''
-
-      } else {
-        alert("insira os dados para que possamos prosseguir com o seu cadastro")
-      }
-    }
-
- */
-
 </script>

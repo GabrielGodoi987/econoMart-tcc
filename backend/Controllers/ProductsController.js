@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const db = require('../db/models/index');
 
 module.exports = {
@@ -69,8 +70,22 @@ module.exports = {
      async selectOne(req, res) {
           try {
                const productId = req.params.id;
+               const body = req.body
                //procurar o produto por seu id
-               const product = await db.Produtos.findByPk(productId);
+               const product = await db.Produtos.update(
+                    {
+                         nome: body.nome,
+                         descricao: body.descricao,
+                         preco: body.preco,
+                         Qtd_estoque: body.Qtd_estoque,
+                    },
+                    {
+                         where: {
+                              id: productId
+                         }
+                    }
+               );
+
                //caso o produto seja encontrado deverá ser retornado os seus valores
                //porém após isso vamos deletar esse produto
                if (product) {
@@ -102,6 +117,7 @@ module.exports = {
                //caso o produto seja encontrado deverá ser retornado os seus valores
                //porém após isso vamos deletar esse produto
                if (product) {
+                    product.destroy();
                     res.status(200).json({
                          msg: `Produto ${idProduct} encontrado`,
                          product

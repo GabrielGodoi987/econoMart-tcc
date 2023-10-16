@@ -25,29 +25,6 @@ const api = express()
 api.use(express.json());
 api.use(cors());
 
-
-//rota de upload de imagens
-api.post('/imagensUpload', upload.save.single('Image'), (req, res) => {
-    try {
-        res.status(200).json({
-            message: 'Imagem baixada com sucesso',
-            error: 'false',
-            file: req.file.filename
-        });
-    } catch (error) {
-        if (res.statusCode == 400) {
-            res.json({
-                message: 'insira um tipo de imagem correto, erro de usuário',
-                error: true
-            });
-        } else if (res.statusCode == 500) {
-            res.json({
-                message: 'erro do servidor, por favor tente novamente mais tarde',
-                error: true
-            });
-        }
-    }
-});
 /*======================= rota para tratar chamadas a api de clientes ============================================ */
 
 //rota para criar clientes
@@ -66,7 +43,7 @@ api.post('/CreateCategoria', categoria.createCategory);
 api.get('/ListCategoria', categoria.ListCategori);
 
 //Criar ou cadastrar produtos
-api.post('/ProductsRegister', Products.createProducts);
+api.post('/ProductsRegister',  upload.save.single('Image'), Products.createProducts);
 
 //Listar todos os Produtos
 api.get('/AllProducts', Products.listProducts);
@@ -99,6 +76,6 @@ api.get('');
 // porta do servidor
 let porta = 3333;
 api.listen(porta, () => {
-    console.log(chalk.black.bgCyan(`servidor online na porta ${porta}`))
-})
+    console.log(chalk.black.bgCyan(`servidor online na porta ${porta}`));
+});
 
