@@ -17,8 +17,8 @@
 
                     <template #body-cell-edit="props">
                         <q-td>
-                            <q-btn rounded color="primary" icon="edit" @click="OpenupDate(props.row)" />
-                            <q-btn rounded color="secondary" icon="delete" @click="Delete(props.row)" />
+                            <q-btn rounded color="primary" icon="edit" @click="opnenModal(props.row)" />
+                            <q-btn rounded color="secondary" icon="delete" @click="deleteProduct(props.row)" />
                         </q-td>
                     </template>
                 </q-table>
@@ -28,7 +28,7 @@
         <q-page-container>
             <q-dialog v-model="openEdit">
                 <q-card>
-                    <FormComt :title="content.nome">
+                    <FormComt :title="content.name" @cadastrar="UpdateElement(content.id)">
                         <template #Input1>
                             <q-input dense standout="bg-primary" hint="nome do produto" v-model="content.nome"
                                 class="q-mt-lg" />
@@ -57,79 +57,68 @@
 import MenuCompt from '@/components/MenuCompt.vue';
 import FormComt from '@/components/FormComt.vue';
 import * as TableConfig from "./ProductsConfig/TableConfig.js";
-import axios from 'axios';
-import { ref, onMounted } from 'vue'
+import * as listProducts from "./ProductsConfig/ListProducts";
+import * as crud from "./ProductsConfig/CrudOperations";
+import { ref, onMounted } from 'vue';
 
 export default {
+
     components: { MenuCompt, FormComt },
     setup() {
         const rows = ref([]);
-
-        onMounted(() => {
-            getApi();
-        })
-        async function getApi() {
-            await axios.get('http://localhost:3333/AllProducts')
-                .then(res => {
-                    let dados = res.data.AllProducts;
-                    return rows.value = dados;
-                }).catch(error => {
-                    console.error('Erro ao buscar dados:', error);
-                });
-
-        }
-
-
-
-
-        // PARTE DE UPDATE E DELETE DA TABELA, ABAIXO ESTARÃO AS FUNÇÕES QUE EXCLUIRÃO E EDITARÃO OS PRODUTOS
-        const openEdit = ref(false);
-        let content = ref()
-
-        function OpenupDate(props) {
-            content.value = props
-            console.log(content.value.id)
-            openEdit.value = true
-        }
-
-        function UpdateElement(){
-
-        }
-
-        function Delete(props) {
-            let index = rows.value.findIndex((element) => element.id == props.id);
-            if (index >= 0) {
-                rows.value.splice(index, 1);
+        onMounted(async () => {
+            try {
+                rows.value = await listProducts.getApi();
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
             }
+        });
 
-            axios.delete(`http://localhost:3333/AllProducts/${props.id}/delete`).then((response) => {
-                let res = response.data;
-                console.log(res)
-            }).catch((error) => {
-                console.error(error)
-            })
+
+
+
+        const content = ref()
+        const openEdit = ref(false);
+        function opnenModal(props) {
+            content.value = props;
+            console.log(content.value);
+            openEdit.value = !openEdit.value
         }
 
+        async function updateProduct(props) {
+           return crud.updateElement(props.id, {
+                nome: "",
+                descricao: "",
+                preco: "",
+                Qtd_estoque: "",
+            });
+             
+        }
 
+        async function deleteProduct(props) {
+            const FrontDelete = rows.value.findIndex((element) => element.id == props.id);
+            if (FrontDelete >= 0) {
+                rows.value.splice(FrontDelete, 1)
+            }
+            console.log(props.id)
+            return crud.DeleteElement(props.id);
+        }
 
 
 
         return {
-            //abaixo estão as chamadas do backend para listarmos os produtos e seus configs
+            // ... restante do seu retorno ...
             TableConfig,
             rows,
-            filter: ref(''),
-
-            //funções e vAriáveis de DELETE E UPDATE
-            OpenupDate,
-            UpdateElement,
-            Delete,
-            //VARIÁVEIS
             content,
+            opnenModal,
+            deleteProduct,
+            updateProduct,
             openEdit
-        }
+        };
     },
-}
+};
+
 
 </script>
 
