@@ -1,6 +1,6 @@
 module.exports = {
    createSeller(req, res) {
-
+         
    },
 
    updateSeller(req, res) {
