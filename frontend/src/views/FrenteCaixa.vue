@@ -30,7 +30,7 @@
               </q-select>
             </div>
             <div class="col-md-1">
-              <q-btn square icon="add" class="q-mt-md" />
+              <q-btn square icon="add" class="q-mt-md" @click="NewCliente()" />
             </div>
           </div>
           <!-- buscando produtos no banco de dados, caso não conseguir ver no painel ao lado vamos poder ver aqui -->
@@ -53,10 +53,10 @@
 
           <div class="row justify-around q-mt-xl">
             <div class="col-md-5">
-              <q-btn square label="Pagar" color="primary" style="width: 100%;"/>
+              <q-btn square label="Pagar" color="primary" style="width: 100%;" />
             </div>
             <div class="col-md-5">
-              <q-btn square label="cancelar" color="secondary" style="width: 100%;"/>
+              <q-btn square label="cancelar" color="secondary" style="width: 100%;" />
             </div>
           </div>
         </div>
@@ -83,11 +83,32 @@
         <!-- fim da segunda div ======================================================================== -->
       </div>
     </q-page-container>
+
+
+    <q-page-container>
+      <!-- aqui está o drawer que faremos para adicionar os novos clientes caso não existam -->
+      <q-drawer show-above v-model="drawerCliente" side="right" overlay :width="800">
+        <!-- drawer content -->
+        <q-form>
+          <q-input dense standout="bg-primary" label="Nome do cliente" />
+
+          <div class="row justify-around">
+            <div class="col-md-5">
+              <q-btn dense filled color="primary" label="cadastrar" />
+            </div>
+            <div class="col-md-5">
+              <q-btn dense filled color="secondary" label="cadastrar" @click="drawerCliente = false"/>
+            </div>
+          </div>
+        </q-form>
+      </q-drawer>
+    </q-page-container>
   </q-layout>
 </template>
 
 <script>
 import * as CartConfig from './CaixaConfig/CartTableConfig';
+import { ref } from 'vue';
 export default {
   setup() {
 
@@ -109,9 +130,17 @@ export default {
       }
     ]
 
+    const drawerCliente = ref(false);
+
+    function NewCliente() {
+      drawerCliente.value = true
+    }
+
     return {
       CartConfig,
-      menu
+      menu,
+      NewCliente,
+      drawerCliente
     }
   }
 }
