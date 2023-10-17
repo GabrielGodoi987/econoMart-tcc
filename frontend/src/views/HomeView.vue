@@ -25,7 +25,7 @@
           </q-card-section>
         </q-card>
         <!-- Vendas de totos os meses, para controle, virá todos os dados de todos os produtos aqui -->
-        <q-card class="col-md-8">
+        <q-card class="col-md-7">
           <q-card-section>
             <div class="text-h3">Vendas</div>
           </q-card-section>

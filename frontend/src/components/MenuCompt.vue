@@ -80,9 +80,9 @@ export default {
                 route: '/dashboard'
             },
             {
-                name: 'Funcionários',
+                name: 'Caixa Eletrônico',
                 icon: 'people',
-                route: '/employes'
+                route: '/Caixa'
             },
             {
                 name: 'Novos Produtos',

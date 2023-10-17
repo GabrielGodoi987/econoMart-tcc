@@ -12,9 +12,9 @@ const routes = [
     component: () => import("@/views/HomeView.vue")
   },
   {
-    path: "/employes",
-    name: 'employes',
-    component: () => import("@/views/EconoEmployes.vue")
+    path: "/Caixa",
+    name: 'Caixa',
+    component: () => import("@/views/FrenteCaixa.vue")
   },
   {
     path: '/productsRegister',
