@@ -18,7 +18,7 @@
             <!-- primeiro input, para buscar e selecionar os Clientes, para que seja contabilizado a compra do mesmo -->
             <div class="col-md-10">
               <!-- botão q-select com dialog-->
-              <q-select dense filled use-input label="Cliente" :options="options" @filter="filterFn" behavior="dialog"
+              <q-select dense filled use-input label="Cliente" v-model="user" :options="LisUser" @filter="filterFn" behavior="dialog"
                 class="q-mt-md">
                 <template v-slot:no-option>
                   <q-item>
@@ -97,7 +97,7 @@
               <q-btn dense filled color="primary" label="cadastrar" />
             </div>
             <div class="col-md-5">
-              <q-btn dense filled color="secondary" label="cadastrar" @click="drawerCliente = false"/>
+              <q-btn dense filled color="secondary" label="cadastrar" @click="drawerCliente = false" />
             </div>
           </div>
         </q-form>
@@ -108,7 +108,8 @@
 
 <script>
 import * as CartConfig from './CaixaConfig/CartTableConfig';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 export default {
   setup() {
 
@@ -130,17 +131,51 @@ export default {
       }
     ]
 
+
+    let LisUser = ref([]);
+    function LisUsers() {
+      // fazer função de listagem dos usuarios
+      axios.get("http://localhost:3333/AllCustomers").then((response) => {
+        const data = response.data.data;
+        for (let i = 0; i < data.length; i++) {
+          LisUser.value.push({ value: data[i].id, label: data[i].nome });
+        }
+        console.log(LisUser.value)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+
+    const user = ref('')
+    function listCart() {
+      console.log(user.value)
+      // axios.get(`http://localhost:3333/ListCart/${user.value}/cart`).then((response) => {
+      //   console.log(response.data)
+      // }).catch((error) => {
+      //   console.log(error)
+      // })
+    }
+
+
     const drawerCliente = ref(false);
 
     function NewCliente() {
       drawerCliente.value = true
     }
 
+    onMounted(() => {
+      user.value
+      LisUsers();
+      listCart();
+    })
+
     return {
       CartConfig,
       menu,
       NewCliente,
-      drawerCliente
+      drawerCliente,
+      LisUser,
+      user
     }
   }
 }

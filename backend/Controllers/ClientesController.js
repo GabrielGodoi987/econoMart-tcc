@@ -31,17 +31,21 @@ module.exports = {
     },
 
     ListCostumer(req, res) {
-        const AllClientes = db.Clientes.findAll({
-            //retornará apenas os atributos abaixo quando for chamado
-            attributes: ['nome', 'email', 'endereco']
-        });
-
         try {
+            const AllClientes = db.Clientes.findAll({
+                //retornará apenas os atributos abaixo quando for chamado
+                include: {
+                    model: db.Cart,
+                }
+            }).then((AllClientes) => {
+                res.status(200).json({
+                    error: false,
+                    data: AllClientes
+                })
+            });
+
             //resposta de sucesso caso ache ou consiga buscar a tabela corrente
-            res.status(200).json({
-                error: false,
-                AllClientes
-            })
+
         } catch (error) {
             //tratativas de erros para erros de usuário ou de servidor á requisição
             if (res.statusCode == 400) {

@@ -19,13 +19,12 @@ module.exports = {
           }
         )
       }
-      let preco = quantidade * product.preco;
       // Criar um novo item no carrinho
       const cartItem = await db.Cart.create({
-        IdProduto: product,
+        IdProduto: IdProduto,
         IdCliente: IdCliente,
         quantidade: quantidade,
-        total: preco.toFixed(2),
+        total: (quantidade * product.preco).toFixed(2),
         createdAt: new Date(),
         updatedAt: new Date()
       });
@@ -37,7 +36,7 @@ module.exports = {
       return res.status(200).json(
         {
           message: 'Produto adicionado ao carrinho com sucesso.',
-          data: cartItem
+          data: cartItem,
         }
       );
     } catch (erro) {
@@ -46,11 +45,68 @@ module.exports = {
     }
 
   },
-  async ListCarts(req, res){
-      try {
-        
-      } catch (error) {
-        
+  async ListCarts(req, res) {
+    const IdCliente = req.params.id
+    try {
+      const CartProducts = db.Cart.findAll(
+        {
+          where: {
+            IdCliente: IdCliente,
+          },
+          include: [
+            {
+              model: db.Produtos
+            },
+            {
+              model: db.Clientes
+            }
+          ],
+
+        }
+      ).then((cartItens) => {
+        res.status(200).json({
+          message: 'Produtos do carrinho',
+          data: cartItens,
+          error: false
+        })
+      });
+    } catch (error) {
+      if (res.statusCode == 500) {
+        res.json({
+          message: "Erro interno no servido, por favor tente novamente",
+          erro: error
+        })
+      } else if (res.statusCode == 400) {
+        res.json({
+          message: "Erro de usuário por favor tente novamente"
+        })
       }
+    }
+  },
+
+  async DeleteFromCart(req, res) {
+    const itemId = req.params.id;
+    try {
+      // Verificar se o item do carrinho existe
+      const cartItem = await db.Cart.findByPk(itemId);
+
+      if (!cartItem) {
+        return res.status(404).json({
+          message: 'Item do carrinho não encontrado.'
+        });
+      }
+
+      // Excluir o item do carrinho
+      await cartItem.destroy();
+
+      return res.status(200).json({
+        message: 'Item do carrinho excluído com sucesso.'
+      });
+    } catch (erro) {
+      console.error(erro);
+      return res.status(500).json({
+        error: 'Erro interno do servidor.'
+      });
+    }
   }
 }

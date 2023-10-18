@@ -69,6 +69,11 @@ api.post('/UserCreate', user.createUser);
 
 api.post('/createCart', cart.CreateCart);
 
+api.get('/ListCart/:id/cart', cart.ListCarts)
+
+
+api.post("/deleteCart/:id", cart.DeleteFromCart)
+
 
 
 /*Rota para a criação de vendedores e suas operações */

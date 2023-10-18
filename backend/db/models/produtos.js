@@ -14,10 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       Produtos.belongsTo(models.categoria, {
         foreignKey: 'IdCategoria'
       }),
-      Produtos.belongsToMany(models.Cart, {
-        through: 'Vendas',
+      Produtos.hasMany(models.Cart, {
         foreignKey: 'IdProduto'
-      })
+      });
     }
   }
   Produtos.init({
