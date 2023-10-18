@@ -7,13 +7,13 @@
             <div class="col-sm-10 q-mt-xl">
                 <q-table class="my-sticky-virtscroll-table" title="Todos os Produtos" :columns="TableConfig.columns"
                     :rows="rows">
-                    <template #top-right>
+                    <!-- <template #top-right>
                         <q-input dense standout="bg-secondary" icon="search">
                             <template #append>
                                 <q-icon name="search" color="white" />
                             </template>
                         </q-input>
-                    </template>
+                    </template> -->
 
                     <template #body-cell-edit="props">
                         <q-td>
@@ -28,7 +28,7 @@
         <q-page-container>
             <q-dialog v-model="openEdit">
                 <q-card>
-                    <FormComt :title="content.name" @cadastrar="updateProduct(content.id)" @abort="openEdit = false">
+                    <FormComt :title="content.name" @cadastrar="updateProduct(content)" @abort="openEdit = false">
                         <template #Input1>
                             <q-input dense standout="bg-primary" hint="nome do produto" v-model="content.nome"
                                 class="q-mt-lg" />
