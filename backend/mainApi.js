@@ -16,9 +16,10 @@ const cors = require('cors');
 
 //chamando controllers que vão fazer as ações para cada tabela
 const Products = require('./Controllers/ProductsController');
+const categoria = require('./Controllers/CategoriaController');
 const Clientes = require('./Controllers/ClientesController');
-const Vendedores = require('./Controllers/SellersController');
-const categoria = require('./Controllers/CategoriaController')
+const user = require('./Controllers/UsersController');
+const cart = require('./Controllers/CartController');
 
 const api = express()
 
@@ -28,10 +29,10 @@ api.use(cors());
 /*======================= rota para tratar chamadas a api de clientes ============================================ */
 
 //rota para criar clientes
-api.post('/CreateCustomers', Clientes.CreateUser);
+api.post('/CreateCustomers', Clientes.CreateCustomer);
 
 //Rota para listar todos os Clientes
-api.get('/AllCustomers', Clientes.ListUser);
+api.get('/AllCustomers', Clientes.ListCostumer);
 
 /*========================= fim da rota clientes ==================================================================*/
 
@@ -55,14 +56,18 @@ api.post('/AllProducts/:id/delete', Products.deleProducts)
 
 
 
-/* ============================================================ rotas para vendedores ==================================================== */
+/* ============================================================ rotas para usuários ==================================================== */
 
-api.get('');
+api.post('/UserCreate', user.createUser);
 
 
 
 /* ==================================================================================================================================== */
 
+
+/* ========================================  Rota para Cart  ========================================================================== */
+
+api.post('/createCart', cart.CreateCart);
 
 
 

@@ -1,14 +1,14 @@
+const { DATE } = require('sequelize')
 const db = require('../db/models/index')
 
 module.exports = {
-    CreateUser(req, res) {
+    CreateCustomer(req, res) {
         let cliente = req.body
         const createUser = db.Clientes.create({
             nome: cliente.nome,
             endereco: cliente.endereco,
             telefone: cliente.telefone,
             email: cliente.email,
-            createdAt: Date.now(),
         })
         try {
             res.status(200).json({
@@ -30,7 +30,7 @@ module.exports = {
         }
     },
 
-    ListUser(req, res) {
+    ListCostumer(req, res) {
         const AllClientes = db.Clientes.findAll({
             //retornará apenas os atributos abaixo quando for chamado
             attributes: ['nome', 'email', 'endereco']

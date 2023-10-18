@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'IdCategoria'
       }),
       Produtos.belongsToMany(models.Cart, {
-        through: 'Vendas'
+        through: 'Vendas',
+        foreignKey: 'IdProduto'
       })
     }
   }

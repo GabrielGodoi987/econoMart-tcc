@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     Senha: DataTypes.STRING
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Usuarios',
   });
   return Usuarios;
