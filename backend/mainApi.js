@@ -20,6 +20,7 @@ const categoria = require('./Controllers/CategoriaController');
 const Clientes = require('./Controllers/ClientesController');
 const user = require('./Controllers/UsersController');
 const cart = require('./Controllers/CartController');
+const compra = require('./Controllers/VendasController');
 
 const api = express()
 
@@ -44,7 +45,7 @@ api.post('/CreateCategoria', categoria.createCategory);
 api.get('/ListCategoria', categoria.ListCategori);
 
 //Criar ou cadastrar produtos
-api.post('/ProductsRegister',  upload.save.single('Image'), Products.createProducts);
+api.post('/ProductsRegister', upload.save.single('Image'), Products.createProducts);
 
 //Listar todos os Produtos
 api.get('/AllProducts', Products.listProducts);
@@ -75,12 +76,13 @@ api.get('/ListCart/:id/cart', cart.ListCarts)
 api.post("/deleteCart/:id", cart.DeleteFromCart)
 
 
-
-/*Rota para a criação de vendedores e suas operações */
-
+/* ========================================  Rota para Finalizar compra  ========================================================================== */
 
 
 
+api.post('/FinalBuy/:id/finalizar', compra.finalBuy);
+
+// api.get('/ListBuy')
 
 
 // porta do servidor

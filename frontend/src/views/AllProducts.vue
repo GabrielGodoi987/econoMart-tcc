@@ -28,7 +28,7 @@
         <q-page-container>
             <q-dialog v-model="openEdit">
                 <q-card>
-                    <FormComt :title="content.name" @cadastrar="UpdateElement(content.id)">
+                    <FormComt :title="content.name" @cadastrar="updateProduct(content.id)" @abort="openEdit = false">
                         <template #Input1>
                             <q-input dense standout="bg-primary" hint="nome do produto" v-model="content.nome"
                                 class="q-mt-lg" />
@@ -59,7 +59,9 @@ import FormComt from '@/components/FormComt.vue';
 import * as TableConfig from "./ProductsConfig/TableConfig.js";
 import * as listProducts from "./ProductsConfig/ListProducts";
 import * as crud from "./ProductsConfig/CrudOperations";
+import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import { Notify } from 'quasar';
 
 export default {
 
@@ -86,13 +88,24 @@ export default {
         }
 
         async function updateProduct(props) {
-           return crud.updateElement(props.id, {
-                nome: "",
-                descricao: "",
-                preco: "",
-                Qtd_estoque: "",
-            });
-             
+            const data = {
+                nome: props.nome,
+                descricao: props.descricao,
+                preco: props.preco,
+                Qtd_estoque: props.Qtd_estoque,
+            }
+
+            //    return crud.updateElement(props.id, data);
+            axios.post(`http://localhost:3333/AllProducts/${props.id}/edit`, data).then((response) => {
+                console.log(response.data)
+                openEdit.value = false;
+                Notify.create({
+                    message: "Salvo com sucesso",
+                    color: 'positive'
+                })
+            }).catch((error) => {
+                console.log(error);
+            })
         }
 
         async function deleteProduct(props) {

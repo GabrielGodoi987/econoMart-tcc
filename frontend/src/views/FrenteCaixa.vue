@@ -18,8 +18,8 @@
             <!-- primeiro input, para buscar e selecionar os Clientes, para que seja contabilizado a compra do mesmo -->
             <div class="col-md-10">
               <!-- botão q-select com dialog-->
-              <q-select dense filled use-input label="Cliente" v-model="user" :options="LisUser" @filter="filterFn" behavior="dialog"
-                class="q-mt-md">
+              <q-select dense filled use-input label="Cliente" v-model="user" :options="LisUser" @filter="filterFn"
+                behavior="dialog" class="q-mt-md">
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey">
@@ -38,7 +38,7 @@
           <!-- botão q-select com dialog-->
           <q-select dense filled :options="options" class="q-mt-md" />
           <!-- ------------------------------ -->
-          <q-table class="q-mt-xl" :columns="CartConfig.columns">
+          <q-table class="q-mt-xl" :columns="CartConfig.columns" :rows="cart">
 
           </q-table>
 
@@ -108,10 +108,17 @@
 
 <script>
 import * as CartConfig from './CaixaConfig/CartTableConfig';
-import { ref, onMounted } from 'vue';
+import { ref, watchEffect } from 'vue';
 import axios from 'axios';
 export default {
   setup() {
+
+
+    // variáveis necessárias para as opreções do caixa
+
+    const user = ref('') //onde será enviado o cliente selecionado
+    let LisUser = ref([]); //onde estarão os clientes listados e com valo/id
+    let cart = ref([])
 
     const menu = [
       {
@@ -132,50 +139,47 @@ export default {
     ]
 
 
-    let LisUser = ref([]);
-    function LisUsers() {
-      // fazer função de listagem dos usuarios
+
+
+    watchEffect(() => {
+      if (user.value) {
+        // axios.get(`http://localhost:3333/ListCart/${user.value}/cart`)
+        //   .then(response => {
+        //     cart.value = response.data.data;
+        //     console.log(cart.value)
+        //   })
+        //   .catch(error => {
+        //     console.error('Erro ao carregar carrinho de compras:', error);
+        //   });
+      }
+
       axios.get("http://localhost:3333/AllCustomers").then((response) => {
         const data = response.data.data;
         for (let i = 0; i < data.length; i++) {
           LisUser.value.push({ value: data[i].id, label: data[i].nome });
         }
-        console.log(LisUser.value)
+        console.log(user.value.value)
       }).catch((error) => {
         console.log(error)
       })
-    }
 
-    const user = ref('')
-    function listCart() {
-      console.log(user.value)
-      // axios.get(`http://localhost:3333/ListCart/${user.value}/cart`).then((response) => {
-      //   console.log(response.data)
-      // }).catch((error) => {
-      //   console.log(error)
-      // })
-    }
+    });
 
 
+    //drawer para cadastro de novos clientes caso o cliente que queremos não seja encontrado
     const drawerCliente = ref(false);
-
     function NewCliente() {
       drawerCliente.value = true
     }
-
-    onMounted(() => {
-      user.value
-      LisUsers();
-      listCart();
-    })
 
     return {
       CartConfig,
       menu,
       NewCliente,
       drawerCliente,
+      user,
       LisUser,
-      user
+      cart
     }
   }
 }

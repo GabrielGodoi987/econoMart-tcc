@@ -1,4 +1,3 @@
-const { DATE } = require('sequelize')
 const db = require('../db/models/index')
 
 module.exports = {

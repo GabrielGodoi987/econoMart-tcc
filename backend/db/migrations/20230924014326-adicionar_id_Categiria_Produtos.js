@@ -13,7 +13,7 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
     //adicionar coluna que tem chave estrangeira na tabela produtos
-    // await queryInterface.addColumn('Produtos', "IdCategoria", {type: DataTypes.INTEGER});
+
 
 
     //removendo createdAt da tabela Produtos

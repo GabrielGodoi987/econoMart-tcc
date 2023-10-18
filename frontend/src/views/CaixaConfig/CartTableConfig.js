@@ -1,7 +1,7 @@
 export const columns = [
     {
         name: 'id',
-        field: row => row.id,
+        field: row => row.Produto.id,
         label: 'Id',
         align: "center",
         width: "100px",
@@ -9,7 +9,7 @@ export const columns = [
     },
     {
         name: 'nome',
-        field: row => row.name,
+        field: row => row.Produto.nome,
         label: 'Nome',
         align: 'center',
         width: '150px',
@@ -25,7 +25,7 @@ export const columns = [
     },
     {
         name: 'subtotal',
-        field: row => row.subtotal,
+        field: row => row.total,
         label: 'SubTotal',
         align: 'center',
         width: '100px',

@@ -21,8 +21,8 @@ module.exports = {
       }
       // Criar um novo item no carrinho
       const cartItem = await db.Cart.create({
-        IdProduto: IdProduto,
         IdCliente: IdCliente,
+        IdProduto: IdProduto,
         quantidade: quantidade,
         total: (quantidade * product.preco).toFixed(2),
         createdAt: new Date(),
@@ -55,12 +55,14 @@ module.exports = {
           },
           include: [
             {
-              model: db.Produtos
+              model: db.Produtos,
+              attributes: ['id','nome']
             },
             {
               model: db.Clientes
             }
           ],
+          attributes: ['quantidade', 'total']
 
         }
       ).then((cartItens) => {
