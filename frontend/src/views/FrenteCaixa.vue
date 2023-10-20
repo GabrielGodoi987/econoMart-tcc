@@ -30,7 +30,7 @@
               </q-select>
             </div>
             <div class="col-md-1">
-              <q-btn square icon="add" class="q-mt-md" @click="NewCliente()" />
+              <q-btn square icon="add" class="q-mt-md" />
             </div>
           </div>
           <!-- buscando produtos no banco de dados, caso não conseguir ver no painel ao lado vamos poder ver aqui -->
@@ -69,10 +69,10 @@
         <div class="col-md-6 text-center">
           <div class="row justify-around q-mb-xl">
             <div class="col-md-5">
-              <q-select dense filled use-input label="Produto" :options="options" @filter="filterFn" behavior="dialog" />
+              <q-select dense filled use-input label="Produto"  behavior="dialog" />
             </div>
             <div class="col-md-5">
-              <q-select dense filled use-input label="Categoria" :options="options" @filter="filterFn"
+              <q-select dense filled use-input label="Categoria" 
                 behavior="dialog" />
             </div>
           </div>
@@ -139,38 +139,6 @@ export default {
     ]
 
 
-
-
-    watchEffect(() => {
-      if (user.value) {
-        // axios.get(`http://localhost:3333/ListCart/${user.value}/cart`)
-        //   .then(response => {
-        //     cart.value = response.data.data;
-        //     console.log(cart.value)
-        //   })
-        //   .catch(error => {
-        //     console.error('Erro ao carregar carrinho de compras:', error);
-        //   });
-      }
-
-      axios.get("http://localhost:3333/AllCustomers").then((response) => {
-        const data = response.data.data;
-        for (let i = 0; i < data.length; i++) {
-          LisUser.value.push({ value: data[i].id, label: data[i].nome });
-        }
-        console.log(user.value.value)
-      }).catch((error) => {
-        console.log(error)
-      })
-
-    });
-
-
-    //drawer para cadastro de novos clientes caso o cliente que queremos não seja encontrado
-    const drawerCliente = ref(false);
-    function NewCliente() {
-      drawerCliente.value = true
-    }
 
     return {
       CartConfig,

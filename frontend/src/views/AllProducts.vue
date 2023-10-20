@@ -87,26 +87,6 @@ export default {
             openEdit.value = !openEdit.value
         }
 
-        async function updateProduct(props) {
-            const data = {
-                nome: props.nome,
-                descricao: props.descricao,
-                preco: props.preco,
-                Qtd_estoque: props.Qtd_estoque,
-            }
-
-            //    return crud.updateElement(props.id, data);
-            axios.post(`http://localhost:3333/AllProducts/${props.id}/edit`, data).then((response) => {
-                console.log(response.data)
-                openEdit.value = false;
-                Notify.create({
-                    message: "Salvo com sucesso",
-                    color: 'positive'
-                })
-            }).catch((error) => {
-                console.log(error);
-            })
-        }
 
         async function deleteProduct(props) {
             const FrontDelete = rows.value.findIndex((element) => element.id == props.id);
