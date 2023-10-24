@@ -108,8 +108,7 @@
 
 <script>
 import * as CartConfig from './CaixaConfig/CartTableConfig';
-import { ref, watchEffect } from 'vue';
-import axios from 'axios';
+import { ref } from 'vue';
 export default {
   setup() {
 
@@ -143,8 +142,6 @@ export default {
     return {
       CartConfig,
       menu,
-      NewCliente,
-      drawerCliente,
       user,
       LisUser,
       cart
