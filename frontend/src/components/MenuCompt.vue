@@ -80,8 +80,13 @@ export default {
                 route: '/dashboard'
             },
             {
+                name: 'Vendedores',
+                icon: 'fa-solid fa-user',
+                route: '/sellers'
+            },
+            {
                 name: 'Caixa Eletrônico',
-                icon: 'people',
+                icon: 'fa-solid fa-cash-register',
                 route: '/Caixa'
             },
             {

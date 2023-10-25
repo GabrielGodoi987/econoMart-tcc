@@ -108,17 +108,16 @@
 
 <script>
 import * as CartConfig from './CaixaConfig/CartTableConfig';
-import { ref, watchEffect } from 'vue';
-import axios from 'axios';
+// import { ref, watchEffect } from 'vue';
 export default {
   setup() {
 
 
     // variáveis necessárias para as opreções do caixa
 
-    const user = ref('') //onde será enviado o cliente selecionado
+    /*const user = ref('') //onde será enviado o cliente selecionado
     let LisUser = ref([]); //onde estarão os clientes listados e com valo/id
-    let cart = ref([])
+    let cart = ref([])*/
 
     const menu = [
       {
@@ -143,11 +142,6 @@ export default {
     return {
       CartConfig,
       menu,
-      NewCliente,
-      drawerCliente,
-      user,
-      LisUser,
-      cart
     }
   }
 }

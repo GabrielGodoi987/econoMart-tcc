@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 
 
 //rota do tipo post para adicionarmos os itens no carrinho de compras

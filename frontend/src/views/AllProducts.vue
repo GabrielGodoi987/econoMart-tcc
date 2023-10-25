@@ -59,9 +59,7 @@ import FormComt from '@/components/FormComt.vue';
 import * as TableConfig from "./ProductsConfig/TableConfig.js";
 import * as listProducts from "./ProductsConfig/ListProducts";
 import * as crud from "./ProductsConfig/CrudOperations";
-import axios from 'axios';
 import { ref, onMounted } from 'vue';
-import { Notify } from 'quasar';
 
 export default {
 
@@ -106,7 +104,6 @@ export default {
             content,
             opnenModal,
             deleteProduct,
-            updateProduct,
             openEdit
         };
     },

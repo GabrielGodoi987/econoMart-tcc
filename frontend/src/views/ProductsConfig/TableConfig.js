@@ -1,7 +1,7 @@
 const columns = [
     {
         name: 'id',
-        field: row => row.id,
+        field: row => row.id_product,
         label: 'Id',
         align: "center",
         width: "100px",
@@ -9,7 +9,7 @@ const columns = [
     },
     {
         name: 'nome',
-        field: 'nome',
+        field: row => row.productname,
         label: 'Nome do Produto',
         align: 'center',
         width: '200px',
@@ -17,23 +17,23 @@ const columns = [
     },
     {
         name: 'descricao',
-        field: 'descricao',
+        field: row => row.description,
         label: 'descrição do Produto',
         align: 'center',
         width: '100px',
         require: true
     },
     {
-        name: 'Qtd_estoque',
-        field: 'Qtd_estoque',
-        label: 'quantidade',
+        name:  'stock',
+        field: row => row.stock,
+        label: 'Em estoque',
         align: 'center',
         width: '100px',
         require: true
     },
     {
         name: 'preco',
-        field: 'preco',
+        field: row => row.price,
         label: 'Valor',
         align: 'center',
         width: '100px',

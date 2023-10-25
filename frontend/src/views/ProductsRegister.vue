@@ -22,8 +22,6 @@
                                     type="number" v-model="qtdEstoque" />
                             </template>
                             <template #Input3>
-                                <q-input dense standout="bg-primary" type="date" v-model="fabricacao"
-                                    hint="Data de Fabricação" class="q-mt-lg" />
                                 <q-input dense standout="bg-primary" type="date" v-model="Validade" hint="Data de Validade"
                                     class="q-mt-lg" />
                             </template>
@@ -54,7 +52,6 @@
 <script>
 import MenuCompt from '@/components/MenuCompt.vue';
 import FormCompt from '@/components/FormComt.vue';
-import axios from 'axios';
 import { ref, onMounted } from 'vue'
 import { Notify } from 'quasar';
 export default {
@@ -74,68 +71,18 @@ export default {
 
         // listar categoria
         async function getCategoria() {
-            try {
-                axios.get('http://localhost:3333/ListCategoria').then((response) => {
-                    const data = response.data.categoria;
-                    for (let i = 0; i < data.length; i++) {
-                        options.value.push({ value: data[i].id, label: data[i].nomeCategoria });
-                    }
-                })
-            } catch (error) {
-                console.log(error)
-            }
+            // try {
+            //     axios.get('http://localhost:3333/ListCategoria').then((response) => {
+            //         const data = response.data.categoria;
+            //         for (let i = 0; i < data.length; i++) {
+            //             options.value.push({ value: data[i].id, label: data[i].nomeCategoria });
+            //         }
+            //     })
+            // } catch (error) {
+            //     console.log(error)
+            // }
         }
         // ================================================================================================
-
-
-        //função para enviar dados para o banco de dados ===============================================================
-        async function PostApi() {
-            if (!nome_Produto.value || !valorProduto.value || !Validade.value || !qtdEstoque.value || !categoria.value) {
-
-                Notify.create({
-                    message: 'Não é possivel fazer o cadastro, pois todos os campos são obrigatórios',
-                    color: 'red',
-                    position: 'center'
-                })
-
-            } else {
-                axios.post('http://localhost:3333/ProductsRegister', {
-                    nome: nome_Produto.value,
-                    descricao: description.value,
-                    preco: valorProduto.value,
-                    Qtd_estoque: qtdEstoque.value,
-                    IdCategoria: categoria.value.value,
-                    Validade: Date.now(Validade.value),
-                    fabricacao: Date.now(fabricacao.value)
-                }).then((response) => {
-                    console.log(response.data)
-                    Notify.create({
-                        message: 'Cadastro feito com sucesso',
-                        color: 'green',
-                        position: 'top',
-                    })
-                }).catch((error) => {
-                    Notify.create({
-                        message: 'Não é possivel fazer o cadastro, pois todos os campos são obrigatórios',
-                        color: 'red',
-                        position: 'center'
-                    })
-                    console.log(`houve um erro na solicitação ao backend do tipo ${error}`);
-                })
-            }
-
-            nome_Produto.value = '';
-            valorProduto.value = '';
-            description.value = '';
-            Validade.value = '';
-            fabricacao.value = '';
-            qtdEstoque.value = '';
-            categoria.value = '';
-
-
-        }
-
-        // ==============================================================================================================
 
 
         // cancelar cadastro do produto ===============================================================
@@ -164,7 +111,6 @@ export default {
             fabricacao,
             Validade,
             description,
-            PostApi,
             Abort,
             options,
             categoria,
