@@ -1,4 +1,4 @@
-const db = require('../db/models/index');
+const db = require('../../db/models/index');
 module.exports = {
     async createProducts(req, res) {
         await db.Products.create({
@@ -38,7 +38,8 @@ module.exports = {
             ]
         }).then((ListProducts) => {
             return res.status(200).json({
-                msg: 'produtos encontrados, caso não tenha nenhum cadastre-os'
+                msg: 'produtos encontrados, caso não tenha nenhum cadastre-os',
+                products: ListProducts
             })
         }).catch((error) => {
             if (res.statusCode == 400) {
