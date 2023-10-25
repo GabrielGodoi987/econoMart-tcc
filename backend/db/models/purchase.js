@@ -17,9 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   purchase.init({
-    purchaseDate: DataTypes.DATE
+    purchaseDate: DataTypes.DATE,
+    totalPrice: DataTypes.FLOAT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'purchase',
   });
   return purchase;

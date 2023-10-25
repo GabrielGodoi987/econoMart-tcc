@@ -12,9 +12,6 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER
       },
-      totalPrice: {
-        type: Sequelize.FLOAT
-      }
     });
   },
   async down(queryInterface, Sequelize) {

@@ -30,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   CartItems.init({
     quantity: DataTypes.INTEGER,
-    totalPrice: DataTypes.FLOAT
   }, {
     sequelize,
     timestamps: false,
