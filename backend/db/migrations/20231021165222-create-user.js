@@ -7,7 +7,13 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        onDelete: 'CASCADE',
+        field: 'id',
         type: Sequelize.INTEGER
+      },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       email: {
         type: Sequelize.STRING
@@ -15,14 +21,7 @@ module.exports = {
       password: {
         type: Sequelize.INTEGER
       },
-      password: {
-        type: Sequelize.INTEGER
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
+      dataInicio: {
         allowNull: false,
         type: Sequelize.DATE
       }

@@ -1,4 +1,4 @@
-const db = require('../db/models/index');
+const db = require('../../db/models/index');
 module.exports = {
     async createCust(req, res) {
         const { custname, email, cpf } = req.body;
@@ -60,7 +60,7 @@ module.exports = {
         })
     },
 
-    async editUsers(req, res) {
+    async editCust(req, res) {
         let client = req.params.id;
         const { custname, email, cpf } = req.body;
         db.customers.update({
@@ -71,5 +71,28 @@ module.exports = {
                 id_customer: client
             }
         })
+    },
+
+    async deletecust(req, res) {
+        const { custID } = req.params.id
+        try {
+            const delteIt = await db.clients.destroy({
+                where: {
+                    id_customer: custID
+                }
+            })
+
+            res.status(200).json({
+                msg: `cliente ${custID} deletado com sucesso`,
+                data: delteIt
+            })
+        } catch (erro) {
+            if (res.statusCode == 500) {
+                return res.send('Ocorreu um erro no servidor')
+            } else if (res.statusCode == 400) {
+                return res.send(`Não foi possivel excluir o cliente`)
+            }
+        }
+
     }
 }

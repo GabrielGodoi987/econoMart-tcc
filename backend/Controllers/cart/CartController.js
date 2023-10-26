@@ -5,7 +5,11 @@ module.exports = {
 
     },
 
-    async cancel(req, res){
+    async cancelcart(req, res){
+
+    },
+
+    async DeleteCart(req,res){
 
     }
 }

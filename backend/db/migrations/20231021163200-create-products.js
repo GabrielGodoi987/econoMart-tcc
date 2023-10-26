@@ -7,6 +7,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        field: 'id',
         type: Sequelize.INTEGER
       },
       productname: {
@@ -21,7 +22,7 @@ module.exports = {
       price: {
         type: Sequelize.FLOAT
       },
-      validate: {
+      validade: {
         type: Sequelize.DATE
       }
     });

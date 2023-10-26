@@ -11,18 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+/* -------------------------------------------------------------- */
+      //um carrinho tem apenas um cliente
       CartItems.belongsTo(models.customers, {
         foreignKey: 'id_customer'
       })
-
-      CartItems.belongsTo(models.sellers, {
-        foreignKey: 'id_vendedor'
-      })
-
-      CartItems.belongsTo(models.Products, {
+      //um carrinho tem 0 ou vários produtos
+      CartItems.hasMany(models.Products, {
         foreignKey: 'id_product'
       });
-      
+
+      //um carrinho pertence a uma compra
       CartItems.belongsTo(models.purchase, {
         foreignKey: 'id_cart'
       });

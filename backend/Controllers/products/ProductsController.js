@@ -1,19 +1,22 @@
 const db = require('../../db/models/index');
 module.exports = {
     async createProducts(req, res) {
-        await db.Products.create({
-            name: req.body.productname,
-            description: req.body.description,
-            price: req.body.price,
-            stock: req.body.stock,
-            id_category: req.body.id_category,
-            validate: new Date(req.body.validate)
-        }).then((productCreated) => {
+        const { productname, description, price, stock, id_category, validate } = req.body;
+        try {
+            const product = db.Products.create({
+                productname: productname,
+                description: description,
+                price: price,
+                stock: stock,
+                id_category: id_category,
+                validade: validate
+            })
             res.status(200).json({
                 msg: 'produto cadastrado com sucesso',
-                product: productCreated
-            });
-        }).catch((error) => {
+                product: product
+            })
+
+        } catch (error) {
             if (res.statusCode == 400) {
                 res.json({
                     msg: "Erro ao criar o produto",
@@ -25,7 +28,7 @@ module.exports = {
                     error: true + error
                 });
             }
-        })
+        }
     },
 
     ListProducts(req, res) {

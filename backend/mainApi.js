@@ -18,6 +18,18 @@ api.use(express.json());
 api.use(cors());
 
 
+//controller de produtos
+const productController = require("./Controllers/products/ProductsController");
+//controller de categorias
+const categories = require("./Controllers/products/Categories");
+
+// rota para criar categoria
+api.post('/createCat', categories.createCategory);
+
+// rota para criar produtos
+api.post('/createProduct', productController.createProducts);
+
+// rota para listar produtos
 
 // porta do servidor
 let porta = 3333;

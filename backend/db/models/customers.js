@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     cpf: DataTypes.INTEGER
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'customers',
   });
   return customers;

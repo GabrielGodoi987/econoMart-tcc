@@ -7,12 +7,15 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        field: 'id',
         type: Sequelize.INTEGER
       },
       purchaseDate: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       totalPrice: {
+        allowNull: false,
         type: Sequelize.FLOAT
       }
     });
