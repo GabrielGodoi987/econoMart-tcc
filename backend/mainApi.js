@@ -19,15 +19,24 @@ api.use(cors());
 
 
 //controller de produtos
-const productController = require("./Controllers/products/ProductsController");
+const products = require("./Controllers/products/ProductsController");
 //controller de categorias
 const categories = require("./Controllers/products/Categories");
+//controller de usuarios
+const users = require('./Controllers/user/UsersController');
+
+
+//rota para CRUD para usuários
+api.post('/CreateUser', users.createUser);
+
+
+//Rotas CRUD para produtos
 
 // rota para criar categoria
 api.post('/createCat', categories.createCategory);
 
 // rota para criar produtos
-api.post('/createProduct', productController.createProducts);
+api.post('/createProduct', products.createProducts);
 
 // rota para listar produtos
 

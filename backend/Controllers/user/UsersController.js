@@ -1,23 +1,31 @@
 const db = require('../../db/models/index');
 module.exports = {
     async createUser(req, res) {
-        const { username, email, password, dataInicio } = req.body;
+        const { username, email, password } = req.body;
         try {
-            const newUser = db.users.create({
+            const newUser = await db.users.create({
                 username: username,
                 email: email,
                 password: password,
-                dataInicio: dataInicio
+                dataInicio: Date.now()
             })
+
             res.status(200).json({
                 msg: 'usuário cadastrado com sucesso',
-                user: newUser
+                newUser
             })
+
         } catch (error) {
             if (res.statusCode == 500) {
-                res.send("erro no servidor")
-            } else {
-                res.send('não foi possível cadastrar o usuário')
+                res.json({
+                    msg: "erro no servidor",
+                    error: error
+                })
+            } else if (res.statusCode == 400) {
+                res.json({
+                    msg: 'não foi possível cadastrar o usuário',
+                    error: error
+                })
             }
         }
     },

@@ -12,13 +12,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Products.hasMany(models.Category, {
-        foreignKey: "id_category",
+      Products.belongsTo(models.Category, {
+        foreignKey: 'id_category',
         onDelete: 'CASCADE'
       })
 
-      Products.belongsTo(models.CartItems, {
-        foreignKey: 'id_product'
+      Products.hasMany(models.CartItems, {
+        foreignKey: 'id_product',
+        onDelete: 'CASCADE'
       });
     }
   }

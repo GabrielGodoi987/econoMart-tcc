@@ -1,7 +1,7 @@
 const db = require('../../db/models/index');
 module.exports = {
     async createProducts(req, res) {
-        const { productname, description, price, stock, id_category, validate } = req.body;
+        const { productname, description, price, stock, id_category, validade } = req.body;
         try {
             const product = db.Products.create({
                 productname: productname,
@@ -9,11 +9,11 @@ module.exports = {
                 price: price,
                 stock: stock,
                 id_category: id_category,
-                validade: validate
+                validade: new Date(validade)
             })
             res.status(200).json({
                 msg: 'produto cadastrado com sucesso',
-                product: product
+                product
             })
 
         } catch (error) {

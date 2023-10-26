@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       
       //uma categoria tem vários produtos
-      Category.belongsTo(models.Products, {
+      Category.hasMany(models.Products, {
         foreignKey: "id_category",
       })
     }
