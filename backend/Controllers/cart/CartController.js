@@ -1,15 +1,11 @@
-const db = require('../../db/models/index');
+const db = require("../../db/models/index");
 
 module.exports = {
-    async adToCart(req, res) {
+  async adToCart(req, res) {
+    //com base no id do usuário adicionar dados ao carrinho com o id do usuário
+  },
 
-    },
-
-    async cancelcart(req, res){
-
-    },
-
-    async DeleteCart(req,res){
-
-    }
-}
+  async DeleteCart(req, res) {
+    //caso ele desista ele pode apagar produtos do seu carrinho
+  },
+};

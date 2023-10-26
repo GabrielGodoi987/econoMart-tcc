@@ -60,5 +60,9 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ error: 'Erro ao excluir o usuário' });
         }
+    },
+
+    loginUser(req, res){
+        //fazer login do usuário com base no email e a senha
     }
 }
