@@ -1,7 +1,13 @@
+// productname: DataTypes.STRING,
+// description: DataTypes.STRING,
+// stock: DataTypes.INTEGER,
+// price: DataTypes.FLOAT,
+// validade: DataTypes.DATE
+
 const columns = [
     {
         name: 'id',
-        field: row => row.id_product,
+        field: row => row.id,
         label: 'Id',
         align: "center",
         width: "100px",
@@ -41,7 +47,7 @@ const columns = [
     },
     {
         name: 'nomeCategoria',
-        field: row => row.categorium.nomeCategoria,
+        field: row => row.Category.CategoryName,
         label: 'Categoria',
         align: 'center',
         width: '100px',

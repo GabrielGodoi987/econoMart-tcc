@@ -57,22 +57,29 @@
 import MenuCompt from '@/components/MenuCompt.vue';
 import FormComt from '@/components/FormComt.vue';
 import * as TableConfig from "./ProductsConfig/TableConfig.js";
-import * as listProducts from "./ProductsConfig/ListProducts";
+// import * as listProducts from "./ProductsConfig/ListProducts";
 import * as crud from "./ProductsConfig/CrudOperations";
 import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 export default {
 
     components: { MenuCompt, FormComt },
     setup() {
         const rows = ref([]);
-        onMounted(async () => {
-            try {
-                rows.value = await listProducts.getApi();
-            } catch (error) {
-                console.error('Erro ao buscar dados:', error);
-            }
-        });
+
+        function teste() {
+            axios.get('http://localhost:3333/listAll').then((res) => {
+                const data = res.data.products;
+                rows.value = data;
+            }).catch((error) => {
+                return error
+            });
+        }
+
+        onMounted(() => {
+            teste();
+        })
 
 
 

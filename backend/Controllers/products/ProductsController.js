@@ -30,33 +30,28 @@ module.exports = {
             }
         }
     },
-
-    ListProducts(req, res) {
-        db.Products.findAll({
-            include: [
-                {
-                    model: db.Categories,
-                    attributes: ['id_category']
-                }
-            ]
-        }).then((ListProducts) => {
+    async ListProducts(req, res) {
+        try {
+            const listAll = await db.Products.findAll({
+                include: [
+                    {
+                        model: db.Category,
+                        attributes: ['CategoryName']
+                    }
+                ]
+            });
+    
             return res.status(200).json({
                 msg: 'produtos encontrados, caso não tenha nenhum cadastre-os',
-                products: ListProducts
-            })
-        }).catch((error) => {
-            if (res.statusCode == 400) {
-                res.json({
-                    msg: "Erro ao buscar produtos",
-                    erros: true + error
-                });
-            } else if (res.statusCode == 500) {
-                res.json({
-                    msg: "Ocorreu um erro no servidor",
-                    error: true + error
-                });
-            }
-        })
+                products: listAll
+            });
+        } catch (error) {
+            console.error(error); // Log do erro para ajudar na depuração
+            res.status(500).json({
+                msg: "Erro ao buscar produtos",
+                error: error
+            });
+        }
     },
 
     async deleteProducts(req, res) {

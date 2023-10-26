@@ -7,7 +7,7 @@ module.exports = {
                 username: username,
                 email: email,
                 password: password,
-                dataInicio: Date.now()
+                dataInicio: new Date()
             })
 
             res.status(200).json({
@@ -16,17 +16,10 @@ module.exports = {
             })
 
         } catch (error) {
-            if (res.statusCode == 500) {
-                res.json({
-                    msg: "erro no servidor",
-                    error: error
-                })
-            } else if (res.statusCode == 400) {
-                res.json({
-                    msg: 'não foi possível cadastrar o usuário',
-                    error: error
-                })
-            }
+            res.json({
+                msg: 'houve um erro meu cabron',
+                error: error
+            })
         }
     },
 

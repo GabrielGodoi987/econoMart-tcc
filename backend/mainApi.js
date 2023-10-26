@@ -37,6 +37,8 @@ api.post('/createCat', categories.createCategory);
 
 // rota para criar produtos
 api.post('/createProduct', products.createProducts);
+// rota para listar todos os produtos
+api.get("/listAll", products.ListProducts);
 
 // rota para listar produtos
 
