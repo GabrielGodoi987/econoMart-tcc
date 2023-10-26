@@ -3,7 +3,7 @@ module.exports = {
     async createUser(req, res) {
         const { username, email, password } = req.body;
         try {
-            const newUser = await db.users.create({
+            const newUser = await db.user.create({
                 username: username,
                 email: email,
                 password: password,
@@ -55,7 +55,7 @@ module.exports = {
         const userId = req.params.id;
 
         try {
-            const user = await User.findByPk(userId);
+            const user = await user.findByPk(userId);
             if (!user) {
                 return res.status(404).json({ error: 'Usuário não encontrado' });
             }
