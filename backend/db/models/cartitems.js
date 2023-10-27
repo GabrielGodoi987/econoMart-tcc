@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   CartItems.init({
     quantity: DataTypes.INTEGER,
+    price: DataTypes.DECIMAL
   }, {
     sequelize,
     timestamps: false,

@@ -26,7 +26,7 @@ module.exports = {
         })
     },
 
-    listCustomers(req, res) {
+    listAllClients(req, res) {
         db.customers.findAll({
         }).then((custs) => {
             res.send(custs);

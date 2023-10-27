@@ -13,6 +13,9 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER
       },
+      price: {
+        type: Sequelize.DECIMAL(10,2),
+      }
     });
   },
   async down(queryInterface, Sequelize) {
