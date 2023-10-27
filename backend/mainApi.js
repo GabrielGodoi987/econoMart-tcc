@@ -48,3 +48,4 @@ api.listen(porta, () => {
     console.log(chalk.black.bgCyan(`servidor online na porta ${porta}`));
 });
 
+

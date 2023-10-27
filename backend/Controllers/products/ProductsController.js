@@ -101,4 +101,4 @@ module.exports = {
             res.status(500).send('Erro ao atualizar o produto'); // Trate o erro de forma apropriada
         });
     }
-} 
+}
