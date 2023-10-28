@@ -2,16 +2,19 @@ const db = require('../../db/models/index');
 module.exports = {
     async createCust(req, res) {
         const { custname, email, cpf } = req.body;
-        db.customers.create({
-            custname: custname,
-            email: email,
-            cpf: cpf
-        }).then((customer) => {
+        try {
+            db.customers.create({
+                custname: custname,
+                email: email,
+                cpf: cpf
+            })
+
             res.status(200).json({
                 msg: 'usuário criado com sucesso',
                 customer: customer
             })
-        }).catch((error) => {
+
+        } catch (error) {
             if (res.statusCode == 400) {
                 res.json({
                     msg: 'erro de usuário',
@@ -23,13 +26,15 @@ module.exports = {
                     error: error
                 })
             }
-        })
+        }
     },
 
     listAllClients(req, res) {
         db.customers.findAll({
         }).then((custs) => {
-            res.send(custs);
+            res.status(200).json({
+                    data: custs
+                });
         });
     },
 

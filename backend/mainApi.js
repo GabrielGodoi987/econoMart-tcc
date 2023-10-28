@@ -57,7 +57,7 @@ api.post('/edit/:id/Client', clients.editCust);
 // rota para carrinho de compras dos usuários
 
 //adicionar itens ao carrinho
-api.post('/createCart')
+api.post('/createCart', cart.addToCart)
 
 // porta do servidor
 let porta = 3333;
