@@ -3,7 +3,7 @@ module.exports = {
     async createCust(req, res) {
         const { custname, email, cpf } = req.body;
         try {
-            db.customers.create({
+           const newCostumer = db.customers.create({
                 custname: custname,
                 email: email,
                 cpf: cpf
@@ -11,7 +11,7 @@ module.exports = {
 
             res.status(200).json({
                 msg: 'usuário criado com sucesso',
-                customer: customer
+                customer: newCostumer
             })
 
         } catch (error) {

@@ -7,8 +7,19 @@ module.exports = {
     //com base no id do usuário adicionar dados ao carrinho com o id do usuário
     const { id_customer, id_product, quantity } = req.body;
     try {
-      const custid = await db.customers.findByPk(id_customer);
-      const product = await db.Products.findByPk(id_product);
+      //procuramos o produto para ver se ele realmente existe
+      const product = await db.Products.findOne({
+        where: {
+          id: id_product
+        }
+      });
+      //procuramos o cliente primeiro para ver se ele realmente existe
+      const custid = await db.customers.findOne({
+        where: {
+          id: id_customer
+        }
+      })
+
 
       if (!product || !custid) {
         return res.status(400).json({
@@ -18,15 +29,29 @@ module.exports = {
         });
       }
 
+      if (product.stock >= quantity) {
+        await db.Products.update({
+          stock: product.stock - quantity,
+          where: {
+            id_product: id_product
+          }
+        });
+      } else {
+        return res.status(400).json({
+          msg: 'estoque insuficiente',
+          erro: error.message
+        })
+      }
+
       const createCart = await db.CartItems.create({
-        id_product: product,
+        id_product: id_product,
         id_customer: id_customer,
         quantity: quantity,
         price: quantity * product.price
       });
 
       res.status(200).json({
-        msg: `produtos do cliente ${product} encontrados`,
+        msg: `produtos do cliente ${id_customer} encontrados`,
         data: createCart
       })
 
@@ -76,13 +101,13 @@ module.exports = {
         })
       } else if (res.statusCode == 400) {
 
-       return res.json({
+        return res.json({
           msg: 'erro de usuário',
           erro: error.message
         })
 
       } else {
-        return res.status(500).json({ 
+        return res.status(500).json({
           msg: 'ocorreu um erro meu nobre',
           error: error.message
         })
