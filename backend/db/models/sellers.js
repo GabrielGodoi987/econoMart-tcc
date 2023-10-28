@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.INTEGER
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'sellers',
   });
   return sellers;
