@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_customer'
       })
       //um carrinho tem 0 ou vários produtos
-      CartItems.belongsTo(models.Products);
+      CartItems.belongsTo(models.Products, {
+        foreignKey: 'id_product'
+      });
 
       //um carrinho pertence a uma compra
       CartItems.belongsTo(models.purchase, {

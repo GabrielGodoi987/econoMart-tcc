@@ -1,5 +1,6 @@
-let { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, ENDPOINT_ID } = process.env;
+// let { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, ENDPOINT_ID } = process.env;
 require('dotenv').config();
+/*
 module.exports = {
     development: {
       //HOST DO BANCO DE DADOS ONLINE
@@ -25,4 +26,15 @@ module.exports = {
         options: `project=${ENDPOINT_ID}`,
       },
     }
+  }
+  */
+
+  module.exports = {
+    development: {
+      username: process.env.PGUSER,
+      password: process.env.PGPASSWORD,
+      database: process.env.PGDATABASE,
+      host: process.env.PGHOST,
+      dialect: 'mysql'
+    },
   }

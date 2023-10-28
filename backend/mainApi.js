@@ -59,6 +59,9 @@ api.post('/edit/:id/Client', clients.editCust);
 //adicionar itens ao carrinho
 api.post('/createCart', cart.addToCart)
 
+//rota para listar o carrinho com base no id do cliente
+api.get('/getCart/:id/customer', cart.ListCart);
+
 // porta do servidor
 let porta = 3333;
 api.listen(porta, () => {
