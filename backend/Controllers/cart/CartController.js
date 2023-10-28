@@ -20,7 +20,7 @@ module.exports = {
         }
       })
 
-
+      // caso os produtos não existam essas serão as respostas
       if (!product || !custid) {
         return res.status(400).json({
           msg: "Produto não encontrado ou cliente não encontrado",
@@ -29,6 +29,7 @@ module.exports = {
         });
       }
 
+      // verifica se há itens no estoque suficientes para a compra do usuário, caso não tenha a listagem não poderá ser realizada
       if (product.stock >= quantity) {
         const update = await db.Products.update(
           {
@@ -46,6 +47,7 @@ module.exports = {
         })
       }
 
+      // após todas as verificações o carrinho do cliente é criado
       const createCart = await db.CartItems.create({
         id_product: id_product,
         id_customer: id_customer,
@@ -58,9 +60,9 @@ module.exports = {
         data: createCart
       })
 
-      // Restante do seu código...
 
     } catch (error) {
+      // caso tenha erros
       res.status(500).json({
         msg: "Ocorreu um erro",
         erro: error.message,
@@ -83,48 +85,48 @@ module.exports = {
             model: db.customers
           },
           {
-             model: db.Products
+            model: db.Products
           }
         ]
       })
 
-    if (cart.length === 0) {
-      return res.status(401).json({
-        msg: 'Não há itens no carrinho',
-        erro: error.message
+      if (cart.length === 0) {
+        return res.status(401).json({
+          msg: 'Não há itens no carrinho',
+          erro: error.message
+        })
+      }
+
+      res.status(200).json({
+        msg: `produtos do cliente ${id} encontrados`,
+        data: cart
       })
+
+
+    } catch (error) {
+      if (res.statusCode == 500) {
+        return res.status(500).json({
+          msg: 'ocorreu um erro no servidor',
+          erro: error.message
+        })
+      } else if (res.statusCode == 400) {
+
+        return res.json({
+          msg: 'erro de usuário',
+          erro: error.message
+        })
+
+      } else {
+        return res.status(500).json({
+          msg: 'ocorreu um erro meu nobre',
+          error: error.message
+        })
+      }
     }
-
-    res.status(200).json({
-      msg: `produtos do cliente ${id} encontrados`,
-      data: cart
-    })
-
-
-  } catch(error) {
-    if (res.statusCode == 500) {
-      return res.status(500).json({
-        msg: 'ocorreu um erro no servidor',
-        erro: error.message
-      })
-    } else if (res.statusCode == 400) {
-
-      return res.json({
-        msg: 'erro de usuário',
-        erro: error.message
-      })
-
-    } else {
-      return res.status(500).json({
-        msg: 'ocorreu um erro meu nobre',
-        error: error.message
-      })
-    }
-  }
-},
+  },
 
   async DeleteitemsCart(req, res) {
-  //caso ele desista ele pode apagar produtos do seu carrinho
-  const { userid } = req.params.id;
-},
+    //caso ele desista ele pode apagar produtos do seu carrinho
+    const { userid } = req.params.id;
+  },
 };
