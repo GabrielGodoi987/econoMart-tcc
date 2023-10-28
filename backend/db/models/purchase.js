@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      purchase.hasOne(models.CartItems, {
+      //uma compra pode ter apenas um carrinho
+      purchase.belongsTo(models.CartItems, {
         foreignKey: 'id_cart'
       });
 

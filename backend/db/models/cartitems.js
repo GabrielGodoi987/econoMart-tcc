@@ -22,7 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       //um carrinho pertence a uma compra
-      CartItems.belongsTo(models.purchase);
+      CartItems.hasOne(models.purchase, {
+        foreignKey: 'id_cart'
+      });
     }
   }
   CartItems.init({

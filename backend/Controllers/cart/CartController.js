@@ -30,12 +30,15 @@ module.exports = {
       }
 
       if (product.stock >= quantity) {
-        await db.Products.update({
-          stock: product.stock - quantity,
-          where: {
-            id_product: id_product
-          }
-        });
+        const update = await db.Products.update(
+          {
+            stock: product.stock - quantity
+          },
+          {
+            where: {
+              id: id_product
+            }
+          });
       } else {
         return res.status(400).json({
           msg: 'estoque insuficiente',
@@ -60,7 +63,7 @@ module.exports = {
     } catch (error) {
       res.status(500).json({
         msg: "Ocorreu um erro",
-        erro: error,
+        erro: error.message,
       });
     }
 
@@ -75,48 +78,53 @@ module.exports = {
         where: {
           id_customer: id
         },
-        include: {
-          model: db.customers,
-        }
+        include: [
+          {
+            model: db.customers
+          },
+          {
+             model: db.Products
+          }
+        ]
       })
 
-      if (cart.length === 0) {
-        return res.status(401).json({
-          msg: 'Não há itens no carrinho',
-          erro: error.message
-        })
-      }
-
-      res.status(200).json({
-        msg: `produtos do cliente ${id} encontrados`,
-        data: cart
+    if (cart.length === 0) {
+      return res.status(401).json({
+        msg: 'Não há itens no carrinho',
+        erro: error.message
       })
-
-
-    } catch (error) {
-      if (res.statusCode == 500) {
-        return res.status(500).json({
-          msg: 'ocorreu um erro no servidor',
-          erro: error.message
-        })
-      } else if (res.statusCode == 400) {
-
-        return res.json({
-          msg: 'erro de usuário',
-          erro: error.message
-        })
-
-      } else {
-        return res.status(500).json({
-          msg: 'ocorreu um erro meu nobre',
-          error: error.message
-        })
-      }
     }
-  },
+
+    res.status(200).json({
+      msg: `produtos do cliente ${id} encontrados`,
+      data: cart
+    })
+
+
+  } catch(error) {
+    if (res.statusCode == 500) {
+      return res.status(500).json({
+        msg: 'ocorreu um erro no servidor',
+        erro: error.message
+      })
+    } else if (res.statusCode == 400) {
+
+      return res.json({
+        msg: 'erro de usuário',
+        erro: error.message
+      })
+
+    } else {
+      return res.status(500).json({
+        msg: 'ocorreu um erro meu nobre',
+        error: error.message
+      })
+    }
+  }
+},
 
   async DeleteitemsCart(req, res) {
-    //caso ele desista ele pode apagar produtos do seu carrinho
-    const { userid } = req.params.id;
-  },
+  //caso ele desista ele pode apagar produtos do seu carrinho
+  const { userid } = req.params.id;
+},
 };
