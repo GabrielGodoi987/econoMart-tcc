@@ -43,6 +43,11 @@ api.post('/createProduct', products.createProducts);
 // rota para listar todos os produtos
 api.get("/listAll", products.ListProducts);
 
+// rota para editar produtos
+api.post('/edit/:id/product', products.editProduct);
+// rota para deletar produtos
+api.post('/edit/:id/product', products.deleteProducts);
+
 
 
 // rota de CRUD de clientes

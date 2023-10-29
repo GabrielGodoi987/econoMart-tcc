@@ -40,7 +40,7 @@ module.exports = {
                     }
                 ]
             });
-    
+
             return res.status(200).json({
                 msg: 'produtos encontrados, caso não tenha nenhum cadastre-os',
                 products: listAll
@@ -79,9 +79,9 @@ module.exports = {
 
     },
     async editProduct(req, res) {
-        let idProduct = req.body.id;
+        let { id } = req.params;
         let { productname, description, stock, price } = req.body
-
+          
         await db.Products.update(
             {
                 productname: productname,
@@ -91,14 +91,14 @@ module.exports = {
             },
             {
                 where: {
-                    id: idProduct // A condição para identificar o produto que deve ser atualizado
+                    id: id
                 }
             }
         ).then(() => {
             res.status(201).send('Produto atualizado com sucesso');
         }).catch((error) => {
             console.error(error);
-            res.status(500).send('Erro ao atualizar o produto'); // Trate o erro de forma apropriada
+            res.status(500).send('Erro ao atualizar o produto');
         });
     }
 }

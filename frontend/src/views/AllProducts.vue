@@ -57,10 +57,10 @@
 import MenuCompt from '@/components/MenuCompt.vue';
 import FormComt from '@/components/FormComt.vue';
 import * as TableConfig from "./ProductsConfig/TableConfig.js";
-// import * as listProducts from "./ProductsConfig/ListProducts";
 import * as crud from "./ProductsConfig/CrudOperations";
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { Notify } from 'quasar';
 
 export default {
 
@@ -92,9 +92,38 @@ export default {
             openEdit.value = !openEdit.value
         }
 
+        async function editProduct(id) {
+            const data = {
+                productname: content.value.productname,
+                description: content.value.description,
+                stock: content.value.stock,
+                price: content.value.price
+            }
+            try {
+                const update = crud.updateElement(id, data);
+                Notify.create({
+                    message: `produto atualizado com sucesso`,
+                    color: 'green',
+                })
+                console.log(update);
+            } catch (error) {
+                Notify.create({
+                    message: 'ocorreu um erro e o produto não foi cadastrado',
+                    color: 'red'
+                })
+            }
+
+        }
+
 
         async function deleteProduct(props) {
             const FrontDelete = rows.value.findIndex((element) => element.id == props.id);
+            const deleteProduct = crud.DeleteElement(props);
+            console.log(deleteProduct);
+            Notify.create({
+                message: `produto deletado com sucesso`,
+                color: 'green',
+            })
             if (FrontDelete >= 0) {
                 rows.value.splice(FrontDelete, 1)
             }
@@ -111,7 +140,8 @@ export default {
             content,
             opnenModal,
             deleteProduct,
-            openEdit
+            openEdit,
+            editProduct
         };
     },
 };
