@@ -38,9 +38,9 @@ const columns = [
         require: true
     },
     {
-        name: 'send',
-        field: '',
-        label: 'send',
+        name: 'edit',
+        field: 'edit',
+        label: '',
         align: 'center',
         require: true
     }

@@ -65,10 +65,33 @@
                 </template>
               </q-input>
             </template>
-            <template #body-cell-send>
-               <q-input type="number" label="quantidade"/>
-               <q-btn color="primary" label="adicionar ao carrinho" icon="add" />
-            </template> 
+            <template v-slot:item="props">
+              <div class="q-pa-md">
+              <q-card bordered flat>
+                <q-card-section>
+                  <div class="row justify-around">
+                    <div class="col-md-5">
+                      <q-input standout filled label="quantidade" type="number" />
+                    </div>
+                    <div class="col-md-4">
+                      <q-btn rounded color="primary" icon="add" />
+                    </div>
+                  </div>
+                </q-card-section>
+                <q-separator />
+                <q-list dense>
+                  <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                    <q-item-section>
+                      <q-item-label>{{ col.label }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-item-label caption>{{ col.value }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-card>
+              </div>
+            </template>
           </q-table>
         </div>
         <!-- fim da segunda div ======================================================================== -->
