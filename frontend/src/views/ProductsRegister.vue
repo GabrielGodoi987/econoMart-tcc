@@ -91,6 +91,7 @@ export default {
             valorProduto.value = ''
             Validade.value = ''
             description.value = ''
+            options.value = ''
 
             Notify.create({
                 message: 'Cadastro cancelado',

@@ -68,7 +68,7 @@ export default {
     setup() {
         const rows = ref([]);
 
-        function teste() {
+        function ListAllProducts() {
             axios.get('http://localhost:3333/listAll').then((res) => {
                 const data = res.data.products;
                 rows.value = data;
@@ -78,7 +78,7 @@ export default {
         }
 
         onMounted(() => {
-            teste();
+            ListAllProducts();
         })
 
 
