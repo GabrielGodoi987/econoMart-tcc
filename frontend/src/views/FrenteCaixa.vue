@@ -67,29 +67,29 @@
             </template>
             <template v-slot:item="props">
               <div class="q-pa-md">
-              <q-card bordered flat>
-                <q-card-section>
-                  <div class="row justify-around">
-                    <div class="col-md-5">
-                      <q-input standout filled label="quantidade" type="number" />
+                <q-card bordered flat>
+                  <q-card-section>
+                    <div class="row justify-around">
+                      <div class="col-md-5">
+                        <q-input standout filled label="quantidade" type="number" v-model="quantity" />
+                      </div>
+                      <div class="col-md-4">
+                        <q-btn rounded color="primary" icon="add" @click="addTocart(props.row.id)" />
+                      </div>
                     </div>
-                    <div class="col-md-4">
-                      <q-btn rounded color="primary" icon="add" />
-                    </div>
-                  </div>
-                </q-card-section>
-                <q-separator />
-                <q-list dense>
-                  <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
-                    <q-item-section>
-                      <q-item-label>{{ col.label }}</q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                      <q-item-label caption>{{ col.value }}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-card>
+                  </q-card-section>
+                  <q-separator />
+                  <q-list dense>
+                    <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                      <q-item-section>
+                        <q-item-label>{{ col.label }}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-item-label caption>{{ col.value }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-card>
               </div>
             </template>
           </q-table>
@@ -151,7 +151,8 @@ export default {
 
     const options = ref([])
     const client = ref('');
-    const rows = ref([])
+    const quantity = ref();
+    const rows = ref([]);
 
     async function getCustomer() {
       await axios.get(`http://localhost:3333/listAllClients`).then((res) => {
@@ -184,9 +185,23 @@ export default {
       })
     }
 
+    async function addTocart(id) {
+      await axios.post('http://localhost:3333/createCart', {
+        id_product: id,
+        id_customer: client.value,
+        quantity: quantity.value
+      }).then((res) => {
+        const response = res.data.data
+       console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+
     onMounted(() => {
       getCustomer();
       getAllProducts();
+      getProduct();
     });
 
     watch(client, (newvalue) => {
@@ -202,7 +217,9 @@ export default {
       options,
       client,
       rows,
-      listProd
+      listProd,
+      addTocart,
+      quantity,
     }
   }
 }
