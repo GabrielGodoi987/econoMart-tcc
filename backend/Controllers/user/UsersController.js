@@ -1,12 +1,14 @@
 const db = require('../../db/models/index');
+const bcrypt = require('bcrypt');
 module.exports = {
     async createUser(req, res) {
         const { username, email, password } = req.body;
+        const hashedPass = bcrypt.hash(password, 10)
         try {
             const newUser = await db.user.create({
                 username: username,
                 email: email,
-                password: password,
+                password: hashedPass,
                 dataInicio: new Date()
             })
 
@@ -62,7 +64,39 @@ module.exports = {
         }
     },
 
-    loginUser(req, res){
+    async loginUser(req, res) {
         //fazer login do usuário com base no email e a senha
+        const { username } = req.body;
+        try {
+            const user = await db.user.findOne({
+                where: {
+                    username: username
+                }
+            })
+
+            if (user) {
+                const matchpass = await bcrypt.compare(password, user.password);
+                if (matchpass) {
+                    res.status.json({
+                        msg: 'usuário logado com sucesso',
+                        data: user
+                    })
+                } else {
+                    res.status(401).json({
+                        msg: 'credenciais inválidas'
+                    })
+                }
+            } else {
+                res.status(404).json({
+                    msg: 'usuario nao encontrado'
+                })
+            }
+
+        } catch (erro) {
+            res.status(500).json({
+                msg: 'erro no servidor tente novamente'
+            })
+        }
+
     }
 }

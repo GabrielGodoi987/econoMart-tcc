@@ -32,7 +32,7 @@
                     <div class="row justify-around q-mt-xl">
                         <slot name="buttons">
                             <q-btn rounded color="secondary" label="Cadastrar" @click="$emit('cadastrar')" />
-                            <q-btn rounded color="primary" label="Cancelar" @click="$emit('abort')" />
+                            <q-btn rounded color="primary" label="Cancelar" @click="$emit('cancel')" />
                         </slot>
                     </div>
                 </q-form>
@@ -53,7 +53,7 @@ export default {
         },
 
         abort() {
-            this.$event('abort')
+            this.$event('cancel')
         }
     },
     setup(props) {

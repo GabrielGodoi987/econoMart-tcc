@@ -4,9 +4,9 @@
 
         <q-page-container>
             <q-table grid class="my-sticky-virtscroll-table" title="Todos os vendedores" :columns="columns" :rows="rows">
-                <template #body-cell="props">
+                <template #body-cell-edit="props">
                     <q-td :props="props">
-                       teste:  {{ props.row.foto }}
+                       <q-img src='https://avaazdo.s3.amazonaws.com/147541710957f11415b045e8.71418656bluezao_600x314.jpeg' />
                     </q-td>
                 </template>
             </q-table>
@@ -25,14 +25,12 @@ export default {
             {
                 sellername: 'João Silva',
                 email: 'joao.silvaEemail.com',
-                password: 'password123',
-                foto: 'https://avaazdo.s3.amazonaws.com/147541710957f11415b045e8.71418656bluezao_600x314.jpeg'
+                password: 'password123'
             },
             {
                 sellername: 'Maria Oliveira',
                 email: 'maria.oliveira@email.com',
-                password: 'senha456',
-                foto: 'https://avaazdo.s3.amazonaws.com/147541710957f11415b045e8.71418656bluezao_600x314.jpeg'
+                password: 'senha456'
             }
         ];
         return {

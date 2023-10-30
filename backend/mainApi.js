@@ -32,6 +32,10 @@ const cart = require('./Controllers/cart/CartController');
 //rota para CRUD para usuários
 api.post('/CreateUser', users.createUser);
 
+// rota para logar usuário
+api.post("/login", users.loginUser);
+
+
 
 //Rotas CRUD para produtos
 

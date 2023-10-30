@@ -10,7 +10,7 @@
                     </q-card-section>
                     <q-card-section>
                         <FormCompt Upload="Foto do Produto" input1="nome do Produto" input2="ativo" input3="ativo"
-                            input4="ativo" input5="ativo" @cadastrar="createProduct()" @abort="cancel()">
+                            input4="ativo" input5="ativo" @cadastrar="createProduct()" @cancel="cancel()">
                             <template #Input1>
                                 <q-input dense standout="bg-primary" v-model="productname" hint="nome do produto"
                                     class="q-mt-lg" />
@@ -84,7 +84,7 @@ export default {
         // ================================================================================================
 
         // requisição para criar produtos
-        async function createProduct(){
+        async function createProduct() {
             axios.post("http://localhost:3333/createProduct", {
                 productname: productname.value,
                 description: description.value,
@@ -93,13 +93,23 @@ export default {
                 id_category: id_category.value.value,
                 Validade: Validade.value
             }).then((res) => {
-              const data = res.data;
-              console.log(data);
+                const data = res.data;
+                productname.value = ''
+                price.value = ''
+                stock.value = '';
+                Validade.value = ''
+                description.value = ''
+                options.value = ''
+                Notify.create({
+                    message: "Produto cadastrado com sucesso",
+                    color: 'green'
+                })
+                console.log(data);
             }).catch((erro) => {
-               console.log(erro);
+                console.log(erro);
             })
         }
-   
+
         // cancelar cadastro do produto ===============================================================
         async function cancel() {
             productname.value = ''
@@ -110,7 +120,7 @@ export default {
 
             Notify.create({
                 message: 'Cadastro cancelado',
-                color: 'green',
+                color: 'negative',
                 position: 'top'
             })
 
@@ -126,6 +136,7 @@ export default {
             description,
             stock,
             price,
+            Validade,
             id_category,
             cancel,
             createProduct,

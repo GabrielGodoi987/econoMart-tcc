@@ -80,9 +80,9 @@ export default {
                 route: '/dashboard'
             },
             {
-                name: 'Vendedores',
+                name: 'Clientes',
                 icon: 'fa-solid fa-user',
-                route: '/sellers'
+                route: '/Costumers'
             },
             {
                 name: 'Caixa Eletrônico',
