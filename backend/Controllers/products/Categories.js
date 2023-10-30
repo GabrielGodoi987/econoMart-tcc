@@ -9,7 +9,7 @@ module.exports = {
             });
             res.status(200).json({
                 msg: 'categoria cadastrada com sucesso',
-                category: categorycreate.CategoryName
+                category: categorycreate
             });
         } catch (error) {
             if (res.statusCode == 400) {
@@ -29,7 +29,7 @@ module.exports = {
     },
 
     ListCategory(req, res) {
-        db.category.findAll().then((catName) => {
+        db.Category.findAll().then((catName) => {
             return res.status(200).json({
                 msg: 'produtos encontrados, caso não tenha nenhum cadastre-os',
                 category: catName

@@ -9,7 +9,7 @@ module.exports = {
                 price: price,
                 stock: stock,
                 id_category: id_category,
-                validade: new Date(validade)
+                validade: validade
             })
             res.status(200).json({
                 msg: 'produto cadastrado com sucesso',
@@ -20,7 +20,7 @@ module.exports = {
             if (res.statusCode == 400) {
                 res.json({
                     msg: "Erro ao criar o produto",
-                    erros: true + error
+                    erros: error.message
                 });
             } else if (res.statusCode == 500) {
                 res.json({
@@ -54,16 +54,47 @@ module.exports = {
         }
     },
 
-    async deleteProducts(req, res) {
-        let idProduct = req.params.id;
-        const product = db.Products.findByPk(idProduct);
+    async listByCategory(req, res) {
+        const { id } = req.params
+        try {
+            const listByCat = await db.Products.findAll({
+                where: {
+                    id_category: id
+                },
+                include: [
+                    {
+                        model: db.Category,
+                        attributes: ['CategoryName']
+                    }
+                ]
+            });
 
-        await db.Products.destroy(product).then((deletedProduct) => {
-            res.status(200).json({
-                msg: `Produto ${product.productname} deletado com sucesso!`,
-                product: deletedProduct
+            return res.status(200).json({
+                msg: 'produtos da categoria encontrados',
+                data: listByCat
+            });
+        } catch (error) {
+            console.error(error); // Log do erro para ajudar na depuração
+            res.status(500).json({
+                msg: "Erro ao buscar produtos",
+                error: error
+            });
+        }
+    },
+
+    async deleteProducts(req, res) {
+        let { id } = req.params;
+        try {
+            const product = await db.Products.destroy({
+                where: {
+                    id: id
+                }
             })
-        }).catch((err) => {
+            res.status(200).json({
+                msg: `Produto deletado com sucesso!`,
+                product: product
+            })
+        } catch (err) {
             if (res.statusCode == 400) {
                 res.json({
                     msg: 'produto não encontrado, por favor tente novamente',
@@ -74,14 +105,19 @@ module.exports = {
                     msg: 'Ocorreu um erro no servidor',
                     err: true + err
                 })
+            } else {
+                res.json({
+                    msg: 'Não foi possível realizar a exclusão',
+                    error: err.message
+                })
             }
-        })
-
+        }
     },
+
     async editProduct(req, res) {
         let { id } = req.params;
         let { productname, description, stock, price } = req.body
-          
+
         await db.Products.update(
             {
                 productname: productname,
@@ -102,3 +138,12 @@ module.exports = {
         });
     }
 }
+
+
+
+
+
+
+
+
+

@@ -158,16 +158,15 @@ export default {
       await axios.get(`http://localhost:3333/listAllClients`).then((res) => {
         const user = res.data.data;
         for (let i = 0; i < user.length; i++) {
-          options.value.push(user[i].id);
+          options.value.push({value: user[i].id, label: user[i].custname});
         }
-        console.log(client.value);
       });
     }
 
 
-    async function getProduct(id) {
+    async function getProduct() {
       try {
-        const response = await axios.get(`http://localhost:3333/getCart/${id}/customer`);
+        const response = await axios.get(`http://localhost:3333/getCart/${client.value.value}/customer`);
         const data = response.data.data;
         rows.value = data;
         console.log(data);
@@ -188,7 +187,7 @@ export default {
     async function addTocart(id) {
       await axios.post('http://localhost:3333/createCart', {
         id_product: id,
-        id_customer: client.value,
+        id_customer: client.value.value,
         quantity: quantity.value
       }).then((res) => {
         const response = res.data.data

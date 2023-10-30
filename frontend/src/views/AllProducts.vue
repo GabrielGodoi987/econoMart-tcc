@@ -7,14 +7,20 @@
             <div class="col-sm-10 q-mt-xl">
                 <q-table class="my-sticky-virtscroll-table" title="Todos os Produtos" :columns="TableConfig.columns"
                     :rows="rows">
-                    <!-- <template #top-right>
-                        <q-input dense standout="bg-secondary" icon="search">
-                            <template #append>
-                                <q-icon name="search" color="white" />
+                    <template v-slot:top-right>
+                        <q-select filled v-model="category" :options="allcategorys" multiple emit-value map-options>
+                            <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+                                <q-item v-bind="itemProps">
+                                    <q-item-section>
+                                        <q-item-label v-html="opt.label" />
+                                    </q-item-section>
+                                    <q-item-section side>
+                                        <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
+                                    </q-item-section>
+                                </q-item>
                             </template>
-                        </q-input>
-                    </template> -->
-
+                        </q-select>
+                    </template>
                     <template #body-cell-edit="props">
                         <q-td>
                             <q-btn rounded color="primary" icon="edit" @click="opnenModal(props.row)" />
@@ -79,6 +85,8 @@ export default {
 
         onMounted(() => {
             ListAllProducts();
+            getCategory();
+            getAllCategories();
         })
 
 
@@ -117,9 +125,10 @@ export default {
 
 
         async function deleteProduct(props) {
+            const deleteProduct = crud.DeleteElement(props.id);
             const FrontDelete = rows.value.findIndex((element) => element.id == props.id);
-            const deleteProduct = crud.DeleteElement(props);
             console.log(deleteProduct);
+            console.log(FrontDelete)
             Notify.create({
                 message: `produto deletado com sucesso`,
                 color: 'green',
@@ -127,11 +136,35 @@ export default {
             if (FrontDelete >= 0) {
                 rows.value.splice(FrontDelete, 1)
             }
-            console.log(props.id)
-            return crud.DeleteElement(props.id);
+            console.log(props)
+        }
+        let category = ref([]);
+        let options = ref([]);
+        async function getAllCategories() {
+            await axios.get(`http://localhost:3333/listCategory`).then((res) => {
+                const data = res.data.data
+                for (let j = 0; j < data.length; j++) {
+                    options.value.push({ value: data[j].d, label: data[j].productname });
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
         }
 
+        async function getCategory() {
+            let i = 0;
+            while (i < category.value.length) {
+                var endpoint = `http://localhost:3333/ListByCat/${category.value.value[i]}/product`
+                axios.get(endpoint).then((res) => {
+                    const data = res.data.data;
+                    console.log(data);
+                }).catch((err) => {
+                    console.log(err)
+                })
+                i++
+            }
 
+        }
 
         return {
             // ... restante do seu retorno ...
@@ -141,7 +174,9 @@ export default {
             opnenModal,
             deleteProduct,
             openEdit,
-            editProduct
+            editProduct,
+            category,
+            options
         };
     },
 };

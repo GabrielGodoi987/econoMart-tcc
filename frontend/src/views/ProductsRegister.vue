@@ -10,23 +10,23 @@
                     </q-card-section>
                     <q-card-section>
                         <FormCompt Upload="Foto do Produto" input1="nome do Produto" input2="ativo" input3="ativo"
-                            input4="ativo" input5="ativo" @cadastrar="PostApi" @abort="Abort">
+                            input4="ativo" input5="ativo" @cadastrar="createProduct()" @abort="cancel()">
                             <template #Input1>
-                                <q-input dense standout="bg-primary" v-model="nome_Produto" hint="nome do produto"
+                                <q-input dense standout="bg-primary" v-model="productname" hint="nome do produto"
                                     class="q-mt-lg" />
                             </template>
                             <template #Input2>
                                 <q-input dense standout="bg-primary" hint="Valor do Produto" type="number" class="q-mt-lg"
-                                    v-model="valorProduto" />
+                                    v-model="price" />
                                 <q-input dense standout="bg-primary" hint="Quandidade em estoqe" class="q-mt-lg"
-                                    type="number" v-model="qtdEstoque" />
+                                    type="number" v-model="stock" />
                             </template>
                             <template #Input3>
                                 <q-input dense standout="bg-primary" type="date" v-model="Validade" hint="Data de Validade"
                                     class="q-mt-lg" />
                             </template>
                             <template #Input4>
-                                <q-select dense standout="bg-primary text-white" v-model="categoria" :options="options"
+                                <q-select dense standout="bg-primary text-white" v-model="id_category" :options="options"
                                     hint="Categoria do produto" class="q-mt-lg" />
 
                                 <!-- <q-select dense standout="bg-primary text-white" hint="Fornecedor" class="q-mt-lg" /> -->
@@ -54,41 +54,56 @@ import MenuCompt from '@/components/MenuCompt.vue';
 import FormCompt from '@/components/FormComt.vue';
 import { ref, onMounted } from 'vue'
 import { Notify } from 'quasar';
+import axios from 'axios';
 export default {
     components: { MenuCompt, FormCompt },
 
     setup() {
 
-        const nome_Produto = ref('');
-        const valorProduto = ref('');
-        const fabricacao = ref('');
-        const Validade = ref('');
-        const qtdEstoque = ref('');
+        const productname = ref('');
         const description = ref('');
-        const categoria = ref('');
+        const price = ref('');
+        const Validade = ref('');
+        const stock = ref('');
+        const id_category = ref('');
         const options = ref([]);
-
 
         // listar categoria
         async function getCategoria() {
-            // try {
-            //     axios.get('http://localhost:3333/ListCategoria').then((response) => {
-            //         const data = response.data.categoria;
-            //         for (let i = 0; i < data.length; i++) {
-            //             options.value.push({ value: data[i].id, label: data[i].nomeCategoria });
-            //         }
-            //     })
-            // } catch (error) {
-            //     console.log(error)
-            // }
+            try {
+                axios.get(`http://localhost:3333/listCategory`).then((response) => {
+                    const data = response.data.category;
+                    for (let i = 0; i < data.length; i++) {
+                        options.value.push({ value: data[i].id, label: data[i].CategoryName });
+                    }
+                })
+            } catch (error) {
+                console.log(error)
+            }
         }
         // ================================================================================================
 
-
+        // requisição para criar produtos
+        async function createProduct(){
+            axios.post("http://localhost:3333/createProduct", {
+                productname: productname.value,
+                description: description.value,
+                price: price.value,
+                stock: stock.value,
+                id_category: id_category.value.value,
+                Validade: Validade.value
+            }).then((res) => {
+              const data = res.data;
+              console.log(data);
+            }).catch((erro) => {
+               console.log(erro);
+            })
+        }
+   
         // cancelar cadastro do produto ===============================================================
-        async function Abort() {
-            nome_Produto.value = ''
-            valorProduto.value = ''
+        async function cancel() {
+            productname.value = ''
+            price.value = ''
             Validade.value = ''
             description.value = ''
             options.value = ''
@@ -107,15 +122,14 @@ export default {
 
 
         return {
-            nome_Produto,
-            valorProduto,
-            fabricacao,
-            Validade,
+            productname,
             description,
-            Abort,
+            stock,
+            price,
+            id_category,
+            cancel,
+            createProduct,
             options,
-            categoria,
-            qtdEstoque
         }
     }
 }

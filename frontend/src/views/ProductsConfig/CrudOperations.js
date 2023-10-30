@@ -10,5 +10,9 @@ export async function updateElement(id, data) {
 }
 
 export async function DeleteElement(id) {
-  alert(id)
+  axios.post(`http://localhost:3333/delete/${id}/product`).then((res) => {
+    return res.data;
+  }).catch((error) => {
+    return error;
+  })
 }

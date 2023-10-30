@@ -38,15 +38,21 @@ api.post('/CreateUser', users.createUser);
 // rota para criar categoria
 api.post('/createCat', categories.createCategory);
 
+// rota para listar todas as categorias
+api.get('/listCategory', categories.ListCategory);
+
 // rota para criar produtos
 api.post('/createProduct', products.createProducts);
 // rota para listar todos os produtos
 api.get("/listAll", products.ListProducts);
 
+//rota para listar produtos por suas categorias
+api.get('/ListByCat/:id/product', products.listByCategory)
+
 // rota para editar produtos
 api.post('/edit/:id/product', products.editProduct);
 // rota para deletar produtos
-api.post('/edit/:id/product', products.deleteProducts);
+api.post('/delete/:id/product', products.deleteProducts);
 
 
 
