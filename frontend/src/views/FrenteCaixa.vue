@@ -158,7 +158,7 @@ export default {
       await axios.get(`http://localhost:3333/listAllClients`).then((res) => {
         const user = res.data.data;
         for (let i = 0; i < user.length; i++) {
-          options.value.push({value: user[i].id, label: user[i].custname});
+          options.value.push({ value: user[i].id, label: user[i].custname });
         }
       });
     }
@@ -191,7 +191,7 @@ export default {
         quantity: quantity.value
       }).then((res) => {
         const response = res.data.data
-       console.log(response)
+        console.log(response)
       }).catch((error) => {
         console.log(error)
       })
@@ -205,7 +205,14 @@ export default {
 
     watch(client, (newvalue) => {
       newvalue = client.value
-      getProduct(newvalue);
+      if (newvalue == null) {
+        clearInterval(interval);
+      }
+
+      // Inicie um novo intervalo
+      let interval = setInterval(() => {
+        getProduct(newvalue);
+      }, 5000);
     })
 
 

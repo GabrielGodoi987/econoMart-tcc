@@ -2,13 +2,14 @@ const db = require('../../db/models/index');
 const bcrypt = require('bcrypt');
 module.exports = {
     async createUser(req, res) {
-        const { username, email, password } = req.body;
-        const hashedPass = bcrypt.hash(password, 10)
+        const { username, email, password, accessLevel } = req.body;
+        const hashedPass = await bcrypt.hash(password, 10);
         try {
             const newUser = await db.user.create({
                 username: username,
                 email: email,
                 password: hashedPass,
+                accessLevel: accessLevel,
                 dataInicio: new Date()
             })
 
@@ -20,9 +21,22 @@ module.exports = {
         } catch (error) {
             res.json({
                 msg: 'houve um erro meu cabron',
-                error: error
+                error: error.message
             })
         }
+    },
+    async listUser(req, res) {
+        await db.user.findAll().then((data) => {
+            res.json({
+                msg: 'usuários encontrados',
+                users: data
+            })
+        }).catch((err) => {
+            res.json({
+                msg: 'erro ao buscarr usuários',
+                data: err.message
+            })
+        })
     },
 
     async editUser(req, res) {
@@ -46,6 +60,7 @@ module.exports = {
         }
     },
 
+
     async deleteUser(req, res) {
         const userId = req.params.id;
 
@@ -66,18 +81,18 @@ module.exports = {
 
     async loginUser(req, res) {
         //fazer login do usuário com base no email e a senha
-        const { username } = req.body;
+        const { email, password } = req.body;
         try {
             const user = await db.user.findOne({
                 where: {
-                    username: username
+                    email: email
                 }
             })
 
             if (user) {
                 const matchpass = await bcrypt.compare(password, user.password);
                 if (matchpass) {
-                    res.status.json({
+                    res.status(200).json({
                         msg: 'usuário logado com sucesso',
                         data: user
                     })
@@ -94,7 +109,8 @@ module.exports = {
 
         } catch (erro) {
             res.status(500).json({
-                msg: 'erro no servidor tente novamente'
+                msg: 'erro no servidor tente novamente',
+                err: erro.message
             })
         }
 

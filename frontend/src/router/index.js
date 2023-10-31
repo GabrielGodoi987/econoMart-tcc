@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+// import { useCounterStore } from '@/store'
 
 const routes = [
   {
@@ -13,7 +14,7 @@ const routes = [
   },
   {
     path: '/Costumers',
-    name:'Costumers',
+    name: 'Costumers',
     component: () => import('@/views/CostumersPage.vue')
   },
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/allProducts',
     name: 'allProducts',
     component: () => import('@/views/AllProducts.vue')
+  },
+  {
+    path: '/erro-de-acesso',
+    name: 'ErrorPage',
+    component: () => import('@/views/ErrorPage.vue')
   }
 ]
 
