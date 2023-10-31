@@ -38,9 +38,9 @@ const columns = [
         require: true
     },
     {
-        name: 'edit',
-        field: 'edit',
-        label: '',
+        name: 'stock',
+        field: row => row.stock,
+        label: 'Quantidade disponível',
         align: 'center',
         require: true
     }

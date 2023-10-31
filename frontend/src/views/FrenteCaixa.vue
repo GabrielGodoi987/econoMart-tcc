@@ -40,7 +40,7 @@
           </q-table>
           <div class="row justify-around q-mt-xl">
             <div class="col-md-5">
-              <q-btn square label="Confirmar" color="primary" style="width: 100%;" @click="ConfirmBuy()" />
+              <q-btn square label="Confirmar" color="primary" style="width: 100%;" />
             </div>
             <div class="col-md-5">
               <q-btn square label="cancelar" color="secondary" style="width: 100%;" />
@@ -102,14 +102,11 @@
     <q-page-container>
       <q-dialog v-model="compraModal">
         <q-card>
+          <q-card-section classs="bg-secondary">
+            <div class="text-h6">Confirmar Compra</div>
+          </q-card-section>
           <q-card-section>
-            <div class="text-h6">Alert</div>
           </q-card-section>
-
-          <q-card-section class="q-pt-none">
-            {{ array }}
-          </q-card-section>
-
           <q-card-actions>
             <q-btn flat label="OK" color="primary" v-close-popup />
           </q-card-actions>
@@ -144,7 +141,6 @@ import * as CartConfig from './CaixaConfig/CartTableConfig';
 import * as products from './CaixaConfig/productsConfig';
 // import { watchEffect } from 'vue';
 import { onMounted, ref, watch } from 'vue';
-import { columns } from './ProductsConfig/TableConfig';
 export default {
   setup() {
     const drawerCliente = ref(false);
@@ -245,18 +241,12 @@ export default {
       })
     }
 
-    const array = [columns];
-    const compraModal = ref(false);
-    function ConfirmBuy() {
-      // axios.post('', rows.value).then().catch()
-      compraModal.value = !compraModal.value
-    }
 
     //montar components
     onMounted(() => {
       getCustomer();
       setInterval(() => {
-        getAllProducts();
+      getAllProducts();
       }, 1500);
     });
 
@@ -264,12 +254,12 @@ export default {
     watch(client, (newvalue) => {
       newvalue = client.value
       if (newvalue == undefined) {
-        clearInterval(interval);
+      clearInterval(interval);
       } else {
-        // Inicie um novo intervalo
-        var interval = setInterval(() => {
-          getProduct(newvalue);
-        }, 1500);
+      // Inicie um novo intervalo
+      var interval = setInterval(() => {
+      getProduct(newvalue);
+      }, 1500);
       }
     })
 
@@ -290,8 +280,6 @@ export default {
       custname,
       email,
       cpf,
-      ConfirmBuy,
-      array
     }
   }
 }
