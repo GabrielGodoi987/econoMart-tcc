@@ -1,24 +1,36 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+import axios from 'axios';
+import { Notify } from 'quasar';
 
-export const useCounterStore = defineStore('auth', {
+
+export const userStore = defineStore('auth', {
   state: () => ({
-    userLevel: null,
-    token: null
+    user: null,
+    accessLevel: null
   }),
-  actions: {
-    setUserLevel(level) {
-      this.userLevel = level;
-    },
-    setToken(token) {
-      this.token = token;
+
+  getters: {
+    getUserData() {
+      return this.user;
     }
   },
-  getters: {
-    getUserLevel() {
-      return this.userLevel;
-    },
-    getToken() {
-      return this.token;
+  actions: {
+    login(email, password) {
+      axios.post('http://localhost:3333/login', {
+        email: email,
+        password: password
+      }).then((res) => {
+        const data = res.data.data
+        Notify.create({
+          type: 'positive',
+          message: 'usuário encontrado com sucesso',
+          color: 'green',
+          timeout: 1000
+        })
+        return this.user = data;
+      }).catch((err) => {
+        return err
+      });
     }
   }
 })

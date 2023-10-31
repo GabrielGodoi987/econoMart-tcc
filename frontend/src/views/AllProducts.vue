@@ -86,7 +86,6 @@ export default {
         onMounted(() => {
             ListAllProducts();
             getCategory();
-            getAllCategories();
         })
 
 
@@ -140,29 +139,13 @@ export default {
         }
         let category = ref([]);
         let options = ref([]);
-        async function getAllCategories() {
-            await axios.get(`http://localhost:3333/listCategory`).then((res) => {
-                const data = res.data.data
-                for (let j = 0; j < data.length; j++) {
-                    options.value.push({ value: data[j].d, label: data[j].productname });
-                }
+        async function getCategory() {
+            axios.get(`http://localhost:3333/ListByCat/${category.value.value}/product`).then((res) => {
+                const data = res.data.data;
+                console.log(data);
             }).catch((err) => {
                 console.log(err)
             })
-        }
-
-        async function getCategory() {
-            let i = 0;
-            while (i < category.value.length) {
-                var endpoint = `http://localhost:3333/ListByCat/${category.value.value[i]}/product`
-                axios.get(endpoint).then((res) => {
-                    const data = res.data.data;
-                    console.log(data);
-                }).catch((err) => {
-                    console.log(err)
-                })
-                i++
-            }
 
         }
 

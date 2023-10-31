@@ -44,8 +44,8 @@
                 <q-avatar size="56px" class="q-mb-sm">
                     <img src="https://cdn.quasar.dev/img/boy-avatar.png">
                 </q-avatar>
-                <div class="text-weight-bold">Razvan Stoenescu</div>
-                <div>@rstoenescu</div>
+                <div class="text-weight-bold">{{ usuario.username }}</div>
+                <div>{{ usuario.email }}</div>
             </div>
         </q-img>
     </q-drawer>
@@ -66,12 +66,15 @@
 
 
 <script>
-import { ref } from 'vue'
-
+import { ref, toRefs } from 'vue'
+import { userStore } from "@/store"
 export default {
     setup() {
         const righttDrawerOpen = true;
         const leftDrawerOpen = ref(false);
+        const user = toRefs(userStore());
+
+        const usuario = user.getUserData.value;
 
         const menu = [
             {
@@ -107,7 +110,8 @@ export default {
             toggleLeftDrawer() {
                 leftDrawerOpen.value = !leftDrawerOpen.value
             },
-            menu
+            menu,
+            usuario
         }
     }
 }

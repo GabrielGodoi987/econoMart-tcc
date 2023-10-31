@@ -29,8 +29,9 @@
                 </template>
               </q-select>
             </div>
+            <!-- botão para adicionar clientes -->
             <div class="col-md-1">
-              <q-btn square icon="add" class="q-mt-md" />
+              <q-btn square icon="add" class="q-mt-md" @click="opnDrawer()"/>
             </div>
           </div>
           <!-- ------------------------------ -->
@@ -128,6 +129,7 @@ import * as products from './CaixaConfig/productsConfig';
 import { onMounted, ref, watch } from 'vue';
 export default {
   setup() {
+    const drawerCliente = ref(false);
 
 
     const menu = [
@@ -147,6 +149,10 @@ export default {
         route: '/allProducts'
       }
     ]
+
+    function opnDrawer(){
+      drawerCliente.value = !drawerCliente.value;
+    }
 
 
     const options = ref([])
@@ -198,9 +204,11 @@ export default {
     }
 
     onMounted(() => {
-      getCustomer();
-      getAllProducts();
-      getProduct();
+      setInterval(() => {
+        getCustomer();
+        getAllProducts();
+        getProduct();
+      }, 2000);
     });
 
     watch(client, (newvalue) => {
@@ -226,6 +234,8 @@ export default {
       listProd,
       addTocart,
       quantity,
+      drawerCliente,
+      opnDrawer
     }
   }
 }
