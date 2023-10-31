@@ -71,6 +71,8 @@ api.post('/createClient', clients.createCust);
 api.get('/listAllClients', clients.listAllClients);
 //rota de editar clientes
 api.post('/edit/:id/Client', clients.editCust);
+// rota para deletar clientes
+api.post('/delete/:id/Client', clients.deleteCust);
 
 // rota para carrinho de compras dos usuários
 

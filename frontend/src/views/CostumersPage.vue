@@ -4,10 +4,28 @@
 
         <q-page-container>
             <q-table grid class="my-sticky-virtscroll-table" title="Todos os vendedores" :columns="columns" :rows="rows">
-                <template #body-cell-edit="props">
-                    <q-td :props="props">
-                       <q-img src='https://avaazdo.s3.amazonaws.com/147541710957f11415b045e8.71418656bluezao_600x314.jpeg' />
-                    </q-td>
+                <template v-slot:item="props">
+                    <div class="q-pa-md">
+                        <q-card bordered flat>
+                            <q-list dense>
+                                <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                                    <q-item-section>
+                                        <q-item-label>{{ col.label }}</q-item-label>
+                                    </q-item-section>
+                                    <q-item-section side>
+                                        <q-item-label caption>{{ col.value }}</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </q-list>
+                            <q-separator />
+                            <q-card-section>
+                                <q-card-actions vertical>
+                                    <q-btn flat>Action 1</q-btn>
+                                    <q-btn color="secondary" icon="delete" />
+                                </q-card-actions>
+                            </q-card-section>
+                        </q-card>
+                    </div>
                 </template>
             </q-table>
         </q-page-container>
@@ -17,22 +35,28 @@
 <script>
 import MenuCompt from '@/components/MenuCompt.vue';
 import * as columns from "./SellersConfig/sellerTable";
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
 
 export default {
     components: { MenuCompt },
     setup() {
-        const rows = [
-            {
-                sellername: 'João Silva',
-                email: 'joao.silvaEemail.com',
-                password: 'password123'
-            },
-            {
-                sellername: 'Maria Oliveira',
-                email: 'maria.oliveira@email.com',
-                password: 'senha456'
-            }
-        ];
+        const rows = ref()
+
+        async function getCostumers() {
+            axios.get('http://localhost:3333/listAllClients').then((res) => {
+                const data = res.data.data
+                rows.value = data;
+                console.log(rows.value)
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+
+        onMounted(() => {
+            getCostumers();
+        })
+
         return {
             columns: columns.columns,
             rows
@@ -42,6 +66,4 @@ export default {
 
 </script>
 
-<style lang="scss">
-@import '../styles/Styles.scss';
-</style>
+<style lang="scss"></style>

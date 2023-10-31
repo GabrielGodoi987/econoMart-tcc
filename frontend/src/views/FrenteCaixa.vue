@@ -31,7 +31,7 @@
             </div>
             <!-- botão para adicionar clientes -->
             <div class="col-md-1">
-              <q-btn square icon="add" class="q-mt-md" @click="opnDrawer()"/>
+              <q-btn square icon="add" class="q-mt-md" @click="opnDrawer()" />
             </div>
           </div>
           <!-- ------------------------------ -->
@@ -40,7 +40,7 @@
           </q-table>
           <div class="row justify-around q-mt-xl">
             <div class="col-md-5">
-              <q-btn square label="Pagar" color="primary" style="width: 100%;" />
+              <q-btn square label="Confirmar" color="primary" style="width: 100%;" @click="ConfirmBuy()" />
             </div>
             <div class="col-md-5">
               <q-btn square label="cancelar" color="secondary" style="width: 100%;" />
@@ -99,20 +99,37 @@
       </div>
     </q-page-container>
 
+    <q-page-container>
+      <q-dialog v-model="compraModal">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Alert</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            {{ array }}
+          </q-card-section>
+
+          <q-card-actions>
+            <q-btn flat label="OK" color="primary" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </q-page-container>
+
 
     <q-page-container>
       <!-- aqui está o drawer que faremos para adicionar os novos clientes caso não existam -->
       <q-drawer show-above v-model="drawerCliente" side="right" overlay :width="800">
         <!-- drawer content -->
         <q-form>
-          <q-input dense standout="bg-primary" label="Nome do cliente" />
+          <q-input dense standout="bg-primary" label="Nome do cliente" class="q-mt-md" v-model="custname" />
+          <q-input dense standout="bg-primary" label="Email" class="q-mt-md" v-model="email" />
+          <q-input dense standout="bg-primary" label="CPF" class="q-mt-md" v-model="cpf" />
 
-          <div class="row justify-around">
-            <div class="col-md-5">
-              <q-btn dense filled color="primary" label="cadastrar" />
-            </div>
-            <div class="col-md-5">
-              <q-btn dense filled color="secondary" label="cadastrar" @click="drawerCliente = false" />
+          <div class="row justify-around q-mt-md">
+            <div class="col-md-5 text-center">
+              <q-btn dense filled color="primary" label="cadastrar" @click="createClient()" />
             </div>
           </div>
         </q-form>
@@ -127,6 +144,7 @@ import * as CartConfig from './CaixaConfig/CartTableConfig';
 import * as products from './CaixaConfig/productsConfig';
 // import { watchEffect } from 'vue';
 import { onMounted, ref, watch } from 'vue';
+import { columns } from './ProductsConfig/TableConfig';
 export default {
   setup() {
     const drawerCliente = ref(false);
@@ -150,7 +168,7 @@ export default {
       }
     ]
 
-    function opnDrawer(){
+    function opnDrawer() {
       drawerCliente.value = !drawerCliente.value;
     }
 
@@ -160,8 +178,29 @@ export default {
     const quantity = ref();
     const rows = ref([]);
 
+    const custname = ref();
+    const email = ref();
+    const cpf = ref();
+    async function createClient() {
+      axios.post('http://localhost:3333/createClient', {
+        custname: custname.value,
+        email: email.value,
+        cpf: cpf.value
+      }).then((res) => {
+        const data = res.data;
+        custname.value = '';
+        email.value = '';
+        cpf.value = '';
+        console.log(data);
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+
+
     async function getCustomer() {
-      await axios.get(`http://localhost:3333/listAllClients`).then((res) => {
+      await axios.get(`http://localhost:3333/listAllClients`, {
+      }).then((res) => {
         const user = res.data.data;
         for (let i = 0; i < user.length; i++) {
           options.value.push({ value: user[i].id, label: user[i].custname });
@@ -181,6 +220,7 @@ export default {
       }
     }
 
+    //listar todos os produtos
     const listProd = ref([])
     function getAllProducts() {
       axios.get('http://localhost:3333/listAll').then((res) => {
@@ -190,6 +230,7 @@ export default {
       })
     }
 
+    //adicionar ao carrinho
     async function addTocart(id) {
       await axios.post('http://localhost:3333/createCart', {
         id_product: id,
@@ -197,30 +238,39 @@ export default {
         quantity: quantity.value
       }).then((res) => {
         const response = res.data.data
+        quantity.value = ''
         console.log(response)
       }).catch((error) => {
         console.log(error)
       })
     }
 
+    const array = [columns];
+    const compraModal = ref(false);
+    function ConfirmBuy() {
+      // axios.post('', rows.value).then().catch()
+      compraModal.value = !compraModal.value
+    }
+
+    //montar components
     onMounted(() => {
+      getCustomer();
       setInterval(() => {
-        getCustomer();
         getAllProducts();
-        getProduct();
-      }, 2000);
+      }, 1500);
     });
 
+    //assistir um component para todos os valores novos que ele tiver
     watch(client, (newvalue) => {
       newvalue = client.value
-      if (newvalue == null) {
+      if (newvalue == undefined) {
         clearInterval(interval);
+      } else {
+        // Inicie um novo intervalo
+        var interval = setInterval(() => {
+          getProduct(newvalue);
+        }, 1500);
       }
-
-      // Inicie um novo intervalo
-      let interval = setInterval(() => {
-        getProduct(newvalue);
-      }, 5000);
     })
 
 
@@ -235,7 +285,13 @@ export default {
       addTocart,
       quantity,
       drawerCliente,
-      opnDrawer
+      opnDrawer,
+      createClient,
+      custname,
+      email,
+      cpf,
+      ConfirmBuy,
+      array
     }
   }
 }

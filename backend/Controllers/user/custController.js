@@ -3,7 +3,7 @@ module.exports = {
     async createCust(req, res) {
         const { custname, email, cpf } = req.body;
         try {
-           const newCostumer = db.customers.create({
+            const newCostumer = db.customers.create({
                 custname: custname,
                 email: email,
                 cpf: cpf
@@ -33,8 +33,13 @@ module.exports = {
         db.customers.findAll({
         }).then((custs) => {
             res.status(200).json({
-                    data: custs
-                });
+                data: custs
+            });
+        }).catch((err) => {
+            res.json({
+                msg: 'produtos não encontrados',
+                erro: err
+            })
         });
     },
 

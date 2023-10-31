@@ -44,8 +44,8 @@
                 <q-avatar size="56px" class="q-mb-sm">
                     <img src="https://cdn.quasar.dev/img/boy-avatar.png">
                 </q-avatar>
-                <div class="text-weight-bold">{{ usuario.username }}</div>
-                <div>{{ usuario.email }}</div>
+                <!-- <div class="text-weight-bold">{{ user.username }}</div> -->
+                <!-- <div>{{ user.email }}</div> -->
             </div>
         </q-img>
     </q-drawer>
@@ -66,16 +66,22 @@
 
 
 <script>
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, onMounted } from 'vue'
 import { userStore } from "@/store"
 export default {
     setup() {
         const righttDrawerOpen = true;
         const leftDrawerOpen = ref(false);
-        const user = toRefs(userStore());
+        const {user} = toRefs(userStore());
 
-        const usuario = user.getUserData.value;
-
+        onMounted(() => {
+            setInterval(() => {
+                user.value
+            }, 1000)
+        })
+          
+        
+        
         const menu = [
             {
                 name: 'Dashboard',
@@ -111,7 +117,7 @@ export default {
                 leftDrawerOpen.value = !leftDrawerOpen.value
             },
             menu,
-            usuario
+            user
         }
     }
 }

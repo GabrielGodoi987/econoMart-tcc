@@ -8,18 +8,6 @@
                 <q-table class="my-sticky-virtscroll-table" title="Todos os Produtos" :columns="TableConfig.columns"
                     :rows="rows">
                     <template v-slot:top-right>
-                        <q-select filled v-model="category" :options="allcategorys" multiple emit-value map-options>
-                            <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
-                                <q-item v-bind="itemProps">
-                                    <q-item-section>
-                                        <q-item-label v-html="opt.label" />
-                                    </q-item-section>
-                                    <q-item-section side>
-                                        <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
-                                    </q-item-section>
-                                </q-item>
-                            </template>
-                        </q-select>
                     </template>
                     <template #body-cell-edit="props">
                         <q-td>
@@ -34,22 +22,22 @@
         <q-page-container>
             <q-dialog v-model="openEdit">
                 <q-card>
-                    <FormComt :title="content.name" @cadastrar="updateProduct(content)" @abort="openEdit = false">
+                    <FormComt :title="content.name" @cadastrar="editProduct(content.id)" @cancel="openEdit = false">
                         <template #Input1>
-                            <q-input dense standout="bg-primary" hint="nome do produto" v-model="content.nome"
+                            <q-input dense standout="bg-primary" hint="nome do produto" v-model="content.productname"
                                 class="q-mt-lg" />
                         </template>
 
                         <template #Input2>
-                            <q-input dense standout="bg-primary" v-model="content.preco" hint="Valor do Produto"
+                            <q-input dense standout="bg-primary" v-model="content.price" hint="Valor do Produto"
                                 type="number" class="q-mt-lg" />
                             <q-input dense standout="bg-primary" hint="Quandidade em estoqe" class="q-mt-lg" type="number"
-                                v-model="content.Qtd_estoque" />
+                                v-model="content.stock" />
                         </template>
 
                         <template #Input3>
                             <q-input dense standout="bg-primary" type="textarea" hint="descricao do produto"
-                                v-model="content.descricao" class="q-mt-lg" />
+                                v-model="content.description" class="q-mt-lg" />
                         </template>
 
                     </FormComt>
@@ -74,6 +62,7 @@ export default {
     setup() {
         const rows = ref([]);
 
+        //listar todos os produtos independente de suas categorias
         function ListAllProducts() {
             axios.get('http://localhost:3333/listAll').then((res) => {
                 const data = res.data.products;
@@ -85,11 +74,7 @@ export default {
 
         onMounted(() => {
             ListAllProducts();
-            getCategory();
-        })
-
-
-
+        });
 
         const content = ref()
         const openEdit = ref(false);
@@ -97,8 +82,12 @@ export default {
             content.value = props;
             console.log(content.value);
             openEdit.value = !openEdit.value
+
+            console.log(content.value.productname)
         }
 
+
+        //edita os produtos de acordo com seus respectivos id's
         async function editProduct(id) {
             const data = {
                 productname: content.value.productname,
@@ -108,6 +97,7 @@ export default {
             }
             try {
                 const update = crud.updateElement(id, data);
+                openEdit.value = false
                 Notify.create({
                     message: `produto atualizado com sucesso`,
                     color: 'green',
@@ -123,6 +113,7 @@ export default {
         }
 
 
+        //rota para deletar os produtos tanto do front como do backe end de maneira rápida
         async function deleteProduct(props) {
             const deleteProduct = crud.DeleteElement(props.id);
             const FrontDelete = rows.value.findIndex((element) => element.id == props.id);
@@ -137,17 +128,6 @@ export default {
             }
             console.log(props)
         }
-        let category = ref([]);
-        let options = ref([]);
-        async function getCategory() {
-            axios.get(`http://localhost:3333/ListByCat/${category.value.value}/product`).then((res) => {
-                const data = res.data.data;
-                console.log(data);
-            }).catch((err) => {
-                console.log(err)
-            })
-
-        }
 
         return {
             // ... restante do seu retorno ...
@@ -158,8 +138,6 @@ export default {
             deleteProduct,
             openEdit,
             editProduct,
-            category,
-            options
         };
     },
 };
