@@ -40,24 +40,33 @@ import { ref } from 'vue';
 import { userStore } from '@/store'
 import { useRouter } from 'vue-router';
 import { Notify } from 'quasar';
+import axios from 'axios';
 
 export default {
     setup() {
-        const email = ref('Gabrielgodoi@admin.economart')
-        const password = ref('445566')
-        const auth = userStore();
+        const email = ref('')
+        const password = ref('')
+        const { login } = userStore();
         const router = useRouter();
 
         async function LoginUser() {
-            try{
-                auth.login(email.value, password.value);
-                router.push({path: '/Costumers'})
-            }catch(err){
-               Notify.create({
-                message: err.message,
-                color: 'red'
-               })
-            }
+            axios.post('http://localhost:3333/login', {
+                email: email.value,
+                password: password.value
+            }).then((res) => {
+                const data = res.data.data;
+                Notify.create({
+                    type: 'positive',
+                    message: 'usuário encontrado com sucesso',
+                    color: 'green',
+                    timeout: 1000
+                })
+                router.push({ path: '/dashboard' })
+                const user = login(data);
+                console.log(user)
+            }).catch((err) => {
+                return err
+            });
         }
 
         return {

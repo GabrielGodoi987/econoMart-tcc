@@ -3,7 +3,7 @@
         <MenuCompt />
 
         <q-page-container>
-            <q-table grid class="my-sticky-virtscroll-table" title="Todos os vendedores" :columns="columns" :rows="rows">
+            <q-table grid class="my-sticky-virtscroll-table" title="Todos os Clientes" :columns="columns" :rows="rows">
                 <template v-slot:item="props">
                     <div class="q-pa-md">
                         <q-card bordered flat>
@@ -20,7 +20,7 @@
                             <q-separator />
                             <q-card-section>
                                 <q-card-actions vertical>
-                                    <q-btn flat>Action 1</q-btn>
+                                    <q-btn color="primary" icon="edit"/> 
                                     <q-btn color="secondary" icon="delete" />
                                 </q-card-actions>
                             </q-card-section>
@@ -41,7 +41,7 @@ import axios from 'axios';
 export default {
     components: { MenuCompt },
     setup() {
-        const rows = ref()
+        const rows = ref();
 
         async function getCostumers() {
             axios.get('http://localhost:3333/listAllClients').then((res) => {

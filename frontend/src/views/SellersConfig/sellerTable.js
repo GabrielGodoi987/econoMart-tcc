@@ -8,7 +8,7 @@ export const columns = [
     },
     {
         name: 'Nome',
-        field: row => row.sellername,
+        field: row => row.custname,
         label: 'Nome',
         align: 'center',
         width: '120px',
@@ -23,9 +23,9 @@ export const columns = [
         require: true
     },
     {
-        name: 'senha',
-        field: row => row.password,
-        label: 'Senha',
+        name: 'cpf',
+        field: row => row.cpf,
+        label: 'CPF',
         width: '100px',
         align: 'center',
         require: true
