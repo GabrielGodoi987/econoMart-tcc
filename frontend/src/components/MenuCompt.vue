@@ -4,7 +4,7 @@
 
             <q-toolbar-title>
                 <q-avatar>
-                    <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+                    <img :src="image">
                 </q-avatar>
             </q-toolbar-title>
 
@@ -115,7 +115,8 @@ export default {
                 leftDrawerOpen.value = !leftDrawerOpen.value
             },
             menu,
-            user
+            user,
+            image: "https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg"
         }
     }
 }

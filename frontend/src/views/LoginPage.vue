@@ -16,8 +16,8 @@
             <div class="col-md-4 text-center q-mt-md">
                 <q-card style="margin-top: 8rem;">
                     <q-card-section>
-                        <div class="bg-primary text-white" style="height: 50px;">
-                            <div class="text-h4 text-center">Login</div>
+                        <div class="text-white" style="height: 80px;">
+                            <div class="text-h4 text-center bg-primary">Login</div>
                         </div>
                         <q-form>
                             <q-input dense standout="bg-primary" hint="email do Usuário" class="q-mt-xl q-mb-xl"
@@ -44,8 +44,8 @@ import axios from 'axios';
 
 export default {
     setup() {
-        const email = ref('')
-        const password = ref('')
+        const email = ref('Gabrielgodoi@admin.economart');
+        const password = ref('445566');
         const { login } = userStore();
         const router = useRouter();
 

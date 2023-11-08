@@ -7,6 +7,7 @@
                 <template v-slot:item="props">
                     <div class="q-pa-md">
                         <q-card bordered flat>
+                                <q-img src="https://www.conjur.com.br/img/b/jair-bolsonaro-rindo-2020.jpeg"/>
                             <q-list dense>
                                 <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
                                     <q-item-section>
@@ -59,7 +60,8 @@ export default {
 
         return {
             columns: columns.columns,
-            rows
+            rows,
+            image: "https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg"
         }
     }
 }

@@ -2,8 +2,10 @@ const db = require('../../db/models/index');
 module.exports = {
     async createCust(req, res) {
         const { custname, email, cpf } = req.body;
+        const { image } = req.file;
         try {
             const newCostumer = db.customers.create({
+                image: image,
                 custname: custname,
                 email: email,
                 cpf: cpf
@@ -31,6 +33,12 @@ module.exports = {
 
     listAllClients(req, res) {
         db.customers.findAll({
+            attributes: [
+                'custname',
+                'email',
+                'cpf',
+                [db.sequelize.fn('concat', '/src/images/', db.sequelize.col('nome_da_coluna_da_imagem')), 'imagem']
+            ]
         }).then((custs) => {
             res.status(200).json({
                 data: custs

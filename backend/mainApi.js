@@ -29,7 +29,7 @@ const clients = require('./Controllers/user/custController');
 //controller de carrinho
 const cart = require('./Controllers/cart/CartController');
 
-//rota para CRUD para usuários
+//rota para CRUD para usuários'
 api.post('/CreateUser', users.createUser);
 
 //rota para listar usuários
@@ -66,7 +66,7 @@ api.post('/delete/:id/product', products.deleteProducts);
 // rota de CRUD de clientes
 
 //criar cliente
-api.post('/createClient', clients.createCust);
+api.post('/createClient', upload.save.single('image'), clients.createCust);
 //listar todos os clientes
 api.get('/listAllClients', clients.listAllClients);
 //rota de editar clientes

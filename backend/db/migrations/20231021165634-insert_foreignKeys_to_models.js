@@ -13,6 +13,7 @@ module.exports = {
      */
 
     // await queryInterface.removeColumn('Products', 'id_product');
+    await queryInterface.addColumn('customers', 'image', {type: DataTypes.STRING, allowNull: false});
     //relacionamento entre categoria e produtos precisa da inserção do id da categoria na tabela produtos
     await queryInterface.addColumn('Products', 'id_category', { type: DataTypes.INTEGER, allowNull: false })
     //construindo o relacionamento entre a tabelas de itens do carrinho 
