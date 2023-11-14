@@ -1,7 +1,4 @@
 const db = require("../../db/models/index");
-
-// const { op } = require("sequelize");
-
 module.exports = {
   async addToCart(req, res) {
     //com base no id do usuário adicionar dados ao carrinho com o id do usuário

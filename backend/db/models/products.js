@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_product',
         onDelete: 'CASCADE'
       });
+
+      Products.belongsTo(models.imagens, {
+        foreignKey: 'id_imagem'
+      })
     }
   }
   Products.init({

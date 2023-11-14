@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_imagem',
         onDelete: 'CASCADE'
       })
+      imagens.hasOne(models.Products, {
+        foreignKey: 'id_imagem'
+      })
+      imagens.hasOne(models.user, {
+        foreignKey: 'id_imagem'
+      })
     }
   }
   imagens.init({

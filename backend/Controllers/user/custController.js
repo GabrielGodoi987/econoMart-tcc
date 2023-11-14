@@ -4,21 +4,20 @@ module.exports = {
         const { custname, email, cpf } = req.body;
         const { filename } = req.file;
         try {
-            const Image = db.imagens.create({
+            const Image = await db.imagens.create({
                 nome: filename
             });
 
-            // const newCostumer =  db.customers.create({
-            //     custname: custname,
-            //     email: email,
-            //     cpf: cpf,
-            //     id_imagem: Image.id
-            // });
+            const newCostumer = await db.customers.create({
+                custname: custname,
+                email: email,
+                cpf: cpf,
+                id_imagem: Image.id
+            });
 
             res.status(200).json({
-                msg: 'usuário criado com sucesso',
-                // newCostumer,
-                data: Image
+                msg: 'Cliente cadastrado com sucesso',
+                newCostumer
             })
 
         } catch (error) {
@@ -38,12 +37,13 @@ module.exports = {
 
     listAllClients(req, res) {
         db.customers.findAll({
-            attributes: [
-                'custname',
-                'email',
-                'cpf',
-                [db.sequelize.fn('concat', '/src/images/', db.sequelize.col('nome_da_coluna_da_imagem')), 'imagem']
+            include: [
+                {
+                    model: db.imagens,
+                    attributes: ['nome']
+                }
             ]
+
         }).then((custs) => {
             res.status(200).json({
                 data: custs

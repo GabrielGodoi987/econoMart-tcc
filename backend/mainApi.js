@@ -30,7 +30,7 @@ const clients = require('./Controllers/user/custController');
 const cart = require('./Controllers/cart/CartController');
 
 //rota para CRUD para usuários'
-api.post('/CreateUser', users.createUser);
+api.post('/CreateUser', upload.save.single('Image'), users.createUser);
 
 //rota para listar usuários
 api.get("/usersList", users.listUser);
@@ -49,7 +49,7 @@ api.post('/createCat', categories.createCategory);
 api.get('/listCategory', categories.ListCategory);
 
 // rota para criar produtos
-api.post('/createProduct', products.createProducts);
+api.post('/createProduct', upload.save.single('Image'), products.createProducts);
 // rota para listar todos os produtos
 api.get("/listAll", products.ListProducts);
 

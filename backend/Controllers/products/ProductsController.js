@@ -2,14 +2,20 @@ const db = require('../../db/models/index');
 module.exports = {
     async createProducts(req, res) {
         const { productname, description, price, stock, id_category, validade } = req.body;
+        const { filename } = req.file;
         try {
-            const product = db.Products.create({
+            const Image = await db.imagens.create({
+                nome: filename,
+            });
+            
+            const product = await db.Products.create({
                 productname: productname,
                 description: description,
                 price: price,
                 stock: stock,
                 id_category: id_category,
-                validade: validade
+                validade: validade,
+                id_imagem: Image.id
             })
             res.status(200).json({
                 msg: 'produto cadastrado com sucesso',
@@ -37,6 +43,10 @@ module.exports = {
                     {
                         model: db.Category,
                         attributes: ['CategoryName']
+                    },
+                    {
+                        model: db.imagens,
+                        attributes: ['nome']
                     }
                 ]
             });
