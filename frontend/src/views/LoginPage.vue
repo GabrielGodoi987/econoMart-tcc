@@ -44,9 +44,9 @@ import axios from 'axios';
 
 export default {
     setup() {
-        const email = ref('Gabrielgodoi@admin.economart');
-        const password = ref('445566');
-        const { login } = userStore();
+        const email = ref('');
+        const password = ref('');
+        const { login, userImage } = userStore();
         const router = useRouter();
 
         async function LoginUser() {
@@ -55,6 +55,7 @@ export default {
                 password: password.value
             }).then((res) => {
                 const data = res.data.data;
+                const image = res.data.data.id_imagem.imagen.nome
                 Notify.create({
                     type: 'positive',
                     message: 'usuário encontrado com sucesso',
@@ -63,7 +64,8 @@ export default {
                 })
                 router.push({ path: '/dashboard' })
                 const user = login(data);
-                console.log(user)
+                const UserImage = userImage(image);
+                console.log(user, UserImage)
             }).catch((err) => {
                 return err
             });

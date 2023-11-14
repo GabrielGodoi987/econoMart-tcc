@@ -72,10 +72,11 @@ export default {
     setup() {
         const righttDrawerOpen = true;
         const leftDrawerOpen = ref(false);
-        const { user } = toRefs(userStore());
+        const { user, userImage } = toRefs(userStore());
 
         onMounted(() => {
             user.value;
+            userImage.value;
         })
 
 
