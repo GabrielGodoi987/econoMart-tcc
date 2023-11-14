@@ -66,7 +66,7 @@ api.post('/delete/:id/product', products.deleteProducts);
 // rota de CRUD de clientes
 
 //criar cliente
-api.post('/createClient', upload.save.single('image'), clients.createCust);
+api.post('/createClient', upload.save.single('Image'), clients.createCust);
 //listar todos os clientes
 api.get('/listAllClients', clients.listAllClients);
 //rota de editar clientes

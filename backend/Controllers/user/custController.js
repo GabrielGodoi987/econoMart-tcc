@@ -2,18 +2,23 @@ const db = require('../../db/models/index');
 module.exports = {
     async createCust(req, res) {
         const { custname, email, cpf } = req.body;
-        const { image } = req.file;
+        const { filename } = req.file;
         try {
-            const newCostumer = db.customers.create({
-                image: image,
-                custname: custname,
-                email: email,
-                cpf: cpf
-            })
+            const Image = db.imagens.create({
+                nome: filename
+            });
+
+            // const newCostumer =  db.customers.create({
+            //     custname: custname,
+            //     email: email,
+            //     cpf: cpf,
+            //     id_imagem: Image.id
+            // });
 
             res.status(200).json({
                 msg: 'usuário criado com sucesso',
-                customer: newCostumer
+                // newCostumer,
+                data: Image
             })
 
         } catch (error) {
