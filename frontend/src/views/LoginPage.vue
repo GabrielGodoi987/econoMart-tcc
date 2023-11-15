@@ -46,7 +46,7 @@ export default {
     setup() {
         const email = ref('');
         const password = ref('');
-        const { login, userImage } = userStore();
+        const { login } = userStore();
         const router = useRouter();
 
         async function LoginUser() {
@@ -55,7 +55,6 @@ export default {
                 password: password.value
             }).then((res) => {
                 const data = res.data.data;
-                const image = res.data.data.id_imagem.imagen.nome
                 Notify.create({
                     type: 'positive',
                     message: 'usuário encontrado com sucesso',
@@ -64,8 +63,7 @@ export default {
                 })
                 router.push({ path: '/dashboard' })
                 const user = login(data);
-                const UserImage = userImage(image);
-                console.log(user, UserImage)
+                console.log(user)
             }).catch((err) => {
                 return err
             });
