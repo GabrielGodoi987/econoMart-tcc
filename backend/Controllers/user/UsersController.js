@@ -37,7 +37,10 @@ module.exports = {
                     model: db.imagens,
                     attributes: [
                         'nome',
-                        db.Sequelize.fn('CONCAT', "http://localhost:3333/src/Images", db.Sequelize.col("nome"))
+                        [
+                            db.Sequelize.fn('CONCAT', "http://localhost:3333/Images/", db.Sequelize.col("nome")),
+                            'nome'
+                        ]
                     ]
                 }
             ]
