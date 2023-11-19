@@ -1,5 +1,6 @@
 const db = require('../../db/models/index');
 const bcrypt = require('bcrypt');
+require("dotenv").config();
 module.exports = {
     async createUser(req, res) {
         const { username, email, password, accessLevel } = req.body;
@@ -38,7 +39,7 @@ module.exports = {
                     attributes: [
                         'nome',
                         [
-                            db.Sequelize.fn('CONCAT', "http://localhost:3333/Images/", db.Sequelize.col("nome")),
+                            db.Sequelize.fn('CONCAT', process.env.URL + "/Images/", db.Sequelize.col("nome")),
                             'nome'
                         ]
                     ]

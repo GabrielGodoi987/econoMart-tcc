@@ -10,12 +10,16 @@ const upload = require('./uploadImages');
 // chamar o banco de dados
 const bd = require('./db/models/index');
 
+// gerenciando a pasta de onde vem os arquivos staticos
+const path = require('path');
+
 //cors
 const cors = require('cors');
 const api = express()
 
 api.use(express.json());
 api.use(cors());
+api.use(express.static(path.join(__dirname, "src")))
 
 
 //controller de produtos

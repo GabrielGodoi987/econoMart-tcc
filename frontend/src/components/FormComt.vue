@@ -6,15 +6,6 @@
             </q-card-section>
             <q-card-section>
                 <q-form class="q-pa-lg">
-                    <slot name="UploadInput" v-if="props.Upload">
-                        <q-file dense standout="bg-secondary" :label="props.Upload"
-                            style="max-width: 200px; margin: 0 auto;">
-                            <template v-slot:prepend>
-                                <q-icon name="attach_file" />
-                            </template>
-                        </q-file>
-                    </slot>
-
                     <slot name="Input1">
                     </slot>
 

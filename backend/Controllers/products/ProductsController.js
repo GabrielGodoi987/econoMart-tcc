@@ -1,4 +1,5 @@
 const db = require('../../db/models/index');
+require('dotenv').config();
 module.exports = {
     async createProducts(req, res) {
         const { productname, description, price, stock, id_category, validade } = req.body;
@@ -7,7 +8,7 @@ module.exports = {
             const Image = await db.imagens.create({
                 nome: filename,
             });
-            
+
             const product = await db.Products.create({
                 productname: productname,
                 description: description,
@@ -23,18 +24,11 @@ module.exports = {
             })
 
         } catch (error) {
-            if (res.statusCode == 400) {
-                res.json({
-                    msg: "Erro ao criar o produto",
-                    erros: error.message
-                });
-            } else if (res.statusCode == 500) {
-                res.json({
-                    msg: "Ocorreu um erro no servidor",
-                    error: true + error
-                });
-            }
-        }
+            res.status(500).json({
+                msg: "Ocorreu um erro no servidor",
+                error: error.message
+            })
+        };
     },
     async ListProducts(req, res) {
         try {
@@ -46,7 +40,13 @@ module.exports = {
                     },
                     {
                         model: db.imagens,
-                        attributes: ['nome']
+                        attributes: [
+                            'nome',
+                            [
+                                db.Sequelize.fn('CONCAT', process.env.URL + "/Images/", db.Sequelize.col("nome")),
+                                'nome'
+                            ]
+                        ]
                     }
                 ]
             });

@@ -65,7 +65,12 @@ export default {
                 const user = login(data);
                 console.log(user)
             }).catch((err) => {
-                return err
+                Notify.create({
+                    type: 'negative',
+                    message: "Usuário não encontrado" + err,
+                    color: 'red',
+                    timeout: 2500
+                })
             });
         }
 
@@ -77,3 +82,4 @@ export default {
     }
 }
 </script>
+

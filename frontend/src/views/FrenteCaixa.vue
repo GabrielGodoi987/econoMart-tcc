@@ -69,16 +69,7 @@
             <template v-slot:item="props">
               <div class="q-pa-md">
                 <q-card bordered flat>
-                  <q-card-section>
-                    <div class="row justify-around">
-                      <div class="col-md-5">
-                        <q-input standout filled label="quantidade" type="number" v-model="quantity" />
-                      </div>
-                      <div class="col-md-4">
-                        <q-btn rounded color="primary" icon="add" @click="addTocart(props.row.id)" />
-                      </div>
-                    </div>
-                  </q-card-section>
+                  <q-img :src="img" style="height: 250px;"/>
                   <q-separator />
                   <q-list dense>
                     <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
@@ -90,6 +81,17 @@
                       </q-item-section>
                     </q-item>
                   </q-list>
+                  <q-separator />
+                  <q-card-section>
+                    <div class="row justify-around">
+                      <div class="col-md-5">
+                        <q-input standout filled label="quantidade" type="number" v-model="quantity" />
+                      </div>
+                      <div class="col-md-4">
+                        <q-btn rounded color="primary" icon="add" @click="addTocart(props.row.id)" />
+                      </div>
+                    </div>
+                  </q-card-section>
                 </q-card>
               </div>
             </template>
@@ -139,7 +141,6 @@
 import axios from 'axios';
 import * as CartConfig from './CaixaConfig/CartTableConfig';
 import * as products from './CaixaConfig/productsConfig';
-// import { watchEffect } from 'vue';
 import { onMounted, ref, watch } from 'vue';
 export default {
   setup() {
@@ -217,12 +218,17 @@ export default {
     }
 
     //listar todos os produtos
-    const listProd = ref([])
+    const listProd = ref([]);
+    const img = ref([]);
     function getAllProducts() {
       axios.get('http://localhost:3333/listAll').then((res) => {
         const products = res.data.products;
+        const image = res.data.products;
+        for(let i = 0; i < image.length; i++){
+          img.value = image[i].imagen.nome;
+        }
         listProd.value = products
-        console.log(products);
+        console.log(products)
       })
     }
 
@@ -245,21 +251,21 @@ export default {
     //montar components
     onMounted(() => {
       getCustomer();
-      setInterval(() => {
+      // setInterval(() => {
       getAllProducts();
-      }, 1500);
+      // }, 1500);
     });
 
     //assistir um component para todos os valores novos que ele tiver
     watch(client, (newvalue) => {
       newvalue = client.value
       if (newvalue == undefined) {
-      clearInterval(interval);
+        // clearInterval(interval);
       } else {
-      // Inicie um novo intervalo
-      var interval = setInterval(() => {
-      getProduct(newvalue);
-      }, 1500);
+        // Inicie um novo intervalo
+        // var interval = setInterval(() => {
+        getProduct(newvalue);
+        // }, 1500);
       }
     })
 
@@ -280,6 +286,7 @@ export default {
       custname,
       email,
       cpf,
+      img
     }
   }
 }

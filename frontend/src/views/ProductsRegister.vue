@@ -9,9 +9,16 @@
                         <div class="text-h3 text-center">Cadastro de Produtos</div>
                     </q-card-section>
                     <q-card-section>
-                        <FormCompt Upload="Foto do Produto" input1="nome do Produto" input2="ativo" input3="ativo"
-                            input4="ativo" input5="ativo" @cadastrar="createProduct()" @cancel="cancel()">
+                        <FormCompt input1="nome do Produto" input2="ativo" input3="ativo" input4="ativo" input5="ativo"
+                            @cadastrar="createProduct()" @cancel="cancel()">
                             <template #Input1>
+                                <q-file dense standout="bg-secondary" label="Imagem do produto"
+                                    style="max-width: 200px; margin: 0 auto;" v-model="Image">
+                                    <template v-slot:prepend>
+                                        <q-icon name="attach_file" />
+                                    </template>
+                                </q-file>
+
                                 <q-input dense standout="bg-primary" v-model="productname" hint="nome do produto"
                                     class="q-mt-lg" />
                             </template>
@@ -60,6 +67,7 @@ export default {
 
     setup() {
 
+        const Image = ref('');
         const productname = ref('');
         const description = ref('');
         const price = ref('');
@@ -91,7 +99,7 @@ export default {
                 price: price.value,
                 stock: stock.value,
                 id_category: id_category.value.value,
-                Validade: Validade.value
+                Validade: Validade.value,
             }).then((res) => {
                 const data = res.data;
                 productname.value = ''
@@ -138,6 +146,7 @@ export default {
             price,
             Validade,
             id_category,
+            Image,
             cancel,
             createProduct,
             options,

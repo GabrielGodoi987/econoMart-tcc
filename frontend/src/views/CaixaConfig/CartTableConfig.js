@@ -30,6 +30,15 @@ export const columns = [
         align: 'center',
         width: '100px',
         require: true
+    },
+    {
+        name: 'image',
+        field: row => row.id_imagem.imagen.nome,
+        label: 'Imagem',
+        align: 'center',
+        width: '200px',
+        require: true,
+
     }
 ]
 
