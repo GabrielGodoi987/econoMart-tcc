@@ -6,8 +6,10 @@
             <q-table grid class="my-sticky-virtscroll-table" title="Todos os Clientes" :columns="columns" :rows="rows">
                 <template v-slot:item="props">
                     <div class="q-pa-md">
-                        <q-card bordered flat>
-                                <q-img src="https://www.conjur.com.br/img/b/jair-bolsonaro-rindo-2020.jpeg"/>
+                        <q-card bordered flat style="width: 250px;">
+                            <q-card-section>
+                                <q-img :src="props.row.imagen.nome" />
+                            </q-card-section>
                             <q-list dense>
                                 <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
                                     <q-item-section>
@@ -21,7 +23,7 @@
                             <q-separator />
                             <q-card-section>
                                 <q-card-actions vertical>
-                                    <q-btn color="primary" icon="edit"/> 
+                                    <q-btn color="primary" icon="edit" />
                                     <q-btn color="secondary" icon="delete" />
                                 </q-card-actions>
                             </q-card-section>

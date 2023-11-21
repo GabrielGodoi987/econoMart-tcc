@@ -4,19 +4,14 @@ require("dotenv").config();
 module.exports = {
     async createUser(req, res) {
         const { username, email, password, accessLevel } = req.body;
-        const { filename } = req.file;
         const hashedPass = await bcrypt.hash(password, 10);
         try {
-            const Image = await db.imagens.create({
-                nome: filename
-            })
             const newUser = await db.user.create({
                 username: username,
                 email: email,
                 password: hashedPass,
                 accessLevel: accessLevel,
                 dataInicio: new Date(),
-                id_imagem: Image.id
             })
 
             res.status(200).json({
@@ -32,20 +27,7 @@ module.exports = {
         }
     },
     async listUser(req, res) {
-        await db.user.findAll({
-            include: [
-                {
-                    model: db.imagens,
-                    attributes: [
-                        'nome',
-                        [
-                            db.Sequelize.fn('CONCAT', process.env.URL + "/Images/", db.Sequelize.col("nome")),
-                            'nome'
-                        ]
-                    ]
-                }
-            ]
-        }).then((data) => {
+        await db.user.findAll().then((data) => {
             res.json({
                 msg: 'usuários encontrados',
                 users: data

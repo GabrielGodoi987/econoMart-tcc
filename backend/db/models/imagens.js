@@ -18,9 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       imagens.hasOne(models.Products, {
         foreignKey: 'id_imagem'
       })
-      imagens.hasOne(models.user, {
-        foreignKey: 'id_imagem'
-      })
     }
   }
   imagens.init({

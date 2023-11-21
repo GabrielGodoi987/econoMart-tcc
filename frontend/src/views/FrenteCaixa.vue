@@ -31,7 +31,7 @@
             </div>
             <!-- botão para adicionar clientes -->
             <div class="col-md-1">
-              <q-btn square icon="add" class="q-mt-md" @click="opnDrawer()" />
+              <q-btn square icon="add" class="q-mt-md" @click="drawerCliente = !drawerCliente" />
             </div>
           </div>
           <!-- ------------------------------ -->
@@ -59,18 +59,10 @@
           <div class="row justify-around q-mb-xl">
           </div>
           <q-table grid :columns="products.columns" :rows="listProd">
-            <template v-slot:top-right>
-              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
-            </template>
             <template v-slot:item="props">
               <div class="q-pa-md">
                 <q-card bordered flat>
-                  <q-img :src="img" style="height: 250px;"/>
-                  <q-separator />
+                  <q-img :src="props.row.imagen.nome" height="200px" />
                   <q-list dense>
                     <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
                       <q-item-section>
@@ -119,20 +111,28 @@
 
     <q-page-container>
       <!-- aqui está o drawer que faremos para adicionar os novos clientes caso não existam -->
-      <q-drawer show-above v-model="drawerCliente" side="right" overlay :width="800">
+      <q-dialog show-above v-model="drawerCliente" side="right" overlay :width="800">
         <!-- drawer content -->
-        <q-form>
-          <q-input dense standout="bg-primary" label="Nome do cliente" class="q-mt-md" v-model="custname" />
-          <q-input dense standout="bg-primary" label="Email" class="q-mt-md" v-model="email" />
-          <q-input dense standout="bg-primary" label="CPF" class="q-mt-md" v-model="cpf" />
+        <q-card>
+          <q-card-section class="bg-primary text-center text-white">
+            <div class="text-h5">Cadastre um novo Cliente</div>
+          </q-card-section>
+          <q-card-section class="justify-center q-mt-lg">
+            <q-form>
+              <input name="Image" type="file" @change="NewFile" />
+              <q-input dense standout="bg-primary" label="Nome do cliente" class="q-mt-md" v-model="custname" />
+              <q-input dense standout="bg-primary" label="Email" class="q-mt-md" v-model="email" />
+              <q-input dense standout="bg-primary" label="CPF" class="q-mt-md" v-model="cpf" />
 
-          <div class="row justify-around q-mt-md">
-            <div class="col-md-5 text-center">
-              <q-btn dense filled color="primary" label="cadastrar" @click="createClient()" />
-            </div>
-          </div>
-        </q-form>
-      </q-drawer>
+              <div class="row justify-around q-mt-md">
+                <div class="col-md-5 text-center">
+                  <q-btn dense filled color="primary" label="cadastrar" @click="createClient()" />
+                </div>
+              </div>
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </q-page-container>
   </q-layout>
 </template>
@@ -142,10 +142,10 @@ import axios from 'axios';
 import * as CartConfig from './CaixaConfig/CartTableConfig';
 import * as products from './CaixaConfig/productsConfig';
 import { onMounted, ref, watch } from 'vue';
+import { Notify } from 'quasar';
 export default {
   setup() {
     const drawerCliente = ref(false);
-
 
     const menu = [
       {
@@ -162,39 +162,66 @@ export default {
         name: 'Produtos',
         icon: 'fa-solid fa-bag-shopping',
         route: '/allProducts'
+      },
+      {
+        name: 'Clientes',
+        icon: 'fa-solid fa-user',
+        route: '/Costumers'
       }
     ]
-
-    function opnDrawer() {
-      drawerCliente.value = !drawerCliente.value;
-    }
-
-
     const options = ref([])
     const client = ref('');
     const quantity = ref();
     const rows = ref([]);
 
+
     const custname = ref();
     const email = ref();
     const cpf = ref();
+
+
+    //função complementar para fazer upload de imagens e cadastrar um cliente novo
+    const formdata = new FormData();
+    const userImage = ref(null);
+    function NewFile(event) {
+      let file = event.target.files[0];
+      userImage.value = file;
+      formdata.append('Image', userImage.value);
+    }
+    // requisição para criar cliente e fazer upload de images com a função acima
     async function createClient() {
-      axios.post('http://localhost:3333/createClient', {
-        custname: custname.value,
-        email: email.value,
-        cpf: cpf.value
+      formdata.append('custname', custname.value);
+      formdata.append('email', email.value);
+      formdata.append('cpf', cpf.value);
+
+      axios.post('http://localhost:3333/createClient', formdata, {
+        Headers: {
+          "Content-Type": "multipart/form-data"
+        }
       }).then((res) => {
         const data = res.data;
+        Notify.create({
+          message: 'Usuário criado com sucesso',
+          color: 'positive',
+          position: 'top'
+        });
+        drawerCliente.value = false;
         custname.value = '';
         email.value = '';
         cpf.value = '';
+        userImage.value = null
         console.log(data);
       }).catch((err) => {
-        console.log(err)
+        Notify.create({
+          message: err.message,
+          color: 'negative',
+          position: 'bottom'
+        })
+        console.log(err);
       })
     }
 
-
+    //Lista todos os cliente e coloca dentro de um q-select para serem buscados em uma requisição get pelo seu id
     async function getCustomer() {
       await axios.get(`http://localhost:3333/listAllClients`, {
       }).then((res) => {
@@ -205,34 +232,33 @@ export default {
       });
     }
 
-
+    //seleciona os produtos de acordo com o id do cliente
     async function getProduct() {
       try {
         const response = await axios.get(`http://localhost:3333/getCart/${client.value.value}/customer`);
         const data = response.data.data;
         rows.value = data;
-        console.log(data);
+        console.log(rows.value);
+        console.log()
       } catch (error) {
         console.log(error);
       }
     }
 
-    //listar todos os produtos
+    //listar todos os produtos e coloca ao lado para serem adicionados
     const listProd = ref([]);
     const img = ref([]);
     function getAllProducts() {
       axios.get('http://localhost:3333/listAll').then((res) => {
-        const products = res.data.products;
-        const image = res.data.products;
-        for(let i = 0; i < image.length; i++){
-          img.value = image[i].imagen.nome;
-        }
-        listProd.value = products
-        console.log(products)
+        const Products = res.data.products;
+        listProd.value = Products
+        console.log(Products)
+      }).catch((err) => {
+        console.log(err)
       })
     }
 
-    //adicionar ao carrinho
+    //adicionar ao carrinho do cliente de acordo com o seu id
     async function addTocart(id) {
       await axios.post('http://localhost:3333/createCart', {
         id_product: id,
@@ -251,21 +277,19 @@ export default {
     //montar components
     onMounted(() => {
       getCustomer();
-      // setInterval(() => {
       getAllProducts();
-      // }, 1500);
     });
 
     //assistir um component para todos os valores novos que ele tiver
     watch(client, (newvalue) => {
       newvalue = client.value
       if (newvalue == undefined) {
-        // clearInterval(interval);
+        clearInterval(interval);
       } else {
         // Inicie um novo intervalo
-        // var interval = setInterval(() => {
-        getProduct(newvalue);
-        // }, 1500);
+        var interval = setInterval(() => {
+          getProduct(newvalue);
+        }, 1500);
       }
     })
 
@@ -281,12 +305,12 @@ export default {
       addTocart,
       quantity,
       drawerCliente,
-      opnDrawer,
       createClient,
       custname,
       email,
       cpf,
-      img
+      img,
+      NewFile
     }
   }
 }

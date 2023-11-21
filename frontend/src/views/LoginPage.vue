@@ -44,8 +44,8 @@ import axios from 'axios';
 
 export default {
     setup() {
-        const email = ref('');
-        const password = ref('');
+        const email = ref('gabrielgodoi');
+        const password = ref('445566');
         const { login } = userStore();
         const router = useRouter();
 

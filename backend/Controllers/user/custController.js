@@ -40,7 +40,12 @@ module.exports = {
             include: [
                 {
                     model: db.imagens,
-                    attributes: ['nome']
+                    attributes: [
+                        'nome',
+                        [
+                            db.sequelize.fn("concat", process.env.URL + "/Images/", db.sequelize.col('nome')), 'nome'
+                        ]
+                    ]
                 }
             ]
 
