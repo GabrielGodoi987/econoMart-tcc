@@ -62,8 +62,7 @@ export default {
 
         return {
             columns: columns.columns,
-            rows,
-            image: "https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg"
+            rows
         }
     }
 }

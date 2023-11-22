@@ -23,7 +23,7 @@
                             <q-input dense standout="bg-primary" hint="email do Usuário" class="q-mt-xl q-mb-xl"
                                 v-model="email" />
 
-                            <q-input dense standout="bg-primary" hint="Senha do Usuário" class="q-mt-xl q-mb-md"
+                            <q-input dense standout="bg-primary" type="password" hint="Senha do Usuário" class="q-mt-xl q-mb-md"
                                 v-model="password" />
 
                             <q-btn rounded color="primary" label="Entrar" class="q-mt-xl q-mb-xl" @click="LoginUser()" />
@@ -45,7 +45,7 @@ import axios from 'axios';
 export default {
     setup() {
         const email = ref('gabrielgodoi');
-        const password = ref('445566');
+        const password = ref('123456');
         const { login } = userStore();
         const router = useRouter();
 
@@ -61,7 +61,7 @@ export default {
                     color: 'green',
                     timeout: 1000
                 })
-                router.push({ path: '/dashboard' })
+                router.push({ path: '/Caixa' })
                 const user = login(data);
                 console.log(user)
             }).catch((err) => {

@@ -83,11 +83,6 @@ export default {
 
         const menu = [
             {
-                name: 'Dashboard',
-                icon: 'fa-solid fa-chart-simple',
-                route: '/dashboard'
-            },
-            {
                 name: 'Clientes',
                 icon: 'fa-solid fa-user',
                 route: '/Costumers'

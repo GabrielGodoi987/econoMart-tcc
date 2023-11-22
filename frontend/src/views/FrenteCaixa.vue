@@ -149,11 +149,6 @@ export default {
 
     const menu = [
       {
-        name: 'Dashboard',
-        icon: 'fa-solid fa-chart-simple',
-        route: '/dashboard'
-      },
-      {
         name: 'Novos Produtos',
         icon: 'fa-solid fa-folder',
         route: '/productsRegister'
@@ -175,18 +170,19 @@ export default {
     const rows = ref([]);
 
 
-    const custname = ref();
-    const email = ref();
-    const cpf = ref();
+    const custname = ref('');
+    const email = ref('');
+    const cpf = ref('');
 
 
     //função complementar para fazer upload de imagens e cadastrar um cliente novo
     const formdata = new FormData();
-    const userImage = ref(null);
+    const userImage = ref('');
     function NewFile(event) {
       let file = event.target.files[0];
       userImage.value = file;
       formdata.append('Image', userImage.value);
+      console.log(userImage.value);
     }
     // requisição para criar cliente e fazer upload de images com a função acima
     async function createClient() {
@@ -209,7 +205,7 @@ export default {
         custname.value = '';
         email.value = '';
         cpf.value = '';
-        userImage.value = null
+        userImage.value = '';
         console.log(data);
       }).catch((err) => {
         Notify.create({
@@ -289,7 +285,7 @@ export default {
         // Inicie um novo intervalo
         var interval = setInterval(() => {
           getProduct(newvalue);
-        }, 1500);
+        }, 1000);
       }
     })
 

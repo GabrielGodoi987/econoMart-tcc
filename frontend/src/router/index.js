@@ -9,14 +9,6 @@ const routes = [
     component: () => import("@/views/LoginPage.vue"),
   },
   {
-    path: '/dashboard',
-    name: 'home',
-    component: () => import("@/views/HomeView.vue"),
-    meta: {
-      accessLevel: 1
-    }
-  },
-  {
     path: '/Costumers',
     name: 'Costumers',
     component: () => import('@/views/CostumersPage.vue'),
