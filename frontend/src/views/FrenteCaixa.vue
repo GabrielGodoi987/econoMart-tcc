@@ -191,7 +191,7 @@ export default {
       formdata.append('cpf', cpf.value);
 
       axios.post('http://localhost:3333/createClient', formdata, {
-        Headers: {
+        headers: {
           "Content-Type": "multipart/form-data"
         }
       }).then((res) => {
