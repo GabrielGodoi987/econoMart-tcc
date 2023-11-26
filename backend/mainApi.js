@@ -6,6 +6,7 @@ const chalk = require('chalk');
 
 //chamando a configuração do upload de imagens 
 const upload = require('./uploadImages');
+const ClienteImage = require('./uploadClientImage');
 
 // chamar o banco de dados
 const bd = require('./db/models/index');
@@ -34,7 +35,7 @@ const clients = require('./Controllers/user/custController');
 const cart = require('./Controllers/cart/CartController');
 
 //rota para CRUD para usuários'
-api.post('/CreateUser', upload.save.single('Image'), users.createUser);
+api.post('/CreateUser', upload.save.single('Image'),users.createUser);
 
 //rota para listar usuários
 api.get("/usersList", users.listUser);
@@ -70,7 +71,7 @@ api.post('/delete/:id/product', products.deleteProducts);
 // rota de CRUD de clientes
 
 //criar cliente
-api.post('/createClient', upload.save.single('Image'), clients.createCust);
+api.post('/createClient', ClienteImage.save.single('Image'), clients.createCust);
 //listar todos os clientes
 api.get('/listAllClients', clients.listAllClients);
 //rota de editar clientes

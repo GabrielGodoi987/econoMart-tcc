@@ -119,7 +119,7 @@
           </q-card-section>
           <q-card-section class="justify-center q-mt-lg">
             <q-form>
-              <input name="Image" type="file" @change="NewFile" />
+              <input name="Image" type="file" @change="NewFile"/>
               <q-input dense standout="bg-primary" label="Nome do cliente" class="q-mt-md" v-model="custname" />
               <q-input dense standout="bg-primary" label="Email" class="q-mt-md" v-model="email" />
               <q-input dense standout="bg-primary" label="CPF" class="q-mt-md" v-model="cpf" />
@@ -177,12 +177,11 @@ export default {
 
     //função complementar para fazer upload de imagens e cadastrar um cliente novo
     const formdata = new FormData();
-    const userImage = ref('');
+    let file = null;
     function NewFile(event) {
-      let file = event.target.files[0];
-      userImage.value = file;
-      formdata.append('Image', userImage.value);
-      console.log(userImage.value);
+      file = event.target.files[0];
+      formdata.append('Image', file);
+      console.log(file);
     }
     // requisição para criar cliente e fazer upload de images com a função acima
     async function createClient() {
@@ -205,7 +204,7 @@ export default {
         custname.value = '';
         email.value = '';
         cpf.value = '';
-        userImage.value = '';
+        file = null;
         console.log(data);
       }).catch((err) => {
         Notify.create({
@@ -306,7 +305,7 @@ export default {
       email,
       cpf,
       img,
-      NewFile
+      NewFile,
     }
   }
 }

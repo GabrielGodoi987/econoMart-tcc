@@ -43,7 +43,7 @@ module.exports = {
                     attributes: [
                         'nome',
                         [
-                            db.sequelize.fn("concat", process.env.URL + "/Images/", db.sequelize.col('nome')), 'nome'
+                            db.sequelize.fn("concat", process.env.URL + "/CustImage/", db.sequelize.col('nome')), 'nome'
                         ]
                     ]
                 }

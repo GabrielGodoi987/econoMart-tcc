@@ -56,13 +56,23 @@ export default {
             })
         }
 
+        async function DeleteCustomer(){
+
+        }
+
+        async function UpdateCustomer(){
+
+        }
+
         onMounted(() => {
             getCostumers();
         })
 
         return {
             columns: columns.columns,
-            rows
+            rows,
+            DeleteCustomer,
+            UpdateCustomer
         }
     }
 }

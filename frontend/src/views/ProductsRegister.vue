@@ -71,7 +71,7 @@
 <script>
 import MenuCompt from '@/components/MenuCompt.vue';
 import FormCompt from '@/components/FormComt.vue';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { Notify } from 'quasar';
 import axios from 'axios';
 export default {
@@ -188,6 +188,10 @@ export default {
         }
 
         onMounted(() => {
+            getCategoria();
+        })
+        
+        watch(options, () => {
             getCategoria();
         })
 
