@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + uuidv4();
-        cb(null, uniqueSuffix + path.extname(file.originalname));
+        cb(null, + uniqueSuffix + path.extname(file.originalname));
     },
 })
 //controle para que não seja salvo várias imagens iguais 
@@ -16,6 +16,13 @@ const storage = multer.diskStorage({
 
 const save = multer({
     storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            cb(null, true);
+        } else {
+            cb(new Error('Tipo de arquivo não suportado. Apenas imagens jpg ou png são permitidas.'));
+        }
+    }
 })
 
 module.exports = { save }

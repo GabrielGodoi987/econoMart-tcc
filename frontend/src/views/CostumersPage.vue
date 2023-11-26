@@ -24,7 +24,7 @@
                             <q-card-section>
                                 <q-card-actions vertical>
                                     <q-btn color="primary" icon="edit" />
-                                    <q-btn color="secondary" icon="delete" />
+                                    <q-btn color="secondary" icon="delete" @click="DeleteCustomer(props.row.id)" />
                                 </q-card-actions>
                             </q-card-section>
                         </q-card>
@@ -56,11 +56,21 @@ export default {
             })
         }
 
-        async function DeleteCustomer(){
-
+        async function DeleteCustomer(id) {
+            const DeleteCust = rows.value.findIndex((element) => element.id == id);
+            console.log(DeleteCust);
+            console.log(id)
+            
+            await axios.post(`http://localhost:3333/delete/${id}/Client`).then((res) => {
+                const data = res.data.msg;
+                rows.value.splice(DeleteCust, 1);
+                console.log(data);
+            }).catch((error) => {
+                console.log(error);
+            })
         }
 
-        async function UpdateCustomer(){
+        async function UpdateCustomer() {
 
         }
 

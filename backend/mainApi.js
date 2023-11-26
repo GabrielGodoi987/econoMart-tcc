@@ -87,6 +87,9 @@ api.post('/createCart', cart.addToCart);
 //rota para listar o carrinho com base no id do cliente
 api.get('/getCart/:id/customer', cart.ListCart);
 
+//rotas para finalizar uma compra com base no id do carrinho
+
+
 // porta do servidor
 let porta = 3333;
 api.listen(porta, () => {

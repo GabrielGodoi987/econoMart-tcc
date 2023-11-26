@@ -40,7 +40,8 @@
           </q-table>
           <div class="row justify-around q-mt-xl">
             <div class="col-md-5">
-              <q-btn square label="Confirmar" color="primary" style="width: 100%;" />
+              <!-- botão para confirmar a compra -->
+              <q-btn square label="Confirmar" color="primary" style="width: 100%;" @click="finalizarCompra(client)" />
             </div>
             <div class="col-md-5">
               <q-btn square label="cancelar" color="secondary" style="width: 100%;" />
@@ -86,28 +87,13 @@
                   </q-card-section>
                 </q-card>
               </div>
+
             </template>
           </q-table>
         </div>
         <!-- fim da segunda div ======================================================================== -->
       </div>
     </q-page-container>
-
-    <q-page-container>
-      <q-dialog v-model="compraModal">
-        <q-card>
-          <q-card-section classs="bg-secondary">
-            <div class="text-h6">Confirmar Compra</div>
-          </q-card-section>
-          <q-card-section>
-          </q-card-section>
-          <q-card-actions>
-            <q-btn flat label="OK" color="primary" v-close-popup />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
-    </q-page-container>
-
 
     <q-page-container>
       <!-- aqui está o drawer que faremos para adicionar os novos clientes caso não existam -->
@@ -119,7 +105,7 @@
           </q-card-section>
           <q-card-section class="justify-center q-mt-lg">
             <q-form>
-              <input name="Image" type="file" @change="NewFile"/>
+              <input name="Image" type="file" @change="NewFile" />
               <q-input dense standout="bg-primary" label="Nome do cliente" class="q-mt-md" v-model="custname" />
               <q-input dense standout="bg-primary" label="Email" class="q-mt-md" v-model="email" />
               <q-input dense standout="bg-primary" label="CPF" class="q-mt-md" v-model="cpf" />
@@ -176,7 +162,7 @@ export default {
 
 
     //função complementar para fazer upload de imagens e cadastrar um cliente novo
-    const formdata = new FormData();
+    var formdata = new FormData();
     let file = null;
     function NewFile(event) {
       file = event.target.files[0];
@@ -205,6 +191,8 @@ export default {
         email.value = '';
         cpf.value = '';
         file = null;
+        formdata = new FormData();
+
         console.log(data);
       }).catch((err) => {
         Notify.create({
@@ -288,6 +276,27 @@ export default {
       }
     })
 
+    watch(client, (newvalue) => {
+      newvalue = client.value
+      if (client != undefined) {
+        clearInterval(client)
+      } else {
+        var client = getCustomer(newvalue);
+      }
+    })
+
+    //finalizando o pagamento de produtos
+
+    async function finalizar() {
+      await axios.post('').then(() => {
+
+      }).catch((error) => {
+            console.log(error.message)
+      }); 
+    }
+
+
+
 
     return {
       CartConfig,
@@ -306,6 +315,7 @@ export default {
       cpf,
       img,
       NewFile,
+      finalizar
     }
   }
 }

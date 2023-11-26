@@ -105,13 +105,11 @@ export default {
             }
         }
         // ================================================================================================
-        const formdata = new FormData();
-        const Image = ref('');
+        let formdata = new FormData();
+        let file = null;
         function NewFile(event) {
-            let file = event.target.files[0];
-            Image.value = file
-            formdata.append('Image', Image.value);
-            console.log(Image.value);
+            file= event.target.files[0];
+            formdata.append('Image', file);
         }
 
         // requisição para criar produtos
@@ -137,6 +135,8 @@ export default {
                 Validade.value = '';
                 description.value = '';
                 options.value = '';
+                file = null;
+                formdata = new FormData();
                 Notify.create({
                     message: "Produto cadastrado com sucesso",
                     color: 'green'

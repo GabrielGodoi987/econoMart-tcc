@@ -40,7 +40,7 @@ module.exports = {
       } else {
         return res.status(400).json({
           msg: 'estoque insuficiente',
-          erro: error.message
+          erro: error.message,
         })
       }
 

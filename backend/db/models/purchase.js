@@ -15,10 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       purchase.belongsTo(models.CartItems, {
         foreignKey: 'id_cart'
       });
-
-      purchase.belongsTo(models.sellers, {
-        foreignKey: 'id_vendedor'
-      })
     }
   }
   purchase.init({
