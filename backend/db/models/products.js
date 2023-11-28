@@ -14,12 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Products.belongsTo(models.Category, {
         foreignKey: 'id_category',
-        onDelete: 'CASCADE'
       })
 
       Products.hasMany(models.CartItems, {
         foreignKey: 'id_product',
-        onDelete: 'CASCADE'
       });
 
       Products.belongsTo(models.imagens, {

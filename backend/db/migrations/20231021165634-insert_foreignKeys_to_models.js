@@ -23,8 +23,6 @@ module.exports = {
 
     //construindo os devidos relacionamentos entre tabelas de compras 
     await queryInterface.addColumn('purchases', 'id_cart', { type: DataTypes.INTEGER, allowNull: false });
-
-    await queryInterface.dropTable('sllers');
   },
 
   async down(queryInterface, Sequelize) {

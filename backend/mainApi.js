@@ -33,6 +33,7 @@ const users = require('./Controllers/user/UsersController');
 const clients = require('./Controllers/user/custController');
 //controller de carrinho
 const cart = require('./Controllers/cart/CartController');
+const CompraController = require('./Controllers/cart/CompraController');
 
 //rota para CRUD para usuários'
 api.post('/CreateUser', upload.save.single('Image'),users.createUser);
@@ -82,13 +83,16 @@ api.post('/delete/:id/Client', clients.deleteCust);
 // rota para carrinho de compras dos usuários
 
 //adicionar itens ao carrinho
-api.post('/createCart', cart.addToCart);
+api.post('/createCart/:idproduct/:iduser', cart.addToCart);
 
 //rota para listar o carrinho com base no id do cliente
 api.get('/getCart/:id/customer', cart.ListCart);
 
 //rotas para finalizar uma compra com base no id do carrinho
+api.post('/finalPurshase/:id/client', CompraController.finalizarCompra);
 
+//rota para listar todas as compras realizadas
+api.get('/allVendas', CompraController.listarCompra);
 
 // porta do servidor
 let porta = 3333;

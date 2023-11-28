@@ -28,8 +28,8 @@ module.exports = {
         price += cart[i].price;
       }
 
-      const compra = await db.purchases.create({
-        id_cart: cart.id,
+      const compra = await db.purchase.create({
+        id_cart: id,
         totalPrice: price,
         purchaseDate: new Date()
       })
@@ -45,16 +45,39 @@ module.exports = {
         data: compra
       })
     } catch (error) {
-       res.status(500).json({
+      res.status(500).json({
         msg: "ocorreu um erro seu bosta",
         err: error.message
-       })
+      })
     }
 
   },
 
   async listarCompra(req, res) {
+    try {
+      const compras = await db.purchase.findAll({
+        include: {
+          model: db.CartItems,
+          attributes: ['quantity', 'price']
+        }
+      })
 
+      if (!compras) {
+        return res.status(400).send({
+          msg: 'Nenhuma compra realizada'
+        })
+      }
+
+      res.status(200).json({
+        msg: 'compras encontradas',
+        purchases: compras
+      })
+    } catch (error) {
+      res.status(500).json({
+        msg: 'ainda não foi efetuado nenhuma compra',
+        err: error.message
+      })
+    }
   },
 
   async cancelarCompra(req, res) {

@@ -291,8 +291,8 @@ export default {
       await axios.post('').then(() => {
 
       }).catch((error) => {
-            console.log(error.message)
-      }); 
+        console.log(error.message)
+      });
     }
 
 
