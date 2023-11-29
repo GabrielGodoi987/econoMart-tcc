@@ -67,19 +67,35 @@ module.exports = {
     async listByCategory(req, res) {
         const { id } = req.params
         try {
-            const listByCat = await db.Products.findAll({
+            const listByCat = await db.Products.findOne({
                 where: {
-                    id_category: id
+                    id: id
                 },
                 include: [
                     {
                         model: db.Category,
                         attributes: ['CategoryName']
+                    },
+                    {
+                        model: db.imagens,
+                        attributes: [
+                            'nome',
+                            [
+                                db.Sequelize.fn('CONCAT', process.env.URL + "/Images/", db.Sequelize.col("nome")),
+                                'nome'
+                            ]
+                        ]
                     }
                 ]
             });
 
-            return res.status(200).json({
+            if(!listByCat){
+                res.status(400).json({
+                    msg: 'Não foi possível localizar o produto solicitado.'
+                })
+            }
+
+            res.status(200).json({
                 msg: 'produtos da categoria encontrados',
                 data: listByCat
             });
@@ -87,7 +103,7 @@ module.exports = {
             console.error(error); // Log do erro para ajudar na depuração
             res.status(500).json({
                 msg: "Erro ao buscar produtos",
-                error: error
+                error: error.message
             });
         }
     },
@@ -146,14 +162,6 @@ module.exports = {
             console.error(error);
             res.status(500).send('Erro ao atualizar o produto');
         });
-    }
+    },
 }
-
-
-
-
-
-
-
-
 

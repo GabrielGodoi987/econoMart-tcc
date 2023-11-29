@@ -29,5 +29,5 @@ export const columns = [
         width: '100px',
         align: 'center',
         require: true
-    }
+    },
 ]

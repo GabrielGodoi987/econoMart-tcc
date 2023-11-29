@@ -112,8 +112,8 @@ export default {
             formdata.append('Image', file);
         }
 
-        // requisição para criar produtos
-        async function createProduct() {
+          // requisição para criar produtos
+          async function createProduct() {
             formdata.append('productname', productname.value);
             formdata.append('description', description.value);
             formdata.append('price', price.value);
@@ -135,8 +135,6 @@ export default {
                 Validade.value = '';
                 description.value = '';
                 options.value = '';
-                file = null;
-                formdata = new FormData();
                 Notify.create({
                     message: "Produto cadastrado com sucesso",
                     color: 'green'

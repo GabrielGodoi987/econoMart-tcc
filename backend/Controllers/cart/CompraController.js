@@ -2,63 +2,76 @@ const db = require("../../db/models/index");
 
 module.exports = {
   async finalizarCompra(req, res) {
-    //pegar do estoque diminuindo a quantidade escolhida pelo usuário
-    //chamar os itens do carrinho com base no id do cliente
-    //adicionar esses dados vindo do carrinho na model purchase
-    //apagar os dados do carrinho do cliente
-    //multiplicar a quantidade total pelo valor de cada produto, somar e mostra na tela de compra
     const { id } = req.params;
 
-    if (!id) {
-      res.status(400).json({
-        msg: 'O usuário não existe seu bosta',
-        erro: true
-      })
-    }
-
     try {
-      let cart = await db.CartItems.findAll({
-        where: {
-          id_customer: id
-        }
-      })
-
-      let price = 0;
-      for (let i = 0; i < cart.length; i++) {
-        price += cart[i].price;
+      if (!id) {
+        return res.status(400).json({
+          msg: 'O usuário não existe',
+          erro: true
+        });
       }
 
-      const compra = await db.purchase.create({
-        id_cart: id,
-        totalPrice: price,
-        purchaseDate: new Date()
-      })
+      const cartItems = await db.CartItems.findAll({
+        where: {
+          id_customer: id
+        },
+        include: [db.Products] // Incluindo o modelo Produto para acessar os dados do produto relacionado
+      });
 
+
+      // Registrando os itens da compra na tabela de itens de compra
+      for (let i = 0; i < cartItems.length; i++) {
+        var items = await db.itensCarrinho.create({
+          id_product: cartItems[i].Product.id,
+          quantidade: cartItems[i].quantity,
+          preco: cartItems[i].price,
+        });
+      }
+
+
+      // Calculando o preço total da compra somando os subtotais dos itens
+      let totalPrice = 0;
+      for (let i = 0; i < cartItems.length; i++) {
+        totalPrice += cartItems[i].price;
+      }
+
+      // Criando uma nova compra na tabela de Compras
+      const novaCompra = await db.purchase.create({
+        id_item: items.id,
+        id_Product: items.id_product,
+        totalPrice: totalPrice,
+        purchaseDate: new Date()
+      });
+      // Removendo os itens do carrinho do usuário
       await db.CartItems.destroy({
         where: {
           id_customer: id
         }
-      })
+      });
 
       res.status(200).json({
-        msg: 'compra finalizada com sucesso',
-        data: compra
-      })
+        msg: 'Compra finalizada com sucesso',
+        data: novaCompra
+      });
     } catch (error) {
       res.status(500).json({
-        msg: "ocorreu um erro seu bosta",
+        msg: 'Ocorreu um erro ao finalizar a compra',
         err: error.message
-      })
+      });
     }
-
   },
 
   async listarCompra(req, res) {
     try {
       const compras = await db.purchase.findAll({
         include: {
-          model: db.CartItems,
-          attributes: ['quantity', 'price']
+          model: db.itensCarrinho,
+          attributes: []
+        },
+        include: {
+          include: db.Products,
+          attributes: []
         }
       })
 
@@ -76,6 +89,29 @@ module.exports = {
       res.status(500).json({
         msg: 'ainda não foi efetuado nenhuma compra',
         err: error.message
+      })
+    }
+  },
+
+  async LimparTudo(req, res) {
+    const { id } = req.params;
+    try {
+      let cart = await CartItems.destroy({
+        where: {
+          id_customer: id
+        }
+      })
+      if (!cart) {
+        return res.status(401).json({
+          msg: 'não há itens no carrinho para limpar',
+          data: cart
+        })
+      }
+      res.status(200).json({ msg: "tudo limpo" });
+    } catch (err) {
+      res.status(500).json({
+        msg: 'erro interno do servidor',
+        err: err.message
       })
     }
   },

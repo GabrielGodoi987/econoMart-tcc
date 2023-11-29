@@ -10,7 +10,6 @@ module.exports = {
                 username: username,
                 email: email,
                 password: hashedPass,
-                accessLevel: accessLevel,
                 dataInicio: new Date(),
             })
 

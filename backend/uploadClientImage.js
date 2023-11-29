@@ -7,8 +7,7 @@ const storage = multer.diskStorage({
         cb(null, './Src/CustImage')
     },
     filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + uuidv4();
-        cb(null, + uniqueSuffix + path.extname(file.originalname));
+        cb(null, + Date.now() + path.extname(file.originalname));
     },
 })
 //controle para que não seja salvo várias imagens iguais 

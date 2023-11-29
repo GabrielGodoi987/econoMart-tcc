@@ -1,0 +1,8 @@
+
+[4mSequelize CLI [Node: 20.4.0, CLI: 6.6.1, ORM: 6.32.1][24m
+
+Loaded configuration file "db\config\config.js".
+Using environment "development".
+== 20231129010719-create-itens-carrinho: reverting =======
+== 20231129010719-create-itens-carrinho: reverted (0.603s)
+

@@ -53,15 +53,33 @@ module.exports = {
         });
     },
 
-    deleteCust(req, res) {
+    async deleteCust(req, res) {
         let { id } = req.params;
         try {
-            const deletedUser = db.customers.destroy({
+            const deletedUser = await db.customers.destroy({
                 where: {
                     id: id
                 }
             })
 
+            if (deletedUser) {
+                // Encontrar a imagem associada ao cliente deletado
+                const customerImage = await db.imagens.findOne({
+                    where: {
+                        id: deletedUser.id_imagem // Supondo que a coluna seja id_imagem
+                    }
+                });
+    
+                // Deletar a imagem se encontrada
+                if (customerImage) {
+                    await db.imagens.destroy({
+                        where: {
+                            id: customerImage.id
+                        }
+                    });
+                }
+            }
+    
             res.status(200).json({
                 msg: "usuario deletado",
                 deletedUser

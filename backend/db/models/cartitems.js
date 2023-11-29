@@ -20,11 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       CartItems.belongsTo(models.Products, {
         foreignKey: 'id_product'
       });
-
-      //um carrinho pertence a uma compra
-      CartItems.hasOne(models.purchase, {
-        foreignKey: 'id_cart'
-      });
     }
   }
   CartItems.init({

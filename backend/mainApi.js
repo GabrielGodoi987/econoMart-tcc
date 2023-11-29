@@ -56,11 +56,12 @@ api.get('/listCategory', categories.ListCategory);
 
 // rota para criar produtos
 api.post('/createProduct', upload.save.single('Image'), products.createProducts);
+
 // rota para listar todos os produtos
 api.get("/listAll", products.ListProducts);
 
 //rota para listar produtos por suas categorias
-api.get('/ListByCat/:id/product', products.listByCategory);
+api.get('/ListBycode/:id/product', products.listByCategory);
 
 // rota para editar produtos
 api.post('/edit/:id/product', products.editProduct);
@@ -83,7 +84,7 @@ api.post('/delete/:id/Client', clients.deleteCust);
 // rota para carrinho de compras dos usuários
 
 //adicionar itens ao carrinho
-api.post('/createCart/:idproduct/:iduser', cart.addToCart);
+api.post('/createCart', cart.addToCart);
 
 //rota para listar o carrinho com base no id do cliente
 api.get('/getCart/:id/customer', cart.ListCart);

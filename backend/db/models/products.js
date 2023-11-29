@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
 
       Products.belongsTo(models.imagens, {
         foreignKey: 'id_imagem'
+      });
+
+      Products.hasMany(models.purchase, {
+        foreignKey: 'id_Product'
       })
     }
   }

@@ -38,14 +38,10 @@
           <!-- lista o carrinho do cliente -->
           <q-table class="q-mt-xl" :columns="CartConfig.columns" :rows="rows">
           </q-table>
-          <div class="row justify-around q-mt-xl">
-            <div class="col-md-5">
-              <!-- botão para confirmar a compra -->
-              <q-btn square label="Confirmar" color="primary" style="width: 100%;" @click="finalizarCompra(client)" />
-            </div>
-            <div class="col-md-5">
-              <q-btn square label="cancelar" color="secondary" style="width: 100%;" />
-            </div>
+
+          <div class="text-center q-mt-xl q-gutter-x-md">
+            <q-btn rounded dense label="Pagar" color="accent" />
+            <q-btn rounded dense label="Limpar tudo" color="negative" />
           </div>
         </div>
 
@@ -57,33 +53,36 @@
 
         <!-- aqui vamos listar os produtos e colocar ações para os mesmos -->
         <div class="col-md-6">
-          <div class="row justify-around q-mb-xl">
+          <div class="row justify-center text-center q-mb-xl">
+            <div class="col-md-5">
+              <q-input filled type="number" label-color="black" bg-color="grey" color="white" label="código do produto"
+                v-model="productCode" />
+              <br>
+              <q-btn rounded label="Pesquisar" color="secondary" @click="getByCategory" />
+            </div>
           </div>
           <q-table grid :columns="products.columns" :rows="listProd">
             <template v-slot:item="props">
               <div class="q-pa-md">
-                <q-card bordered flat>
-                  <q-img :src="props.row.imagen.nome" height="200px" />
-                  <q-list dense>
-                    <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
-                      <q-item-section>
-                        <q-item-label>{{ col.label }}</q-item-label>
-                      </q-item-section>
-                      <q-item-section side>
-                        <q-item-label caption>{{ col.value }}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                  <q-separator />
-                  <q-card-section>
-                    <div class="row justify-around">
-                      <div class="col-md-5">
-                        <q-input standout filled label="quantidade" type="number" v-model="quantity" />
-                      </div>
-                      <div class="col-md-4">
-                        <q-btn rounded color="primary" icon="add" @click="addTocart(props.row.id)" />
-                      </div>
-                    </div>
+                <q-card bordered flat class="row" style="width: 500px;">
+                  <q-card-section class="col-md-6 bg-primary">
+                    <q-img :src="props.row.imagen.nome" height="200px" />
+                  </q-card-section>
+                  <q-card-section class="col-md-6 q-pa-md">
+                    <q-list dense>
+                      <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                        <q-item-section>
+                              <q-item-label>{{ col.label }}</q-item-label>
+                        </q-item-section>
+                        <q-item-section side>
+                              <q-item-label caption>{{ col.value }}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-card-section>
+                  <q-card-section class="col-md-10 justify-center text-center q-gutter-y-md">
+                      <q-input standout="bg-primary text-white" label="Quantidade" v-model="quantity"/>
+                     <q-btn rounded label="Adicionar ao carrinho" @click="addTocart(props.row.id)" color="primary"/>
                   </q-card-section>
                 </q-card>
               </div>
@@ -150,8 +149,7 @@ export default {
         route: '/Costumers'
       }
     ]
-    const options = ref([])
-    const client = ref('');
+   
     const quantity = ref();
     const rows = ref([]);
 
@@ -176,9 +174,9 @@ export default {
       formdata.append('cpf', cpf.value);
 
       axios.post('http://localhost:3333/createClient', formdata, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
+        // headers: {
+        //   "Content-Type": "multipart/form-data"
+        // }
       }).then((res) => {
         const data = res.data;
         Notify.create({
@@ -204,8 +202,10 @@ export default {
       })
     }
 
-    //Lista todos os cliente e coloca dentro de um q-select para serem buscados em uma requisição get pelo seu id
-    async function getCustomer() {
+    const options = ref([])
+    const client = ref(null);
+
+      async function getCustomer() {
       await axios.get(`http://localhost:3333/listAllClients`, {
       }).then((res) => {
         const user = res.data.data;
@@ -215,14 +215,13 @@ export default {
       });
     }
 
-    //seleciona os produtos de acordo com o id do cliente
+
     async function getProduct() {
       try {
         const response = await axios.get(`http://localhost:3333/getCart/${client.value.value}/customer`);
         const data = response.data.data;
         rows.value = data;
-        console.log(rows.value);
-        console.log()
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -230,12 +229,12 @@ export default {
 
     //listar todos os produtos e coloca ao lado para serem adicionados
     const listProd = ref([]);
-    const img = ref([]);
-    function getAllProducts() {
-      axios.get('http://localhost:3333/listAll').then((res) => {
-        const Products = res.data.products;
+    const productCode = ref('');
+    function getByCategory() {
+      axios.get(`http://localhost:3333/ListByCode/${productCode.value}/product`).then((res) => {
+        const Products = [res.data.data];
         listProd.value = Products
-        console.log(Products)
+        console.log(Products);
       }).catch((err) => {
         console.log(err)
       })
@@ -260,36 +259,26 @@ export default {
     //montar components
     onMounted(() => {
       getCustomer();
-      getAllProducts();
+      getByCategory();
     });
 
     //assistir um component para todos os valores novos que ele tiver
     watch(client, (newvalue) => {
       newvalue = client.value
       if (newvalue == undefined) {
-        clearInterval(interval);
+      clearInterval(interval);
       } else {
-        // Inicie um novo intervalo
-        var interval = setInterval(() => {
-          getProduct(newvalue);
-        }, 1000);
+      // Inicie um novo intervalo
+      var interval = setInterval(() => {
+      getProduct(newvalue);
+      }, 1500);
       }
     })
-
-    watch(client, (newvalue) => {
-      newvalue = client.value
-      if (client != undefined) {
-        clearInterval(client)
-      } else {
-        var client = getCustomer(newvalue);
-      }
-    })
-
-    //finalizando o pagamento de produtos
-
     async function finalizar() {
-      await axios.post('').then(() => {
+      await axios.post(`http://localhost:3333/finalPurshase/${client.value.value}/client`).then((res) => {
+          const finalizar = res.data;
 
+          console.log(finalizar)
       }).catch((error) => {
         console.log(error.message)
       });
@@ -309,13 +298,15 @@ export default {
       addTocart,
       quantity,
       drawerCliente,
+      getByCategory,
+      productCode,
       createClient,
       custname,
       email,
       cpf,
-      img,
       NewFile,
-      finalizar
+      finalizar,
+
     }
   }
 }

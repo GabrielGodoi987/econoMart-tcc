@@ -12,9 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       //uma compra pode ter apenas um carrinho
-      purchase.belongsTo(models.CartItems, {
-        foreignKey: 'id_cart'
+      purchase.belongsTo(models.itensCarrinho, {
+        foreignKey: 'id_item'
       });
+
+      purchase.belongsTo(models.Products, {
+        foreignKey: 'id_Product'
+      })
     }
   }
   purchase.init({
