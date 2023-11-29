@@ -3,18 +3,25 @@
         <MenuCompt />
 
         <q-page-container>
-            <q-table>
+            <q-table grid :columns="ComprasConfig.columns" :rows="rows">
                 <template v-slot:item="props">
-                    <q-list dense>
-                        <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
-                            <q-item-section>
-                                <q-item-label>{{ col.label }}</q-item-label>
-                            </q-item-section>
-                            <q-item-section side>
-                                <q-item-label caption>{{ col.value }}</q-item-label>
-                            </q-item-section>
-                        </q-item>
-                    </q-list>
+                    <q-card>
+                        <q-card-section>
+                            <q-img/>
+                        </q-card-section>
+                        <q-card-section>
+                            <q-list dense>
+                                <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                                    <q-item-section>
+                                        <q-item-label>{{ col.label }}</q-item-label>
+                                    </q-item-section>
+                                    <q-item-section side>
+                                        <q-item-label caption>{{ col.value }}</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </q-list>
+                        </q-card-section>
+                    </q-card>
                 </template>
             </q-table>
         </q-page-container>
@@ -23,21 +30,30 @@
 
 <script>
 import MenuCompt from '@/components/MenuCompt.vue';
-import * as ComprasConfig from "@/views/TodasComprasconfig/TableCompras"
+import * as ComprasConfig from "./TodasComprasConfig/TableCompras";
 import axios from 'axios';
+import { onMounted, ref } from 'vue';
 export default {
     components: { MenuCompt },
 
     setup() {
 
-        async function getSalles() {
-            axios.get('http://localhost:3333/allVendas').then(() => {
+        const rows = ref([])
 
+        async function getSalles() {
+            axios.get('http://localhost:3333/allVendas').then((res) => {
+                const venda = res.data.purchases;
+                rows.value = venda
+                console.log(rows.value);
+                console.log(venda)
             }).catch(() => {
 
             })
         }
 
+        onMounted(() => {
+            getSalles();
+        })
         return {
             getSalles,
             ComprasConfig
