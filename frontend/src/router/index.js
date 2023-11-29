@@ -44,6 +44,11 @@ const routes = [
     path: '/erro-de-acesso',
     name: 'ErrorPage',
     component: () => import('@/views/ErrorPage.vue')
+  },
+  {
+    path: "/AllSales",
+    name: 'AllSales',
+    component: () => import("@/views/TodasCompras.vue")
   }
 ]
 

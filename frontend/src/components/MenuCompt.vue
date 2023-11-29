@@ -101,6 +101,11 @@ export default {
                 name: 'Produtos',
                 icon: 'fa-solid fa-bag-shopping',
                 route: '/allProducts'
+            },
+            {
+                name: 'Todas as vendass',
+                icon: 'fa-solid fa-cart-arrow-down',
+                route: '/AllSales'
             }
         ]
 

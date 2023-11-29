@@ -40,6 +40,7 @@ module.exports = {
       const novaCompra = await db.purchase.create({
         id_item: items.id,
         id_Product: items.id_product,
+        id_customer: id,
         totalPrice: totalPrice,
         purchaseDate: new Date()
       });
@@ -63,11 +64,19 @@ module.exports = {
   },
 
   async listarCompra(req, res) {
+    let imagemproduto = "nome";
+    let imagemcliente = "nome"
     try {
       const compras = await db.purchase.findAll({
         include: [
           {
             model: db.itensCarrinho,
+          },
+          {
+            model: db.customers,
+            include: {
+              model: db.imagens
+            }
           },
           {
             model: db.Products,

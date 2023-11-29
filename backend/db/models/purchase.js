@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
 
       purchase.belongsTo(models.Products, {
         foreignKey: 'id_Product'
+      });
+
+      purchase.belongsTo(models.customers, {
+        foreignKey: 'id_customer'
       })
     }
   }

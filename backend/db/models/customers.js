@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_imagem',
         onDelete: 'CASCADE'
       })
+
+      customers.hasOne(models.purchase,{
+        foreignKey:'id_customer'
+      })
     }
   }
   customers.init({
