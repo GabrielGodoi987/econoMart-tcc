@@ -64,8 +64,6 @@ module.exports = {
   },
 
   async listarCompra(req, res) {
-    let imagemproduto = "nome";
-    let imagemcliente = "nome"
     try {
       const compras = await db.purchase.findAll({
         include: [
@@ -74,23 +72,21 @@ module.exports = {
           },
           {
             model: db.customers,
-            include: {
-              model: db.imagens
-            }
+               include: [
+                {
+                  model: db.imagens,
+                  attributes: [
+                    [
+                      db.sequelize.fn("concat", process.env.URL + "/CustImage/", db.sequelize.col('nome')), 'imagem_nome'
+                    ]
+                  ]
+                }
+              ]
           },
           {
             model: db.Products,
             attributes: ["productname", "price", "validade", "id_category", "id_imagem"],
             include: [
-              {
-                model: db.imagens,
-                attributes: [
-                  'nome',
-                  [
-                    db.sequelize.fn("concat", process.env.URL + "/CustImage/", db.sequelize.col('nome')), 'nome'
-                  ]
-                ]
-              },
               {
                 model: db.Category,
               }
