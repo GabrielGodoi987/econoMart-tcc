@@ -65,14 +65,30 @@ module.exports = {
   async listarCompra(req, res) {
     try {
       const compras = await db.purchase.findAll({
-        include: {
-          model: db.itensCarrinho,
-          attributes: []
-        },
-        include: {
-          include: db.Products,
-          attributes: []
-        }
+        include: [
+          {
+            model: db.itensCarrinho,
+          },
+          {
+            model: db.Products,
+            attributes: ["productname", "price", "validade", "id_category", "id_imagem"],
+            include: [
+              {
+                model: db.imagens,
+                attributes: [
+                  'nome',
+                  [
+                    db.sequelize.fn("concat", process.env.URL + "/CustImage/", db.sequelize.col('nome')), 'nome'
+                  ]
+                ]
+              },
+              {
+                model: db.Category,
+              }
+            ]
+          }
+        ]
+
       })
 
       if (!compras) {
