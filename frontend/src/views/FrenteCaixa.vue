@@ -38,9 +38,8 @@
           <!-- lista o carrinho do cliente -->
           <q-table class="q-mt-xl" :columns="CartConfig.columns" :rows="rows">
           </q-table>
-
           <div class="text-center q-mt-xl q-gutter-x-md">
-            <q-btn rounded dense label="Pagar" color="accent" />
+            <q-btn rounded dense label="Pagar" color="accent" @click="finalizar(props.row.id)" />
             <q-btn rounded dense label="Limpar tudo" color="negative" />
           </div>
         </div>
@@ -72,17 +71,17 @@
                     <q-list dense>
                       <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
                         <q-item-section>
-                              <q-item-label>{{ col.label }}</q-item-label>
+                          <q-item-label>{{ col.label }}</q-item-label>
                         </q-item-section>
                         <q-item-section side>
-                              <q-item-label caption>{{ col.value }}</q-item-label>
+                          <q-item-label caption>{{ col.value }}</q-item-label>
                         </q-item-section>
                       </q-item>
                     </q-list>
                   </q-card-section>
                   <q-card-section class="col-md-10 justify-center text-center q-gutter-y-md">
-                      <q-input standout="bg-primary text-white" label="Quantidade" v-model="quantity"/>
-                     <q-btn rounded label="Adicionar ao carrinho" @click="addTocart(props.row.id)" color="primary"/>
+                    <q-input standout="bg-primary text-white" label="Quantidade" v-model="quantity" />
+                    <q-btn rounded label="Adicionar ao carrinho" @click="addTocart(props.row.id)" color="primary" />
                   </q-card-section>
                 </q-card>
               </div>
@@ -149,7 +148,7 @@ export default {
         route: '/Costumers'
       }
     ]
-   
+
     const quantity = ref();
     const rows = ref([]);
 
@@ -205,7 +204,7 @@ export default {
     const options = ref([])
     const client = ref(null);
 
-      async function getCustomer() {
+    async function getCustomer() {
       await axios.get(`http://localhost:3333/listAllClients`, {
       }).then((res) => {
         const user = res.data.data;
@@ -266,26 +265,33 @@ export default {
     watch(client, (newvalue) => {
       newvalue = client.value
       if (newvalue == undefined) {
-      clearInterval(interval);
+        clearInterval(interval);
       } else {
-      // Inicie um novo intervalo
-      var interval = setInterval(() => {
-      getProduct(newvalue);
-      }, 1500);
+        // Inicie um novo intervalo
+        var interval = setInterval(() => {
+          getProduct(newvalue);
+        }, 1500);
       }
     })
     async function finalizar() {
       await axios.post(`http://localhost:3333/finalPurshase/${client.value.value}/client`).then((res) => {
-          const finalizar = res.data;
+        const finalizar = res.data;
 
-          console.log(finalizar)
+        console.log(finalizar)
       }).catch((error) => {
         console.log(error.message)
       });
     }
+  
 
-
-
+    async function ClearAll(){
+      await axios.post(``).then((res) => {
+         const data = res.data;
+         console.log(data)
+      }).catch((error) => {
+        console.log(error.message)
+      })
+    }
 
     return {
       CartConfig,
@@ -306,6 +312,7 @@ export default {
       cpf,
       NewFile,
       finalizar,
+      ClearAll
 
     }
   }

@@ -23,7 +23,7 @@ module.exports = {
       // Registrando os itens da compra na tabela de itens de compra
       for (let i = 0; i < cartItems.length; i++) {
         var items = await db.itensCarrinho.create({
-          id_product: [cartItems[i].Product.id],
+          id_product: [ycartItems[i].Product.id],
           quantidade: cartItems[i].quantity,
           preco: cartItems[i].price,
         });
