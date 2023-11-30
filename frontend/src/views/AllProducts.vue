@@ -68,7 +68,7 @@ export default {
                 const data = res.data.products;
                 rows.value = data;
             }).catch((error) => {
-                return error
+                console.log(error)
             });
         }
 

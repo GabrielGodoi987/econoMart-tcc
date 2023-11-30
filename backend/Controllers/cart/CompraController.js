@@ -23,7 +23,7 @@ module.exports = {
       // Registrando os itens da compra na tabela de itens de compra
       for (let i = 0; i < cartItems.length; i++) {
         var items = await db.itensCarrinho.create({
-          id_product: cartItems[i].Product.id,
+          id_product: [cartItems[i].Product.id],
           quantidade: cartItems[i].quantity,
           preco: cartItems[i].price,
         });
@@ -72,20 +72,21 @@ module.exports = {
           },
           {
             model: db.customers,
-               include: [
-                {
-                  model: db.imagens,
-                  attributes: [
-                    [
-                      db.sequelize.fn("concat", process.env.URL + "/CustImage/", db.sequelize.col('nome')), 'imagem_nome'
-                    ]
+            attributes: ['custname','id_imagem', 'email'],
+            include: [
+              {
+                model: db.imagens,
+                attributes: [
+                  [
+                    db.sequelize.fn("concat", process.env.URL + "/CustImage/", db.sequelize.col('nome')), 'imagem_nome'
                   ]
-                }
-              ]
+                ]
+              }
+            ]
           },
           {
             model: db.Products,
-            attributes: ["productname", "price", "validade", "id_category", "id_imagem"],
+            attributes: ["productname", "price", "validade", "id_category"],
             include: [
               {
                 model: db.Category,

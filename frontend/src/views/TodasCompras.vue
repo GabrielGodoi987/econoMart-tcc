@@ -3,12 +3,13 @@
         <MenuCompt />
 
         <q-page-container>
-            <q-table grid :columns="ComprasConfig.columns" :rows="rows">
+            <q-table grid :columns="ComprasConfig.columns" :rows="rows" class="my-sticky-virtscroll-table">
                 <template v-slot:item="props">
                     <q-card>
                         <q-card-section>
-                            <q-img/>
+                            <q-img :src="props.row.customer.imagen.imagem_nome"/>
                         </q-card-section>
+                        <q-separator/>
                         <q-card-section>
                             <q-list dense>
                                 <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
@@ -16,7 +17,7 @@
                                         <q-item-label>{{ col.label }}</q-item-label>
                                     </q-item-section>
                                     <q-item-section side>
-                                        <q-item-label caption>{{ col.value }}</q-item-label>
+                                        <q-item-label class="text-subtitle text-weight-bolder">{{ col.value }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
                             </q-list>
@@ -45,7 +46,6 @@ export default {
                 const venda = res.data.purchases;
                 rows.value = venda
                 console.log(rows.value);
-                console.log(venda)
             }).catch(() => {
 
             })
@@ -55,9 +55,14 @@ export default {
             getSalles();
         })
         return {
-            getSalles,
-            ComprasConfig
+            ComprasConfig,
+            rows
         }
     }
 }
 </script>
+
+
+<style lang="scss">
+@import '../styles/Styles.scss';
+</style>

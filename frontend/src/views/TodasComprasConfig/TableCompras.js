@@ -12,12 +12,12 @@ export const columns = [
     },
     {
         name: 'Produtos',
-        field: row => row.Product.map(p => p.Product).join(', ') || '',
+        field: row => row.Product.productname,
         label: 'Produtos comprados'
     },
     {
         name: 'Quantidade',
-        field: row => row.itensCarrinho.quantitdade,
+        field: row => row.itensCarrinho.quantidade,
         label: 'Quantidade'
     },
     {
@@ -25,5 +25,4 @@ export const columns = [
         field: row => row.itensCarrinho.preco,
         label: 'Valor total da compra'
     }
-
 ]

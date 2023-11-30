@@ -148,14 +148,14 @@ export default {
         // cancelar cadastro do produto ===============================================================
         async function cancel() {
             productname.value = ''
-            price.value = ''
+            price.value = '';
             stock.value = '';
             Validade.value = '';
             description.value = '';
             id_category.value = '';
             options.value = '';
-            Image.value = null;
-
+            file.value = null;
+            formdata = new FormData();
 
             Notify.create({
                 message: 'Cadastro cancelado',

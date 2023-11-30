@@ -1,12 +1,5 @@
 export const columns = [
     {
-        name: 'foto',
-        field: row => row.foto,
-        label: '',
-        align: 'center',
-        require: true
-    },
-    {
         name: 'Nome',
         field: row => row.custname,
         label: 'Nome',
