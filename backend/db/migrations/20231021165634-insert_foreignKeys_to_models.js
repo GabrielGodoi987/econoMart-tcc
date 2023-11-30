@@ -22,8 +22,8 @@ module.exports = {
     await queryInterface.addColumn('CartItems', 'id_product', { type: DataTypes.INTEGER, allowNull: false });
 
     //construindo os devidos relacionamentos entre tabelas de compras 
-    await queryInterface.addColumn('purchases', 'id_item', { type: DataTypes.INTEGER, allowNull: false });
-    await queryInterface.addColumn('purchases', 'id_Product', { type: DataTypes.INTEGER, allowNull: false });
+    // await queryInterface.addColumn('purchases', 'id_item', { type: DataTypes.INTEGER, allowNull: false });
+    // await queryInterface.addColumn('purchases', 'id_Product', { type: DataTypes.INTEGER, allowNull: false });
     await queryInterface.addColumn('purchases', 'id_customer', { type: DataTypes.INTEGER, allowNull: false });
   },
 

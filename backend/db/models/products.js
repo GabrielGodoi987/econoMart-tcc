@@ -24,9 +24,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_imagem'
       });
 
-      Products.hasMany(models.purchase, {
-        foreignKey: 'id_Product'
-      })
+      // Products.hasMany(models.purchase, {
+      //   foreignKey: 'id_Product'
+      // })
     }
   }
   Products.init({

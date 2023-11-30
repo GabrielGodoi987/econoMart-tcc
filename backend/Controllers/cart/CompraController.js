@@ -16,34 +16,37 @@ module.exports = {
         where: {
           id_customer: id
         },
-        include: [db.Products] // Incluindo o modelo Produto para acessar os dados do produto relacionado
+        include: [db.Products]
       });
 
-
-      // Registrando os itens da compra na tabela de itens de compra
-      for (let i = 0; i < cartItems.length; i++) {
-        var items = await db.itensCarrinho.create({
-          id_product: [ycartItems[i].Product.id],
-          quantidade: cartItems[i].quantity,
-          preco: cartItems[i].price,
-        });
-      }
-
-
-      // Calculando o preço total da compra somando os subtotais dos itens
       let totalPrice = 0;
-      for (let i = 0; i < cartItems.length; i++) {
-        totalPrice += cartItems[i].price;
-      }
 
-      // Criando uma nova compra na tabela de Compras
+      // Criando um array com os dados dos itens do carrinho para criar um único registro
+      const itemsData = cartItems.map(cartItem => ({
+        id_product: cartItem.Product.id,
+        quantidade: cartItem.quantity,
+        preco: cartItem.price,
+      }));
+
+      // Criando um único registro de itensCarrinho para todos os itens do carrinho
+      const createdItems = await db.itensCarrinho.bulkCreate(itemsData);
+
+       await db.itensCarrinho.create({
+        id_product: itemsData.Product.id,
+      });
+      // Calculando o preço total da compra somando os preços de todos os itens
+      totalPrice = cartItems.reduce((total, cartItem) => total + cartItem.price, 0);
+
+      // Criando a compra após a criação dos itens
       const novaCompra = await db.purchase.create({
-        id_item: items.id,
-        id_Product: items.id_product,
         id_customer: id,
         totalPrice: totalPrice,
         purchaseDate: new Date()
       });
+      // Associando os itens criados à compra
+      await novaCompra.set(createdItems);
+
+
       // Removendo os itens do carrinho do usuário
       await db.CartItems.destroy({
         where: {
@@ -72,7 +75,7 @@ module.exports = {
           },
           {
             model: db.customers,
-            attributes: ['custname','id_imagem', 'email'],
+            attributes: ['custname', 'id_imagem', 'email'],
             include: [
               {
                 model: db.imagens,
