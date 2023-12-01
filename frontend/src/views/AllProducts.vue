@@ -5,6 +5,8 @@
         <!-- tabela onde serão implementados vindos do back-end -->
         <q-page-container class="q-pa-md row justify-center">
             <div class="col-sm-10 q-mt-xl">
+                <q-select outlined v-model="category" :options="options" label="Busque a categoria desejada" />
+
                 <q-table class="my-sticky-virtscroll-table" title="Todos os Produtos" :columns="TableConfig.columns"
                     :rows="rows">
                     <template v-slot:top-right>
@@ -63,18 +65,15 @@ export default {
         const rows = ref([]);
 
         //listar todos os produtos independente de suas categorias
-        function ListAllProducts() {
-            axios.get('http://localhost:3333/listAll').then((res) => {
-                const data = res.data.products;
-                rows.value = data;
-            }).catch((error) => {
-                console.log(error)
-            });
-        }
+        // function ListAllProducts() {
+        //     axios.get('http://localhost:3333/listAll').then((res) => {
+        //         const data = res.data.products;
+        //         rows.value = data;
+        //     }).catch((error) => {
+        //         console.log(error)
+        //     });
+        // }
 
-        onMounted(() => {
-            ListAllProducts();
-        });
 
         const content = ref()
         const openEdit = ref(false);
@@ -129,8 +128,39 @@ export default {
             console.log(props)
         }
 
+
+    const options = ref([])
+    const category = ref();
+
+    async function getByCategory() {
+      await axios.get(`http://localhost:3333/listCategory`, {
+      }).then((res) => {
+        const cat = res.data.category;
+        for (let i = 0; i < cat.length; i++) {
+          options.value.push({ value: cat[i].id, label: cat[i].CategoryName });
+        }
+      });
+    }
+
+
+    async function ListByCat() {
+      try {
+        const response = await axios.get(`http://localhost:3333/ListByCat/${category.value.value}/product`);
+        const data = response.data.data;
+        rows.value = data;
+        console.log(rows.value);
+        console.log(category.value)
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
+        onMounted(() => {
+            ListByCat();
+            getByCategory();
+            ListByCat();
+        });
         return {
-            // ... restante do seu retorno ...
             TableConfig,
             rows,
             content,
@@ -138,6 +168,8 @@ export default {
             deleteProduct,
             openEdit,
             editProduct,
+            category,
+            options
         };
     },
 };

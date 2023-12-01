@@ -69,7 +69,7 @@ module.exports = {
     async ListCategory(req, res) {
         const { id } = req.params
         try {
-            const listByCat = await db.Products.findOne({
+            const listByCat = await db.Products.findAll({
                 where: {
                     id_category: id
                 },
@@ -96,7 +96,6 @@ module.exports = {
                     msg: 'Não foi possível localizar o produto solicitado.'
                 })
             }
-
             res.status(200).json({
                 msg: 'produtos da categoria encontrados',
                 data: listByCat
@@ -112,6 +111,7 @@ module.exports = {
 
 
 
+    //busca apenas um produto por seu id ou código que é cadastrado a cada inserção na tabela de produtos
     async ListByCode(req, res) {
         const { id } = req.params
         try {

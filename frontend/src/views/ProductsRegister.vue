@@ -135,6 +135,9 @@ export default {
                     Validade.value = '';
                     description.value = '';
                     options.value = '';
+                    id_category.value = '';
+                    file = null;
+                    formdata = new FormData();
                     Notify.create({
                         message: "Produto cadastrado com sucesso",
                         color: 'green'
