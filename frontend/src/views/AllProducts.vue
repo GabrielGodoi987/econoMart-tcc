@@ -5,7 +5,7 @@
         <!-- tabela onde serão implementados vindos do back-end -->
         <q-page-container class="q-pa-md row justify-center">
             <div class="col-sm-10 q-mt-xl">
-                <q-select outlined v-model="category" :options="catoptions" label="Busque a categoria desejada" />
+              <!-- <q-select outlined v-model="category" :options="catoptions" label="Busque a categoria desejada" /> -->
 
                 <q-table class="my-sticky-virtscroll-table" title="Todos os Produtos" :columns="TableConfig.columns"
                     :rows="rows">
@@ -64,15 +64,15 @@ export default {
     setup() {
         const rows = ref([]);
 
-        //listar todos os produtos independente de suas categorias
-        // function ListAllProducts() {
-        //     axios.get('http://localhost:3333/listAll').then((res) => {
-        //         const data = res.data.products;
-        //         rows.value = data;
-        //     }).catch((error) => {
-        //         console.log(error)
-        //     });
-        // }
+        // listar todos os produtos independente de suas categorias
+        function ListAllProducts() {
+            axios.get('http://localhost:3333/listAll').then((res) => {
+                const data = res.data.products;
+                rows.value = data;
+            }).catch((error) => {
+                console.log(error)
+            });
+        }
 
 
         const content = ref()
@@ -129,34 +129,34 @@ export default {
         }
 
 
-        const catoptions = ref([])
-        const category = ref(null);
+        // const catoptions = ref([])
+        // const category = ref(null);
 
-        async function getByCategory() {
-            await axios.get(`http://localhost:3333/listCategory`, {
-            }).then((res) => {
-                const cat = res.data.category;
-                for (let i = 0; i < cat.length; i++) {
-                    catoptions.value.push({ value: cat[i].id, label: cat[i].CategoryName });
-                }
-            });
-        }
-        async function ListByCat() {
-            try {
-                const response = await axios.get(`http://localhost:3333/ListByCat/${category.value.value}/product`);
-                const data = response.data.data;
-                rows.value = data;
-                console.log(rows.value);
-                console.log(category.value)
-            } catch (error) {
-                console.log(error.message);
-            }
-        }
+        // async function getByCategory() {
+        //     await axios.get(`http://localhost:3333/listCategory`, {
+        //     }).then((res) => {
+        //         const cat = res.data.category;
+        //         for (let i = 0; i < cat.length; i++) {
+        //             catoptions.value.push({ value: cat[i].id, label: cat[i].CategoryName });
+        //         }
+        //     });
+        // }
+        // async function ListByCat() {
+        //     try {
+        //         const response = await axios.get(`http://localhost:3333/ListByCat/${category.value.value}/product`);
+        //         const data = response.data.data;
+        //         rows.value = data;
+        //         console.log(rows.value);
+        //         console.log(category.value)
+        //     } catch (error) {
+        //         console.log(error.message);
+        //     }
+        // }
 
         onMounted(() => {
-            ListByCat();
-            getByCategory();
-            ListByCat();
+            ListAllProducts();
+            // ListByCat();
+            // getByCategory();
         });
         return {
             TableConfig,
@@ -166,8 +166,8 @@ export default {
             deleteProduct,
             openEdit,
             editProduct,
-            category,
-            catoptions
+            // category,
+            // catoptions
         };
     },
 };

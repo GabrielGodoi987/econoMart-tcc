@@ -100,6 +100,10 @@ export default {
                 custname: content.value.custname,
                 email: content.value.email,
                 cpf: content.value.cpf
+
+
+
+                
             }).then((res) => {
                 const data = res.data;
                 console.log(data);

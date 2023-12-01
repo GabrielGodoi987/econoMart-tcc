@@ -1,5 +1,5 @@
 ##
-GET http://localhost:3333/ListByCat/2/product
+GET http://localhost:3333/ListByCat/1/product
 Content-Type: application/json
 
 

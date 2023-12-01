@@ -53,6 +53,7 @@ export default {
 
         onMounted(() => {
             getSalles();
+
         })
         return {
             ComprasConfig,
