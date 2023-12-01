@@ -69,7 +69,7 @@ module.exports = {
                         id: deletedUser.id_imagem // Supondo que a coluna seja id_imagem
                     }
                 });
-    
+
                 // Deletar a imagem se encontrada
                 if (customerImage) {
                     await db.imagens.destroy({
@@ -79,7 +79,7 @@ module.exports = {
                     });
                 }
             }
-    
+
             res.status(200).json({
                 msg: "usuario deletado",
                 deletedUser
@@ -103,13 +103,36 @@ module.exports = {
     async editCust(req, res) {
         let { id } = req.params;
         const { custname, email, cpf } = req.body;
-        db.customers.update({
-            custname: custname,
-            email: email,
-            cpf: cpf,
-            where: {
-                id: id
-            }
-        })
+        try{
+          const updatedCust  = await db.customers.update({
+                custname: custname,
+                email: email,
+                cpf: cpf,
+    
+            },
+                {
+                    where: {
+                        id: id
+                    }
+                }
+            )
+
+           if(!updatedCust){
+             res.status(400).json({
+                message:'Não foi possivel atualizar o cliente',
+                err: true
+             })
+           }
+
+            res.status(200).json({
+                msg: "Usuario alterado com sucesso",
+                data: updatedCust
+            })
+        }catch(err){
+            res.status(500).json({
+                msg: 'deu erro',
+                erro: err.message
+            })
+        }
     }
 }

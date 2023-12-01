@@ -60,8 +60,12 @@ api.post('/createProduct', upload.save.single('Image'), products.createProducts)
 // rota para listar todos os produtos
 api.get("/listAll", products.ListProducts);
 
-//rota para listar produtos por suas categorias
-api.get('/ListBycode/:id/product', products.listByCategory);
+//rota para listar produtos por seus códigos
+api.get('/ListBycode/:id/product', products.ListByCode);
+
+//Listar por categoria
+
+api.get('/ListByCat/:id/product', products.ListCategory);
 
 // rota para editar produtos
 api.post('/edit/:id/product', products.editProduct);

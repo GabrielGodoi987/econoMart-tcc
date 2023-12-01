@@ -93,131 +93,131 @@ export default {
 
         // listar categoria
         async function getCategoria() {
-            try {
-                axios.get(`http://localhost:3333/listCategory`).then((response) => {
-                    const data = response.data.category;
-                    for (let i = 0; i < data.length; i++) {
-                        options.value.push({ value: data[i].id, label: data[i].CategoryName });
-                    }
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        // ================================================================================================
-        let formdata = new FormData();
-        let file = null;
-        function NewFile(event) {
-            file= event.target.files[0];
-            formdata.append('Image', file);
-        }
-
-          // requisição para criar produtos
-          async function createProduct() {
-            formdata.append('productname', productname.value);
-            formdata.append('description', description.value);
-            formdata.append('price', price.value);
-            formdata.append('stock', stock.value);
-            formdata.append('id_category', id_category.value.value);
-            formdata.append('validade', Validade.value);
-
-            axios.post("http://localhost:3333/createProduct", formdata,
-                {
-                    Headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
+            axios.get(`http://localhost:3333/listCategory`).then((response) => {
+                const data = response.data.category;
+                for (let i = 0; i < data.length; i++) {
+                    options.value.push({ value: data[i].id, label: data[i].CategoryName });
                 }
-            ).then((res) => {
-                const data = res.data;
-                productname.value = '';
+                console.log(data);
+            }).catch((erro) => {
+                console.log(erro)
+            })
+        }
+
+            // ================================================================================================
+            let formdata = new FormData();
+            let file = null;
+            function NewFile(event) {
+                file = event.target.files[0];
+                formdata.append('Image', file);
+            }
+
+            // requisição para criar produtos
+            async function createProduct() {
+                formdata.append('productname', productname.value);
+                formdata.append('description', description.value);
+                formdata.append('price', price.value);
+                formdata.append('stock', stock.value);
+                formdata.append('id_category', id_category.value.value);
+                formdata.append('validade', Validade.value);
+
+                axios.post("http://localhost:3333/createProduct", formdata,
+                    {
+                        Headers: {
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                ).then((res) => {
+                    const data = res.data;
+                    productname.value = '';
+                    price.value = '';
+                    stock.value = '';
+                    Validade.value = '';
+                    description.value = '';
+                    options.value = '';
+                    Notify.create({
+                        message: "Produto cadastrado com sucesso",
+                        color: 'green'
+                    })
+                    console.log(data);
+                }).catch((erro) => {
+                    console.log(erro);
+                })
+            }
+
+            // cancelar cadastro do produto ===============================================================
+            async function cancel() {
+                productname.value = ''
                 price.value = '';
                 stock.value = '';
                 Validade.value = '';
                 description.value = '';
+                id_category.value = '';
                 options.value = '';
+                file = null;
+                formdata = new FormData();
+
                 Notify.create({
-                    message: "Produto cadastrado com sucesso",
-                    color: 'green'
-                })
-                console.log(data);
-            }).catch((erro) => {
-                console.log(erro);
-            })
-        }
-
-        // cancelar cadastro do produto ===============================================================
-        async function cancel() {
-            productname.value = ''
-            price.value = '';
-            stock.value = '';
-            Validade.value = '';
-            description.value = '';
-            id_category.value = '';
-            options.value = '';
-            file.value = null;
-            formdata = new FormData();
-
-            Notify.create({
-                message: 'Cadastro cancelado',
-                color: 'negative',
-                position: 'top'
-            })
-
-        }
-
-        const categoryModal = ref(false);
-        const CategoryName = ref();
-        function newCategory() {
-            axios.post("http://localhost:3333/createCat", {
-                CategoryName: CategoryName.value
-            }).then((res) => {
-                const data = res.data;
-                Notify.create({
-                    message: 'Nova categoria cadastrada',
-                    color: 'positive',
+                    message: 'Cadastro cancelado',
+                    color: 'negative',
                     position: 'top'
                 })
-                categoryModal.value = false;
-                CategoryName.value = '';
-                console.log(data);
-            }).catch((erro) => {
-                console.error(erro)
+
+            }
+
+            const categoryModal = ref(false);
+            const CategoryName = ref();
+            function newCategory() {
+                axios.post("http://localhost:3333/createCat", {
+                    CategoryName: CategoryName.value
+                }).then((res) => {
+                    const data = res.data;
+                    Notify.create({
+                        message: 'Nova categoria cadastrada',
+                        color: 'positive',
+                        position: 'top'
+                    })
+                    categoryModal.value = false;
+                    CategoryName.value = '';
+                    console.log(data);
+                }).catch((erro) => {
+                    console.error(erro)
+                })
+            }
+
+            onMounted(() => {
+                getCategoria();
             })
-        }
 
-        onMounted(() => {
-            getCategoria();
-        })
-        
-        watch(options, () => {
-            getCategoria();
-        })
+            watch(options, () => {
+                getCategoria();
+            })
 
-        return {
-            //campos que enviarão os dados para o backend que irá tratar esses dados em mandar para o banco de dados
-            productname,
-            description,
-            stock,
-            price,
-            Validade,
-            id_category,
+            return {
+                //campos que enviarão os dados para o backend que irá tratar esses dados em mandar para o banco de dados
+                productname,
+                description,
+                stock,
+                price,
+                Validade,
+                id_category,
 
-            //cancelar o envio do formulário
-            cancel,
-            // criando o novo produto -> nesta função tem as requisilções e dados necessários para fazer o upload de imagens
-            createProduct,
+                //cancelar o envio do formulário
+                cancel,
+                // criando o novo produto -> nesta função tem as requisilções e dados necessários para fazer o upload de imagens
+                createProduct,
 
-            // usado para listar as categorias
-            options,
+                // usado para listar as categorias
+                options,
 
-            // criando upload de imagens
-            NewFile,
+                // criando upload de imagens
+                NewFile,
 
-            // criando nova categoria
-            categoryModal,
-            newCategory,
-            CategoryName
+                // criando nova categoria
+                categoryModal,
+                newCategory,
+                CategoryName
+            }
         }
     }
-}
 </script>
