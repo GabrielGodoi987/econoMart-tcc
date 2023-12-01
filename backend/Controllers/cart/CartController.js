@@ -165,6 +165,33 @@ module.exports = {
 
   async DeleteitemsCart(req, res) {
     //caso ele desista ele pode apagar produtos do seu carrinho
-    const { userid } = req.params.id;
+    const { id } = req.params;
+
+    try{
+
+     const deleteIt = await db.cartItems.destroy({
+      where: {
+        id_customer: id
+      }
+     })
+
+     
+     if(!deleteIt){
+      res.status(400).json({
+        msg: 'carrinho não existe'
+      })
+     }
+
+     res.status(400).json({
+      msg: 'Carrinho deletado com sucesso',
+      data: deleteIt
+     })
+
+    }catch(error){
+       res.status(500).json({
+        msg: 'erro no servidor',
+        erro: error.message
+       })
+    }
   },
 };

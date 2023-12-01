@@ -93,6 +93,9 @@ api.post('/createCart', cart.addToCart);
 //rota para listar o carrinho com base no id do cliente
 api.get('/getCart/:id/customer', cart.ListCart);
 
+//rota para deletar o carrinho do cliente com base em seu id
+api.post("/deletecart/:id/itensCart", cart.DeleteitemsCart)
+
 //rotas para finalizar uma compra com base no id do carrinho
 api.post('/finalPurshase/:id/client', CompraController.finalizarCompra);
 

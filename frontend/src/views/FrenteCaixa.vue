@@ -39,8 +39,8 @@
           <q-table class="q-mt-xl" :columns="CartConfig.columns" :rows="rows">
           </q-table>
           <div class="text-center q-mt-xl q-gutter-x-md">
-            <q-btn rounded dense label="Pagar" color="accent" @click="finalizar(props.row.id)" />
-            <q-btn rounded dense label="Limpar tudo" color="negative" />
+            <q-btn rounded dense label="Pagar" color="accent" @click="finalizar()" />
+            <q-btn rounded dense label="Limpar tudo" color="negative" @click="ClearAll()"/>
           </div>
         </div>
 
@@ -276,7 +276,6 @@ export default {
     async function finalizar() {
       await axios.post(`http://localhost:3333/finalPurshase/${client.value.value}/client`).then((res) => {
         const finalizar = res.data;
-
         console.log(finalizar)
       }).catch((error) => {
         console.log(error.message)
@@ -285,7 +284,7 @@ export default {
   
 
     async function ClearAll(){
-      await axios.post(``).then((res) => {
+      await axios.post(`http://localhost:3333/deletecart/${client.value.value}/itensCart`).then((res) => {
          const data = res.data;
          console.log(data)
       }).catch((error) => {

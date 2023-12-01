@@ -1,5 +1,5 @@
 ##
-GET http://localhost:3333/ListByCat/1/product
+GET http://localhost:3333/ListByCat/2/product
 Content-Type: application/json
 
 
@@ -18,3 +18,11 @@ Content-Type: application/json
 // requisição para buscar todas as categorias 
 
 GET http://localhost:3333/listCategory HTTP/1.1
+
+##
+// rota para limpar os dados do carrinho do cliente
+
+POST url HTTP/1.1
+header name: header value
+
+content
